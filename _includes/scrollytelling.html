@@ -1,0 +1,244 @@
+{% capture scrolly_auto_index %}{% increment scrolly_include_counter %}{% endcapture %}
+{% assign scrolly_auto_index = scrolly_auto_index | strip %}
+{% assign scrolly_id = include.scrolly_id | default: include.id | default: '' %}
+{% if scrolly_id == '' %}
+  {% assign scrolly_id = 'scrolly-container-' | append: scrolly_auto_index %}
+{% endif %}
+{% assign vis_id = include.vis_id | default: '' %}
+{% if vis_id == '' %}
+  {% assign vis_id = scrolly_id | append: '-vis' %}
+{% endif %}
+{% assign chart_height = include.chart_height | default: '400px' %}
+{% assign desktop_chart_height = include.desktop_chart_height | default: '60vh' %}
+{% assign sticky_top = include.sticky_top | default: '15vh' %}
+{% assign desktop_steps_padding_top = include.desktop_steps_padding_top | default: '50vh' %}
+{% assign step_gap = include.step_gap | default: '90vh' %}
+{% assign last_step_gap = include.last_step_gap | default: '30vh' %}
+{% assign only_active_step_visible = include.only_active_step_visible | default: 'false' %}
+{% assign debug = include.debug | default: 'false' %}
+{% assign layout_mode = include.layout_mode | default: 'split' %}
+{% assign data_file_raw = include.data_file | default: '' %}
+{% assign data_file_key = data_file_raw | split: '.' | first %}
+
+{% assign scrolly_steps = nil %}
+{% if data_file_key != '' and site.data[data_file_key] %}
+  {% assign scrolly_steps = site.data[data_file_key] %}
+{% elsif include.steps %}
+  {% assign scrolly_steps = include.steps %}
+{% elsif page.scrolly_data %}
+  {% assign scrolly_steps = page.scrolly_data %}
+{% endif %}
+
+<section
+  id="{{ scrolly_id }}"
+  class="scrolly-layout-{{ layout_mode }}"
+  style="--scrolly-chart-height: {{ chart_height }}; --scrolly-desktop-chart-height: {{ desktop_chart_height }}; --scrolly-sticky-top: {{ sticky_top }}; --scrolly-steps-padding-top: {{ desktop_steps_padding_top }}; --scrolly-step-gap: {{ step_gap }}; --scrolly-last-step-gap: {{ last_step_gap }};"
+>
+  <figure class="sticky-chart">
+    <div id="{{ vis_id }}" style="width: 100%; height: var(--scrolly-chart-height);"></div>
+  </figure>
+
+  <article class="scroll-steps">
+    {% for step in scrolly_steps %}
+    <div class="step" data-asset="{{ step.asset | relative_url }}">
+      <div class="step-content">
+        <p>{{ step.text }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </article>
+</section>
+
+<style>
+  /* FORZATURA TEMA: Sovrascrive eventuali overflow hidden nei container padri */
+  html, body, main, .wrapper, .page-content, .container {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+
+  #{{ scrolly_id }} {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* Assicura che il container stesso non blocchi lo sticky */
+    overflow: visible !important;
+    height: auto; /* Lascia che il container cresca in base al contenuto */
+        
+  }
+
+  #{{ scrolly_id }}.scrolly-layout-fullwidth {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #{{ scrolly_id }} .sticky-chart {
+    position: sticky;
+    /* FIX FLEXBOX: Permette al box di staccarsi dal fondo del container */
+    align-self: flex-start; 
+    
+    top: var(--scrolly-sticky-top);
+    height: var(--scrolly-chart-height);
+    width: 100%;
+    margin: 1rem 0;
+    z-index: 1; /* Mantiene il grafico sotto o sopra i testi a seconda del design */
+    
+    /* Background opzionale per il debug visivo: rimuovilo quando funziona */
+    background: #f0f0f0; 
+  }
+
+  #{{ scrolly_id }} .scroll-steps {
+    position: relative;
+    padding: 0 1rem;
+    pointer-events: none;
+    z-index: 2; /* I testi scorrono sopra il grafico su mobile */
+    margin-top: calc(-1 * var(--scrolly-chart-height)); /* Fa sovrapporre il primo testo al grafico su mobile */
+  }
+
+  #{{ scrolly_id }} .step {
+    margin: 0 auto var(--scrolly-step-gap) auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Rimuove il margine inferiore dall'ultimo step per chiudere pulito */
+  #{{ scrolly_id }} .step:last-child {
+    margin-bottom: var(--scrolly-last-step-gap);
+  }
+
+  #{{ scrolly_id }} .step-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    pointer-events: auto;
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+
+  @media (min-width: 992px) {
+    #{{ scrolly_id }} { flex-direction: row; gap: 2rem; }
+    #{{ scrolly_id }} .scroll-steps { margin-top: 0; padding-top: var(--scrolly-steps-padding-top); }
+    #{{ scrolly_id }} .sticky-chart { width: 60%; order: 2; height: var(--scrolly-desktop-chart-height); }
+    #{{ scrolly_id }} .scroll-steps { width: 40%; order: 1; }
+    #{{ vis_id }} { height: 100% !important; }
+
+    #{{ scrolly_id }}.scrolly-layout-fullwidth {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    #{{ scrolly_id }}.scrolly-layout-fullwidth .sticky-chart {
+        width: 100%;
+        order: 1;
+      height: var(--scrolly-desktop-chart-height);
+    }
+
+    #{{ scrolly_id }}.scrolly-layout-fullwidth .scroll-steps {
+        width: 100%;
+        order: 2;
+      margin-top: 0;
+      padding-top: var(--scrolly-steps-padding-top);
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+      #{{ scrolly_id }}.scrolly-layout-fullwidth .step {
+        width: min(100%, 760px);
+      }
+  }
+</style>
+
+<script>
+  (function() {
+    const scrollyId = {{ scrolly_id | jsonify }};
+    const visId = {{ vis_id | jsonify }};
+    const onlyActiveStepVisible = {{ only_active_step_visible | jsonify }} === 'true';
+    const debug = {{ debug | jsonify }} === 'true';
+
+    function initScrollytellingInstance() {
+      const scrollyRoot = document.getElementById(scrollyId);
+      if (!scrollyRoot || scrollyRoot.dataset.scrollyInitialized === 'true') {
+        return;
+      }
+
+      const steps = Array.from(scrollyRoot.querySelectorAll('.step'));
+      const visSelector = `#${visId}`;
+
+      if (!steps.length || typeof scrollama !== 'function') {
+        return;
+      }
+
+      scrollyRoot.dataset.scrollyInitialized = 'true';
+
+      const scroller = scrollama();
+      let currentAsset = "";
+
+      function setActiveStep(activeStep) {
+        steps.forEach((step) => {
+          const isActive = step === activeStep;
+          step.style.opacity = isActive ? "1" : (onlyActiveStepVisible ? "0" : "0.2");
+
+          const content = step.querySelector('.step-content');
+          if (!content) {
+            return;
+          }
+
+          content.style.opacity = isActive ? "1" : (onlyActiveStepVisible ? "0" : "0.7");
+          content.style.transform = isActive ? "translateY(0)" : (onlyActiveStepVisible ? "translateY(16px)" : "translateY(0)");
+          content.style.pointerEvents = isActive ? "auto" : (onlyActiveStepVisible ? "none" : "auto");
+        });
+      }
+
+      function updateChart(assetPath) {
+        if (!assetPath || assetPath === currentAsset) {
+          return;
+        }
+
+        if (typeof vegaEmbed !== 'function') {
+          console.error("Libreria vegaEmbed non trovata. Verifica che 'vega: true' sia nel Front Matter.");
+          return;
+        }
+
+        currentAsset = assetPath;
+
+        vegaEmbed(visSelector, assetPath, {
+          actions: false,
+          renderer: 'svg',
+          width: 'container'
+        }).catch((error) => {
+          currentAsset = "";
+          console.error('Errore durante il rendering del grafico:', error);
+        });
+      }
+
+      scroller
+        .setup({
+          step: `#${scrollyId} .step`,
+          offset: 0.5,
+          debug: debug
+        })
+        .onStepEnter((response) => {
+          setActiveStep(response.element);
+          updateChart(response.element.getAttribute('data-asset'));
+        });
+
+      setActiveStep(steps[0]);
+      updateChart(steps[0].getAttribute('data-asset'));
+
+      window.addEventListener('resize', () => scroller.resize());
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initScrollytellingInstance, { once: true });
+    } else {
+      initScrollytellingInstance();
+    }
+  })();
+</script>

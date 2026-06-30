@@ -1,0 +1,58 @@
+{% assign sliders = site.data[include.data] %}
+{% if sliders.sliders.size > 1 %}
+
+---
+
+  <label for="carouselSelect">{{ include.label }}</label>
+  <select id="carouselSelect" name="carouselSelect" class="form-select">
+  {% for slider in sliders.sliders %}<option value="{{ slider.id }}">{{ slider.title | capitalize }}</option>{% endfor %}
+</select>
+
+---
+
+{% endif %}
+
+<!-- Carousel Sliders -->
+{% for slider in sliders.sliders %}
+<div id="{{ slider.id }}" class="carousel slide carousel-fade {% if forloop.first == false %}d-none{% endif %}" data-ride="carousel">
+  <ol class="carousel-indicators">
+    {% for slide in slider.slides %}
+      <li data-target="#{{ slider.id }}" data-slide-to="{{ forloop.index0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+    {% endfor %}
+  </ol>
+  <div class="carousel-inner">
+    {% for slide in slider.slides %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+      <img src="{{ slide.image }}" class="d-block w-100" alt="placeholder image">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{ slide.label }}</h5>
+        <p>{{ slide.description }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <a class="carousel-control-prev" href="#{{ slider.id }}" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#{{ slider.id }}" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+{% endfor %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var select = document.getElementById('carouselSelect');
+  if (select) {
+    select.addEventListener('change', function() {
+      var selectedCarousel = this.value;
+      {% for slider in sliders.sliders %}
+        var el = document.getElementById('{{ slider.id }}');
+        if (el) el.classList.toggle('d-none', selectedCarousel !== '{{ slider.id }}');
+      {% endfor %}
+    });
+  }
+});
+</script>

@@ -1,0 +1,163 @@
+# Benvenuto in Jekyll!
+#
+# Questo file di configurazione è pensato per impostazioni che interessano tutto il blog,
+# valori che in genere imposti una volta e modifichi raramente. Se ti ritrovi a modificare
+# spesso questo file, valuta di usare i file di dati di Jekyll per le informazioni che
+# aggiorni di frequente.
+#
+# Per ragioni tecniche, questo file NON viene ricaricato automaticamente quando usi
+# 'bundle exec jekyll serve'. Se lo modifichi, riavvia il processo del server.
+#
+# Se ti serve aiuto con la sintassi YAML, ecco alcune rapide reference:
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
+
+# Impostazioni del sito
+# Queste impostazioni personalizzano il sito. Nei file HTML le troverai tramite
+# {{ site.title }}, {{ site.email }}, ecc. Puoi creare variabili personalizzate:
+# saranno accessibili nei template tramite {{ site.myvariable }}.
+
+title: "Template per Progettoni"
+subtitle: "Questo è un template per i progetti del Master SoBigData"
+description: >- # ignora i ritorni a capo fino a "baseurl:"
+  Scrivi qui una descrizione accattivante per il tuo nuovo sito. Puoi modificare questa
+  riga in _config.yml. Apparirà nei meta del documento head (per
+  i risultati di ricerca di Google) e nella descrizione del sito in feed.xml.
+
+
+# Riportare il github del gruppo di progetto e quello del sito web (se differente).
+# Tali informazioni appariranno nel Footer del sito.
+github_repo:
+  - name: "Template per i Progettoni del Master SoBigData"
+    url: "https://github.com/danielefadda/master-projects-template-2026/"
+
+markdown: kramdown
+
+baseurl: "/master-projects-template-2026"
+#baseurl: ""
+url: "https://danielefadda.github.io" # il dominio principale del sito senza barra finale (in questo caso il tuo username.github.io)
+
+#################################
+#    Configurazione navigazione #
+#################################
+
+navbar:
+  style :  dual # non modificarlo: imposta lo stile della navbar.
+  brand: # brand della navbar, mostrato a sinistra.
+    title :  "Template Progettoni"
+    img: "./assets/images/Logo_masthead.png" # non modificare
+    url: /
+  nav:
+    - title: installazione di Jekyll
+      child:
+      - title: Sviluppo locale
+        url: /local-development.html
+      - title: Local development
+        url: /local-development-eng.html
+    - title: Guida
+      url: /guide.html
+    - title: Pagina di esempio
+      url: /example.html
+    - title: Approfondimenti
+      child:
+        - title: Markdown
+          url: /markdown.html
+        - title: Grafici Altair
+          url: /charts.html
+        - title: Grafici Plotly
+          url: /plotly.html
+        - title: Folium
+          url: /folium.html
+        - title: Slider
+          url: /slider.html
+        - title: Scrollytelling
+          url: /scrollama.html
+
+    - title: SBD Master # deve essere sempre l'ultimo elemento della navbar, non modificarlo
+      url: https://masterbigdata.it/
+
+###########################
+#     Aspetto generale    #
+###########################
+
+#googlefonts:
+#  - url: "https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap"
+#  - url: "https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+#  - url: "https://fonts.googleapis.com/css2?family=Lekton:ital,wght@0,400;0,700;1,400&1,700&display=swap"
+
+## Esempio Google Fonts per importare Space Mono
+googlefonts:
+  - url: "https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+
+chulapa-skin:
+  skin:  "sbd" # temi disponibili: "sbd" "pixel" "graymor" "gitdev-dark" "gitdev" "universal" "academia" "gitdev" "towards" "pear" "twitter-lights-out" "twitter-dim" "wandoo" "lymcha" "twitter" "chulapa" "sunset" "minty" "lux" "journal" "deeply"
+  vars:
+    # font-family-base:  "Space Mono"
+
+
+#chulapa-skin:
+#  autothemer  :  true
+#  vars:
+#    primary: "#07286E"
+
+
+
+##################################################
+#    Non modificare nulla sotto questa riga      #
+##################################################
+
+# Impostazioni di build
+#theme: chulapa-jekyll # va usato il remote-theme!!!
+plugins:
+  - jekyll-feed
+  - jekyll-remote-theme
+  - jekyll-include-cache
+
+collections:
+  pages:
+    output: true
+    permalink: /:path
+
+footer:
+  links:
+  - label: "LinkedIn"
+    icon: "fab fa-linkedin"
+    url: https://www.linkedin.com/company/sobigdata
+  - label: "Twitter"
+    icon: "fab fa-twitter"
+    url: https://www.twitter.com/sobigdata
+  copyright: "2026 SoBigData RI"
+
+
+sass:
+  quiet_deps: true
+
+# Gli elementi esclusi possono essere elaborati elencando esplicitamente le directory o
+# i relativi percorsi file nella lista `include:`.
+#
+exclude:
+ - .sass-cache/
+ - .jekyll-cache/
+ - gemfiles/
+ - Gemfile
+ - Gemfile.lock
+ - node_modules/
+ - vendor/bundle/
+ - vendor/cache/
+ - vendor/gems/
+ - vendor/ruby/
+ - .idea/
+
+
+livereload: true
+
+remote_theme: dieghernan/chulapa
+
+future: true
+
+defaults:
+  - scope:
+      path: "assets/images/thumb-charts"
+    values:
+      image_col: charts

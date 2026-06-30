@@ -1,0 +1,6 @@
+- text: "Iniziamo con una panoramica generale della distribuzione dei dati. Notiamo una tendenza interessante che emerge chiaramente. Il grafico mostra una crescita costante nel tempo, con alcune fluttuazioni che meritano attenzione."
+  asset: "assets/charts/chart_responsive.json"
+- text: "Analizzando i picchi, notiamo una variazione significativa evidenziata in rosso."
+  asset: "assets/charts/chart_responsive_red.json"
+- text: "Manteniamo il focus sull'anomalia per approfondire le cause strutturali."
+  asset: "assets/charts/chart_responsive_green.json"

@@ -1,0 +1,100 @@
+---
+---
+
+@charset "utf-8";
+// Your custom css /scss here
+
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+strong {
+  font-weight: 600;
+}
+
+// pattern full width
+.full-width-wrapper {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            margin-bottom: 5vw;
+        }
+
+.full-width-image {
+  min-width: 100%;
+  object-fit: cover;
+  margin-top: -0.8rem;
+  z-index: 0;
+}
+
+.green {
+  color: #4f9f56;
+}
+
+
+.rotated {
+transform: rotate(180deg);
+        }
+
+// hero image (header)
+.hero-chulapa-image {
+    background-position: top;
+  z-index: 100;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+.comic-neue-regular {
+  font-family: "Comic Neue", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.comic-neue-bold {
+  font-family: "Comic Neue", cursive;
+  font-weight: 700;
+  font-style: normal;
+}
+
+// iframe :
+iframe {
+  border: 0;
+}
+
+.navbar-brand {
+  text-decoration: none;
+}
+.navbar {
+  //border-bottom: 1px solid white;
+  z-index: 1000;
+}
+
+.nav-item:last-child {
+  border: 1px solid var(--secondary);
+  padding-inline-start: 0.4em;
+  padding-inline-end: 0.4em;
+}
+
+@media (max-width: 767px) {
+  #projects-container {
+    h5 {
+      margin-top: 2rem;
+    }
+    img {
+      max-width: 100%
+    }
+  }
+
+}
+
+:target {
+  scroll-margin-top: 80px; /* height of the navbar */
+}
+
+
+// Plotly charts
+.plot-container {
+  display: flex;
+  justify-content: center;
+}

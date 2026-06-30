@@ -1,0 +1,6 @@
+- text: "L'efficienza dei veicoli, misurata in Miglia per Gallone (MPG), varia significativamente in base all'origine di produzione. Esplorando i dati base, si nota una prima macro-suddivisione delle performance tra USA, Europa e Giappone."
+  asset: "assets/charts/cars_1.json"
+- text: "Per contestualizzare queste performance, possiamo inserire un benchmark. La linea tratteggiata rappresenta l'efficienza media globale di tutti i veicoli nel dataset (circa 23.5 MPG). Notiamo subito chi si posiziona sotto o sopra questa soglia."
+  asset: "assets/charts/cars_2.json"
+- text: "Il dato più rilevante emerge chiaramente: i veicoli di origine giapponese distaccano nettamente la concorrenza. Con una media che sfiora i 30 MPG, si confermano storicamente come i modelli con la maggiore efficienza nei consumi tra quelli analizzati."
+  asset: "assets/charts/cars_3.json"

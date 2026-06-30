@@ -1,0 +1,43 @@
+- name: Roberto Trasarti
+  github: https://kdd.isti.cnr.it/people/trasarti-roberto
+  role: teacher
+  home: true
+- name: Daniele Fadda
+  github: https://kdd.isti.cnr.it/people/fadda-daniele
+  role: teacher
+  home: true
+- name: Riccardo Guidotti
+  github: https://kdd.isti.cnr.it/people/guidotti-riccardo
+  role: teacher
+  home: true
+- name: Anna Monreale
+  github: https://kdd.isti.cnr.it/people/monreale-anna
+  role: teacher
+  home: true
+- name: Eleonora Cappuccio
+  github: https://kdd.isti.cnr.it/people/cappuccio-eleonora
+  role: tutor
+  home: true
+- name: Andrea Pugnana
+  github: https://kdd.isti.cnr.it/people/pugnana-andrea
+  role: tutor
+  home: true
+
+- name: First Name Last Name
+  github: https://kdd.isti.cnr.it/people/student-1
+  role: student
+- name: First Name Last Name
+  github: https://kdd.isti.cnr.it/people/student-2
+  role: student
+- name: First Name Last Name
+  github: https://kdd.isti.cnr.it/people/student-3
+  role: student
+- name: First Name Last Name
+  github: https://kdd.isti.cnr.it/people/student-4
+  role: student
+- name: First Name Last Name
+  github: https://kdd.isti.cnr.it/people/student-5
+  role: student
+- name: First Name Last Name
+  github: https://kdd.isti.cnr.it/people/student-6
+  role: student

@@ -1,0 +1,34 @@
+<div class="{% if include.container == 'fluid' %}container-fluid{% else %}container{% endif %}">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card-container">
+                {% assign cards = site.data[include.datasource] %}
+                {% for card in cards %}
+                    {% if card.home == true %}
+                        <div class="card">
+                            {% if card[include.url] %}
+                                <div class="card-img">
+                                    <img
+                                        src="{{ site.baseurl }}{{ card[include.url] }}"
+                                        class="card-img-top"
+                                        alt="{{ card[include.name] | escape }}"
+                                    >
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                {% if card[include.name] %}
+                                    <h5 class="card-title">
+                                        <strong>{{ card[include.name] | escape }}</strong>
+                                    </h5>
+                                {% endif %}
+                                {% if card[include.description] %}
+                                    <p class="card-text">{{ card[include.description] | escape }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

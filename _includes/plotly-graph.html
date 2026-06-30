@@ -1,0 +1,83 @@
+<div id="{{ include.id }}"
+     class="plotly-graph-container {{ include.class }}"
+     style="width: {{ include.width | default: '100%' }}; height: {{ include.height | default: '500px' }}">
+    <div class="loading-spinner" style="text-align: center; padding: 50px;">
+        <p>Caricamento grafico...</p>
+    </div>
+</div>
+
+<script>
+(function() {
+    const graphId = "{{ include.id }}";
+    const graphFile = "{{ include.file }}";
+    const baseUrl = "{{ site.baseurl }}";
+    const graphPath = "{{ include.path | default: '/assets/charts/plotly/' }}";
+
+    async function loadPlotlyGraph() {
+        const container = document.getElementById(graphId);
+
+        try {
+            const fullPath = baseUrl + graphPath + graphFile;
+            const response = await fetch(fullPath);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const html = await response.text();
+
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+
+            container.innerHTML = '';
+
+            const graphDivs = tempDiv.querySelectorAll('.plotly-graph-div');
+            graphDivs.forEach(div => {
+                container.appendChild(div.cloneNode(true));
+            });
+
+            const scripts = tempDiv.getElementsByTagName('script');
+            window.PLOTLYENV = window.PLOTLYENV || {};
+
+            for (let script of scripts) {
+                if (!script.src && script.textContent) {
+                    try {
+                        let scriptContent = script.textContent;
+
+                        if (scriptContent.includes('getElementById')) {
+                            const match = scriptContent.match(/getElementById\(["']([^"']+)["']\)/);
+                            if (match && match[1]) {
+                                scriptContent = scriptContent.replace(
+                                    new RegExp(match[1], 'g'),
+                                    graphId
+                                );
+                            }
+                        }
+
+                        eval(scriptContent);
+                    } catch (e) {
+                        console.error('Error in the graph execution', graphId, ':', e);
+                    }
+                }
+            }
+
+        } catch (error) {
+            console.error('Error loading graph...', graphId, ':', error);
+            container.innerHTML = `
+                <div style="color: red; text-align: center; padding: 20px;">
+                    <p>Error Loading graph...</p>
+                    <small>${error.message}</small>
+                    <br>
+                    <small>Path: ${fullPath}</small>
+                </div>
+            `;
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadPlotlyGraph);
+    } else {
+        loadPlotlyGraph();
+    }
+})();
+</script>

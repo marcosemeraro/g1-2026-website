@@ -1,0 +1,37 @@
+sliders:
+  - id: carousel1
+    title: "Example Carousel 1"
+    slides:
+      - image: "https://placehold.co/600x401/png"
+        label: "First slide label"
+        description: "Nulla vitae elit libero, a pharetra augue mollis interdum."
+      - image: "https://placehold.co/600x402/png"
+        label: "Second slide label"
+        description: "Praesent commodo cursus magna, vel scelerisque nisl consectetur."
+      - image: "https://placehold.co/600x403/png"
+        label: "Third slide label"
+        description: ""
+  - id: carousel2
+    title: "Example Carousel 2"
+    slides:
+      - image: "https://placehold.co/600x404/png"
+        label: "First slide label"
+        description: "Nulla vitae elit libero, a pharetra augue mollis interdum."
+      - image: "https://placehold.co/600x405/png"
+        label: "Second slide label"
+        description: "Praesent commodo cursus magna, vel scelerisque nisl consectetur."
+      - image: "https://placehold.co/600x406/png"
+        label: "Third slide label"
+        description: ""
+  - id: carousel3
+    title: "Example Carousel 3"
+    slides:
+      - image: "assets/images/Dr_Jekyll.jpg"
+        label: "First slide label"
+        description: "Nulla vitae elit libero, a pharetra augue mollis interdum."
+      - image: "https://placehold.co/600x408/png"
+        label: "Second slide label"
+        description: "Praesent commodo cursus magna, vel scelerisque nisl consectetur."
+      - image: "https://placehold.co/600x409/png"
+        label: "Third slide label"
+        description: ""

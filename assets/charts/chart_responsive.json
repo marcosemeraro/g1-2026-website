@@ -1,0 +1,89 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 400
+    }
+  },
+  "data": {
+    "name": "data-2ac70d189ed9a45a891ae91238c97cd4"
+  },
+  "datasets": {
+    "data-2ac70d189ed9a45a891ae91238c97cd4": [
+      {
+        "a": "A",
+        "b": 28
+      },
+      {
+        "a": "B",
+        "b": 55
+      },
+      {
+        "a": "C",
+        "b": 43
+      },
+      {
+        "a": "D",
+        "b": 91
+      },
+      {
+        "a": "E",
+        "b": 81
+      }
+    ]
+  },
+  "params": [
+    {
+      "name": "hover",
+      "select": {
+        "type": "point",
+        "on": "pointerover",
+        "clear": "pointerout"
+      }
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "a",
+      "type": "nominal",
+      "axis": {
+        "title": "Categoria"
+      }
+    },
+    "y": {
+      "field": "b",
+      "type": "quantitative",
+      "axis": {
+        "title": "Valore"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "a",
+        "type": "nominal",
+        "title": "Categoria"
+      },
+      {
+        "field": "b",
+        "type": "quantitative",
+        "title": "Valore"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "param": "hover",
+        "value": 1
+      },
+      "value": 0.75
+    }
+  },
+  "height": 300,
+  "mark": {
+    "type": "bar",
+    "cornerRadiusTopLeft": 4,
+    "cornerRadiusTopRight": 4,
+    "cursor": "pointer"
+  },
+  "width": "container"
+}
