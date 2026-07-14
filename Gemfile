@@ -5,7 +5,8 @@ gem "github-pages", "~> 232"
 
 # Specifichiamo alcune dipendenze chiave con le loro versioni esatte
 gem "jekyll", "~> 3.10.0"
-gem "nokogiri", "~> 1.16.7"
+# gem "nokogiri", "~> 1.16.7"
+gem "nokogiri", "~> 1.18.1"
 gem "kramdown", "~> 2.4.0"
 gem "kramdown-parser-gfm", "~> 1.1.0"
 
@@ -24,7 +25,8 @@ platforms :mingw, :x64_mingw, :mswin, :jruby do
 end
 
 # Performance-booster per watching directories su Windows
-gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
+# gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
+gem "wdm", "~> 0.2.0", :platforms => [:mingw, :x64_mingw, :mswin]
 
 # Lock http_parser.rb per JRuby
 gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]

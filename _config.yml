@@ -29,14 +29,14 @@ description: >- # ignora i ritorni a capo fino a "baseurl:"
 # Riportare il github del gruppo di progetto e quello del sito web (se differente).
 # Tali informazioni appariranno nel Footer del sito.
 github_repo:
-  - name: "Template per i Progettoni del Master SoBigData"
-    url: "https://github.com/danielefadda/master-projects-template-2026/"
+  - name: "Gruppo 1 - Repository del sito"
+    url: "https://github.com/marcosemeraro/g1-2026-website/"
 
 markdown: kramdown
 
-baseurl: "/master-projects-template-2026"
+baseurl: "/g1-2026-website"
 #baseurl: ""
-url: "https://danielefadda.github.io" # il dominio principale del sito senza barra finale (in questo caso il tuo username.github.io)
+url: "https://marcosemeraro.github.io" # il dominio principale del sito senza barra finale (in questo caso il tuo username.github.io)
 
 #################################
 #    Configurazione navigazione #
@@ -45,10 +45,12 @@ url: "https://danielefadda.github.io" # il dominio principale del sito senza bar
 navbar:
   style :  dual # non modificarlo: imposta lo stile della navbar.
   brand: # brand della navbar, mostrato a sinistra.
-    title :  "Template Progettoni"
+    title :  "Una città, Due mercati"
     img: "./assets/images/Logo_masthead.png" # non modificare
     url: /
   nav:
+    - title: pagina di prova
+      url: /prova.html
     - title: installazione di Jekyll
       child:
       - title: Sviluppo locale

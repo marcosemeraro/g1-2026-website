@@ -1,7 +1,3 @@
-- name: Roberto Trasarti
-  github: https://kdd.isti.cnr.it/people/trasarti-roberto
-  role: teacher
-  home: true
 - name: Daniele Fadda
   github: https://kdd.isti.cnr.it/people/fadda-daniele
   role: teacher
@@ -14,30 +10,41 @@
   github: https://kdd.isti.cnr.it/people/monreale-anna
   role: teacher
   home: true
+- name: Francesca Naretto
+  github: https://kdd.isti.cnr.it/people/naretto-francesca
+  role: teacher
+  home: true
+- name: Roberto Trasarti
+  github: https://kdd.isti.cnr.it/people/trasarti-roberto
+  role: teacher
+  home: true
+
+
 - name: Eleonora Cappuccio
   github: https://kdd.isti.cnr.it/people/cappuccio-eleonora
   role: tutor
   home: true
-- name: Andrea Pugnana
-  github: https://kdd.isti.cnr.it/people/pugnana-andrea
+- name: Lorenzo Mannocci
+  github: https://www.lorenzomannocci.it/
   role: tutor
   home: true
 
-- name: First Name Last Name
+
+- name: Marzia Biagi
   github: https://kdd.isti.cnr.it/people/student-1
   role: student
-- name: First Name Last Name
+- name: Ornaldo Gjerji
   github: https://kdd.isti.cnr.it/people/student-2
   role: student
-- name: First Name Last Name
+- name: Manfredi Morvillo
   github: https://kdd.isti.cnr.it/people/student-3
   role: student
-- name: First Name Last Name
+- name: Chiara Pontecorvi
   github: https://kdd.isti.cnr.it/people/student-4
   role: student
-- name: First Name Last Name
-  github: https://kdd.isti.cnr.it/people/student-5
+- name: Marco Semeraro
+  github: https://github.com/marcosemeraro/
   role: student
-- name: First Name Last Name
+- name: Stefania Sirressi
   github: https://kdd.isti.cnr.it/people/student-6
   role: student
