@@ -49,32 +49,18 @@ navbar:
     img: "./assets/images/Logo_masthead.png" # non modificare
     url: /
   nav:
-    - title: pagina di prova
-      url: /prova.html
-    - title: installazione di Jekyll
-      child:
-      - title: Sviluppo locale
-        url: /local-development.html
-      - title: Local development
-        url: /local-development-eng.html
-    - title: Guida
-      url: /guide.html
-    - title: Pagina di esempio
-      url: /example.html
     - title: Approfondimenti
       child:
-        - title: Markdown
-          url: /markdown.html
-        - title: Grafici Altair
-          url: /charts.html
-        - title: Grafici Plotly
-          url: /plotly.html
-        - title: Folium
-          url: /folium.html
-        - title: Slider
-          url: /slider.html
-        - title: Scrollytelling
-          url: /scrollama.html
+        - title: Dati Omi
+          url: /datiomi.html
+        - title: Dati Elezioni
+          url: /datielezioni.html
+        - title: Dati news
+          url: /datinews.html
+        - title: Dati Stefania 1
+          url: /datistefania1.html
+        - title: Dati Stefania 2
+          url: /datistefania2.html
 
     - title: SBD Master # deve essere sempre l'ultimo elemento della navbar, non modificarlo
       url: https://masterbigdata.it/
@@ -88,20 +74,41 @@ navbar:
 #  - url: "https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
 #  - url: "https://fonts.googleapis.com/css2?family=Lekton:ital,wght@0,400;0,700;1,400&1,700&display=swap"
 
-## Esempio Google Fonts per importare Space Mono
+## Google Fonts: IBM Plex Sans / Mono, stessi font usati da IBM Carbon Design System
 googlefonts:
-  - url: "https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+  - url: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap"
 
+# Palette scelta dal gruppo (coolors.co/palette/a1d2ce-78cad2-62a8ac-5497a7-50858b)
+# Teal tenue, coerente con il tema Altair condiviso (vedi altair_carbon_theme.py).
 chulapa-skin:
-  skin:  "sbd" # temi disponibili: "sbd" "pixel" "graymor" "gitdev-dark" "gitdev" "universal" "academia" "gitdev" "towards" "pear" "twitter-lights-out" "twitter-dim" "wandoo" "lymcha" "twitter" "chulapa" "sunset" "minty" "lux" "journal" "deeply"
   vars:
-    # font-family-base:  "Space Mono"
+    # Colori principali
+    primary: "#50858b"                # teal scuro - dati/tecnologia
+    secondary: "#161616"              # Carbon Gray 100 - testo
+    success: "#24a148"
+    danger: "#da1e28"
+    warning: "#f1c21b"
+    info: "#5497a7"                   # azzurro della palette originale
 
+    # Nuovi colori narrativi (ispirati all'immagine urbana)
+    urban-red: "#c96a52"              # mattone/terracotta - polarizzazione, pressione urbana
+    urban-blue: "#79a9c6"             # azzurro edilizio - confronto, distribuzioni, dati
 
-#chulapa-skin:
-#  autothemer  :  true
-#  vars:
-#    primary: "#07286E"
+    # Toni neutri
+    light: "#f3f1eb"                  # carta chiara
+    dark: "#161616"
+    body-bg: "#fcfbf7"                # bianco caldo editoriale
+    body-color: "#161616"
+
+    # Font
+    font-family-base: "'IBM Plex Sans', -apple-system, sans-serif"
+    headings-font-family: "'IBM Plex Sans', -apple-system, sans-serif"
+    font-family-monospace: "'IBM Plex Mono', monospace"
+
+    # Carbon style
+    border-radius: "0"
+    border-radius-lg: "0"
+    border-radius-sm: "0"
 
 
 
