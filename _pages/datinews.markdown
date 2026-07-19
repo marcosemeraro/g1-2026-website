@@ -3,14 +3,34 @@ layout: default
 title: "Prova"
 show_sidetoc: true
 header_type: hero
-header_img: assets/images/roma_banner.webp
-header_title: "Pagina di Prova"
-subtitle: "Una Pagina di Prova del gruppo 1"
+header_img: assets/images/news_header_AI.png
+header_title: "Dalle cronache locali alla geografia delle differenze urbane"
+subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali diverse dentro la stessa città"
 ---
 
-<div class="full-width-wrapper">
+<!-- <div class="full-width-wrapper">
     <img src="{{ site.baseurl }}/assets/images/header_alt2.svg" alt="sbd-pattern" class="full-width-image">
-</div>
+</div> -->
+
+<style>
+/* Applica un velo scuro solo all'header con questa immagine */
+[style*="news_header_AI.png"] {
+  background-color: rgba(0, 0, 0, 0.55) !important;
+  background-blend-mode: multiply;
+}
+
+.chulapa-subtitle {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+</style>
+
+
+
 
 L'idea di utilizzare i dati elettorali per analizzare i processi di segregazione all'interno delle città italiane ci 
 è nata leggendo il lavoro di [Gabriele Pinto](https://www.tandfonline.com/doi/full/10.1080/2474736X.2023.2185158){:target="_blank"} pubblicato nel 2023 con il titolo _"Sezioni Elettorali Italiane (SEI): a new database of Italian electoral results geocoded at precinct level"_ che raccoglie i dati delle elezioni degli ultimi anni a livello di singole sezioni.
