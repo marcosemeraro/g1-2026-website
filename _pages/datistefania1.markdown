@@ -12,7 +12,7 @@ subtitle: "Una Pagina di Prova del gruppo 1"
     <img src="{{ site.baseurl }}/assets/images/header_alt2.svg" alt="sbd-pattern" class="full-width-image">
 </div>
 
-L'idea di utilizzare i dati elettorali per analizzare i processi di segregazione all'interno delle città italiane ci 
+L'idea di utilizzare i dati ISTAT per analizzare i processi di segregazione all'interno delle città italiane ci 
 è nata leggendo il lavoro di [Gabriele Pinto](https://www.tandfonline.com/doi/full/10.1080/2474736X.2023.2185158){:target="_blank"} pubblicato nel 2023 con il titolo _"Sezioni Elettorali Italiane (SEI): a new database of Italian electoral results geocoded at precinct level"_ che raccoglie i dati delle elezioni degli ultimi anni a livello di singole sezioni.
 L'aspetto che ci ha colpito di questa enorme raccolta di dati è stata la possibilità di poter guardare da vicino cosa avviene nei singoli quartieri e da lì è sorta la voglia di capire meglio come funzionano le nostre città. 
 {: .lead }
