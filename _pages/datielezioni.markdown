@@ -6,8 +6,35 @@ header_type: hero
 header_img: assets/images/roma_banner.webp
 header_title: "Elezioni"
 #subtitle: "Una Pagina di Prova del gruppo 1"
+vega: true
+plotly: true
 ---
+<style>
+  .asc-winners-chart {
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5rem 0 2rem;
+    overflow: hidden;
+  }
 
+  .asc-winners-chart vegachart,
+  .asc-winners-chart .vega-embed {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .asc-winners-chart .vega-embed > svg,
+  .asc-winners-chart .vega-embed > canvas {
+    display: block;
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  .asc-winners-chart form.vega-bindings {
+    margin-top: 0.5rem;
+  }
+</style>
 
 <div class="full-width-wrapper">
     <img src="{{ site.baseurl }}/assets/images/header_alt2.svg" alt="sbd-pattern" class="full-width-image">
@@ -44,7 +71,7 @@ A questo punto abbiamo raggruppato i partiti per corrente politica. Come nel pap
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Correnti politiche</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
         <table>
@@ -91,17 +118,24 @@ A questo punto abbiamo raggruppato i partiti per corrente politica. Come nel pap
 </div>
 
 ## Sezioni che si muovono
-I dati raccolti fino a questo punto riportano il numero della sezione, ma non il nome dell’istituto scolastico in cui è ubicata né tantomeno l’indirizzo. E da qui la domanda: “Ma la sezione X del 2013 è la stessa del 2022?” A quanto pare la risposta non è così banale, perché’ abbiamo riscontrato diversi cambi di indirizzi delle sezioni nel corso degli anni. Qui c’è da dire che la documentazione trovata è frammentata e riportata nei formati più disparati. Alcuni comuni hanno adottano il sistema OpenData da qualche anno, altri affidano a file Pdf o Doc le loro informazioni. Sulla base di quanto trovato abbiamo ricostruito una mappa dei cambi di *location* dei seggi. Eravamo ormai vicini a fissarne la posizione nello spazio, quasi.
+I dati raccolti fino a questo punto riportano il numero della sezione, ma non il nome dell’istituto scolastico in cui è ubicata né tantomeno l’indirizzo. E da qui la domanda: “Ma la sezione *X* del 2013 è nella stessa posizione nel 2022?” A quanto pare la risposta non è così banale, perché’ abbiamo riscontrato diversi cambi di indirizzi delle sezioni nel corso degli anni. Qui c’è da dire che la documentazione trovata è frammentata e riportata nei formati più disparati. Alcuni comuni hanno adottano il sistema OpenData da qualche anno, altri affidano a file Pdf o Doc le loro informazioni. Sulla base di quanto trovato abbiamo ricostruito una mappa dei cambi di *location* dei seggi. Eravamo ormai vicini a fissarne la posizione nello spazio, quasi.
 ## Coordinate
 Anche in questo caso c’è stato bisogno di armonizzare gli indirizzi e far sì che tutti i “V.le” diventassero “Viale” e “A. Manzoni”, “Alessandro Manzoni”. A tutti gli indirizzi è stato aggiunto il Cap e il nome della città. Questo è stato importante per lo step successivo, il **geocoding**.
 
 Qui non è stato necessario fare scraping, perché il sito [Nominatim](https://nominatim.org/) mette a disposizione un Api con la sola limitazione di una chiamata al secondo. Le appena acquisite coordinate Gps, insieme all’anno in cui quella sezione era presente e quell’indirizzo hanno popolato un nuovo dataset. Manualmente sono stati aggiunti tramite Google Maps quegli indirizzi che Nominatim non era riuscita a identificare, era arrivato il momento di testare i risultati.
 
 ## Aree Sub Comunali
-![](assets/images/asc2_roma.webp)
+![ASC2](assets/images/asc2_roma.webp)
 L’[Istat]( https://www.istat.it/notizia/basi-territoriali-e-variabili-censuarie/) fornisce i dati geografici delle partizioni del territorio italiano e in particolare le Aree sub comunali (Asc2) delle principali città. Poste a metà tra i Cap e le aree di censimento, le Asc2 forniscono una suddivisione fissata nel tempo del territorio comunale in quartieri a un livello di dettaglio idoneo al nostro studio.
 
 Una volta scaricati gli *shapefile* delle aree, tramite **geopandas** abbiamo associato le coordinate delle sezioni elettorali alle rispettive aree nel cui perimetro sono localizzate.
+
+<div class="asc-winners-chart">
+
+  <vegachart schema-url="{{ site.baseurl }}/assets/charts/chart_asc_winners.json" style="width: 100%; height: 100%"></vegachart>
+
+</div>
+
 ## Indici
 ### Gini
 Nella ricerca di un indice capace di descrivere la disuguaglianza dei valori dei risultati elettorali la prima scelta è stata di usare l’indice di Gini, metrica largamente utilizzata in letteratura. 
@@ -198,7 +232,7 @@ w_{ab,c,t}
 \left(x_{b,c,t} - \bar{x}_{c,t}\right)
 $$
 
-where:
+con:
 
 $$
 m_{2,c,t}
@@ -237,5 +271,21 @@ High-Low    | alta concentrazione politica circondata da bassa concentrazione po
 Low-High    | bassa concentrazione politica circondata da alta concentrazione politica
 Not significant | cluster locale non statisticamente significativo
 
-![](grafico lisa clauster)
+![](grafico lisa cluster)
 
+### 80/20 Percentile
+Il rapporto dei percentili 80/20 misura la distanza tra la parte alta e bassa della distribuzione, suggerendo che una maggiore distanza tra i due estremi indichi una maggiore polarizzazione.
+
+
+[//]: # (<div class="asc-winners-chart">)
+
+[//]: # (  <vegachart schema-url="{{ site.baseurl }}/assets/charts/decisionTree.json" style="width: 100%; height: 100%"></vegachart>)
+
+[//]: # (</div>)
+
+<iframe class="container" src="{{ '/assets/charts/chart_decisionTree.html' | relative_url }}" 
+        width="100%" 
+        height="400px" 
+        style="border: 0px solid #ddd; border-radius: 0px;" 
+        allowfullscreen>
+</iframe>
