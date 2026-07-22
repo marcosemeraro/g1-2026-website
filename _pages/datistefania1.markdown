@@ -4,30 +4,73 @@ title: "Prova"
 show_sidetoc: true
 header_type: hero
 header_img: assets/images/roma_banner.webp
-header_title: "Pagina di Prova"
-subtitle: "Una Pagina di Prova del gruppo 1"
+header_title: "Analisi della Vulnerabilità Sociale e Materiale"
+subtitle: "Calcolo e distribuzione dell'ISVM sui dati dei Censimenti ISTAT"
 ---
 
 <div class="full-width-wrapper">
     <img src="{{ site.baseurl }}/assets/images/header_alt2.svg" alt="sbd-pattern" class="full-width-image">
 </div>
 
-L'idea di utilizzare i dati ISTAT per analizzare i processi di segregazione all'interno delle città italiane ci 
-è nata leggendo il lavoro di [Gabriele Pinto](https://www.tandfonline.com/doi/full/10.1080/2474736X.2023.2185158){:target="_blank"} pubblicato nel 2023 con il titolo _"Sezioni Elettorali Italiane (SEI): a new database of Italian electoral results geocoded at precinct level"_ che raccoglie i dati delle elezioni degli ultimi anni a livello di singole sezioni.
-L'aspetto che ci ha colpito di questa enorme raccolta di dati è stata la possibilità di poter guardare da vicino cosa avviene nei singoli quartieri e da lì è sorta la voglia di capire meglio come funzionano le nostre città. 
+L'idea di analizzare la **distribuzione dello svantaggio sociale e materiale** all'interno delle città italiane nasce 
+dall'utilizzo delle variabili dei **Censimenti generali della popolazione** forniti dall'**ISTAT**. Attraverso il calcolo 
+dell'**Indice di Svantaggio Sociale e Materiale (ISVM)**, si ha la possibilità di osservare da vicino le **disuguaglianze 
+territoriali** a livello micro-locale. L'aspetto fondamentale di questo approccio è la possibilità di combinare **indicatori 
+demografici, lavorativi e abitativi** per mappare e comprendere le **fragilità dei singoli quartieri**.
 {: .lead }
 
 
 ---
 
 ![](https://placehold.co/800x200/png)
-# Dati Elettorali
+# Dati Censuari ISTAT
 
-Puoi usare titoli, paragrafi ed elenchi per strutturare il contenuto in modo efficace. Questo può essere fatto usando la sintassi Markdown, che consente una facile formattazione del testo. Ad esempio, puoi usare testo **grassetto** o *corsivo* per enfatizzare punti chiave, e puoi creare elenchi per organizzare le informazioni in modo chiaro.
-
-Questo è un esempio di come formattare il testo in modo visivamente accattivante e facile da leggere.
-In questo paragrafo usiamo una classe `.lead` per evidenziare i punti principali del progetto.
+L'ISTAT rilascia periodicamente i dati dei **Censimenti Generali della Popolazione e delle Abitazioni**, che rappresentano 
+la fonte fondamentale per analizzare le dinamiche socio-economiche del territorio. Per questo studio, sono state estratte 
+le variabili di base a livello micro-territoriale, superando la sola dimensione comunale per accedere a una scala d'analisi 
+molto più dettagliata. 
 {: .lead}
+---
+
+
+### Selezione delle Variabili e Costruzione degli Indicatori
+A partire dalle variabili censuarie grezze, sono stati definiti e calcolati **7 indicatori specifici** per intercettare le 
+diverse dimensioni del disagio socio-economico, oltre al valore sintetico finale:
+
+* **Carico di Minori:** incidenza della popolazione giovanile a carico.
+* **Famiglie Numerose:** presenza di nuclei familiari con più di sei componenti.
+* **Bassa Istruzione:** concentrazione di titoli di studio primari o assenza di titoli.
+* **Disagio Assistenziale:** livello di fragilità e necessità di supporto sociale INCIDENZA POP OVER 75.
+* **Disagio Abitativo:** condizioni di affollamento
+* **NEET:** incidenza dei giovani non occupati e non inseriti in percorsi di istruzione o formazione.
+* **Disagio Economico:** indicatori di vulnerabilità lavorativa e reddituale ??.
+
+---
+
+### Normalizzazione e Aggregazione (Metodologia AMPI)
+Per rendere gli indicatori confrontabili e sintetizzarli in un unico indice, è stata applicata una procedura rigorosa in due fasi:
+
+1. **Standardizzazione ISTAT (Scala 70-130):** Gli indicatori sono stati normalizzati secondo la metodologia standard ISTAT con media fissa pari a 100 e deviazione standard pari a 15, allineando i valori in un intervallo di riferimento tra 70 e 130.
+2. **Aggregazione tramite AMPI Positivo (Adjusted Mazziotta-Pareto Index):**  
+   L'**AMPI** è un metodo di sintesi non lineare basato su una funzione di aggregazione compensativa corretta da un fattore di penalizzazione per lo squilibrio. Nello specifico, per il calcolo dell'**ISVM Finale** è stata utilizzata la variante **AMPI Positiva**:
+   * **Superamento della Media Aritmetica:** La semplice media tende a "mascherare" le criticità, poiché valori positivi in alcuni ambiti rischiano di compensare e nascondere un forte disagio presente in un altro.
+   * **Enfasi sui Picchi di Vulnerabilità:** L'AMPI evita questo schiacciamento. Se anche **un solo indicatore registra un valore di disagio elevato**, l'indice rileva la disomogeneità e applica una penalità che spinge verso l'alto il valore finale dell'ISVM.
+   * **Risultato:** L'indice sintetico valorizza e mette in evidenza i quartieri che presentano anche una sola forma acuta di vulnerabilità, garantendo che le situazioni di emergenza locale non vengano annullate dal calcolo statistico.
+
+---
+
+### Georeferenziazione e Sezioni di Censimento (ASC2 / Shapefile)
+Per visualizzare lo svantaggio sullo spazio urbano, i valori calcolati sono stati associati alle partizioni geografiche 
+dell'ISTAT tramite i file **Shapefile**. In particolare, l'ISVM è stato mappato a livello di **Aree Sub-Comunali (ASC2)** 
+per isolare i confini reali dei quartieri e mostrare le micro-disuguaglianze all'interno della città.
+
+---
+
+### Analisi Territoriale e Mappatura
+Utilizzando la libreria **GeoPandas** per la gestione dei dati geografici e **Altair (Vega-Lite)** per la 
+visualizzazione interattiva, i punteggi dell'ISVM sono stati convertiti in **mappe cromatiche (coroplete)**. 
+Questo approccio permette di esplorare dinamicamente il territorio e individuare visivamente le cosiddette 
+*"isole di vulnerabilità"*, ossia i quartieri in cui si concentrano le maggiori criticità materiali e sociali.
 
 <p class="green"> 
     Puoi completare l'intera pagina usando solo la sintassi markdown, ma puoi anche usare tag HTML per aggiungere elementi più complessi. In questo esempio, usiamo un paragrafo con una classe "green" per evidenziare il testo in colore verde.
