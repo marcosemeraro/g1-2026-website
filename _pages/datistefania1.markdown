@@ -12,12 +12,47 @@ subtitle: "Calcolo e distribuzione dell'ISVM sui dati dei Censimenti ISTAT"
     <img src="{{ site.baseurl }}/assets/images/header_alt2.svg" alt="sbd-pattern" class="full-width-image">
 </div>
 
-L'idea di analizzare la **distribuzione dello svantaggio sociale e materiale** all'interno delle città italiane nasce 
-dall'utilizzo delle variabili dei **Censimenti generali della popolazione** forniti dall'**ISTAT**. Attraverso il calcolo 
-dell'**Indice di Svantaggio Sociale e Materiale (ISVM)**, si ha la possibilità di osservare da vicino le **disuguaglianze 
-territoriali** a livello micro-locale. L'aspetto fondamentale di questo approccio è la possibilità di combinare **indicatori 
-demografici, lavorativi e abitativi** per mappare e comprendere le **fragilità dei singoli quartieri**.
+# L'Indice di Vulnerabilità Sociale e Materiale (ISVM)
+
+L’**Indice di Vulnerabilità Sociale e Materiale (ISVM)** è un indicatore composito costruito attraverso la sintesi di 7 indicatori elementari, riferiti alle dimensioni della vulnerabilità ritenute più rilevanti per la caratterizzazione del territorio.
 {: .lead }
+
+Implementato dall’Istat all’interno del sistema di diffusione **“8milaCensus”**, l'indice nasce per offrire uno 
+strumento di facile lettura, capace di esprimere con un unico valore sintetico un fenomeno complesso e multidimensionale.
+
+---
+
+### Il ruolo dell'ISVM per l'analisi territoriale
+
+Una domanda sempre più esplicita di misure sintetiche proviene da decisori politici ed enti locali, che richiedono parametri semplici ed efficaci per pianificare e monitorare gli interventi sul territorio. 
+
+La necessità di descrivere accuratamente le modalità di costruzione dell’ISVM nasce proprio dalla ricchezza di informazioni messe a disposizione dal Censimento della Popolazione e delle Abitazioni.
+
+---
+
+### Ambiti di utilizzo istituzionale
+
+Pubblicato nel 2015, l’indice ha avuto un vasto utilizzo in importanti contesti istituzionali: **Collegi elettorali:** 
+Determinazione dei collegi della Camera dei Deputati e del Senato, **Audizioni parlamentari:** Analisi dello stato di 
+degrado delle città e delle loro periferie, **Finanziamenti ai Comuni:** Parametro per l'erogazione di fondi ai piccoli 
+Comuni da parte del Ministero delle Infrastrutture e dei Trasporti.
+ 
+---
+
+### Il Quadro Concettuale: Cos'è la Vulnerabilità?
+
+L’ISVM si fonda sul concetto di vulnerabilità intesa come l'esposizione a fattori di rischio che minacciano l'autonomia 
+delle persone e la loro stabilità sociale ed economica (Ranci, 2002).
+
+A differenza della semplice **povertà monetaria** (che misura la sola mancanza di reddito), la vulnerabilità intercetta 
+una fragilità più ampia legata a:
+
+* **Nuovi rischi sociali:** Instabilità lavorativa e difficoltà nel conciliare tempi di cura e lavoro.
+* **Fasi del ciclo di vita:** Presenza di bambini piccoli, giovani in cerca di occupazione o anziani soli/non autosufficienti.
+* **Indebolimento delle reti familiari:** Minore dimensione dei nuclei familiari, che riduce il supporto parentale nei momenti di difficoltà.
+
+L'ISVM nasce quindi per misurare il **grado di esposizione al rischio dei territori**, permettendo ai decisori pubblici di programmare interventi socio-assistenziali mirati prima che la vulnerabilità si trasformi in vera e propria esclusione sociale.
+
 
 
 ---
@@ -34,28 +69,66 @@ molto più dettagliata.
 
 
 ### Selezione delle Variabili e Costruzione degli Indicatori
-A partire dalle variabili censuarie grezze, sono stati definiti e calcolati **7 indicatori specifici** per intercettare le 
-diverse dimensioni del disagio socio-economico, oltre al valore sintetico finale:
+A partire dalle variabili censuarie grezze, sono stati definiti e calcolati **7 indicatori elementari specifici** per intercettare le diverse dimensioni del disagio socio-economico, oltre al valore sintetico finale:
 
-* **Carico di Minori:** incidenza della popolazione giovanile a carico.
-* **Famiglie Numerose:** presenza di nuclei familiari con più di sei componenti.
-* **Bassa Istruzione:** concentrazione di titoli di studio primari o assenza di titoli.
-* **Disagio Assistenziale:** livello di fragilità e necessità di supporto sociale INCIDENZA POP OVER 75.
-* **Disagio Abitativo:** condizioni di affollamento
+* **Carico di Minori:** incidenza della popolazione giovanissima (sotto i 14 anni) rispetto al totale delle famiglie.
+* **Famiglie Numerose:** incidenza percentuale delle famiglie con sei o più componenti sul totale delle famiglie.
+* **Bassa Istruzione:** incidenza della popolazione adulta con un basso livello d'istruzione, calcolata rapportando la popolazione di età compresa fra 25 e 64 anni analfabeta e alfabeta senza titolo di studio al totale della popolazione della stessa fascia d'età.
+* **Disagio Assistenziale:** incidenza della popolazione anziana con più di 74 anni rapportata al totale delle famiglie dell'area.
+* **Disagio Abitativo:** incidenza delle famiglie in affitto sul totale delle famiglie.
 * **NEET:** incidenza dei giovani non occupati e non inseriti in percorsi di istruzione o formazione.
-* **Disagio Economico:** indicatori di vulnerabilità lavorativa e reddituale ??.
+* **Disagio Economico:** percentuale della popolazione con età pari o superiore a 15 anni priva di reddito rispetto al totale della popolazione.
 
 ---
-
 ### Normalizzazione e Aggregazione (Metodologia AMPI)
-Per rendere gli indicatori confrontabili e sintetizzarli in un unico indice, è stata applicata una procedura rigorosa in due fasi:
+Per garantire la comparabilità spaziale e temporale dei dati, la semplicità e trasparenza di calcolo,  
+la robustezza ed immediata fruizione e interpretazione dei risultati è stata 
+adottata la metodologia ufficiale ISTAT per indici compositi: "**Adjusted Mazziotta-Pareto Index – AMPI**".
 
-1. **Standardizzazione ISTAT (Scala 70-130):** Gli indicatori sono stati normalizzati secondo la metodologia standard ISTAT con media fissa pari a 100 e deviazione standard pari a 15, allineando i valori in un intervallo di riferimento tra 70 e 130.
-2. **Aggregazione tramite AMPI Positivo (Adjusted Mazziotta-Pareto Index):**  
-   L'**AMPI** è un metodo di sintesi non lineare basato su una funzione di aggregazione compensativa corretta da un fattore di penalizzazione per lo squilibrio. Nello specifico, per il calcolo dell'**ISVM Finale** è stata utilizzata la variante **AMPI Positiva**:
-   * **Superamento della Media Aritmetica:** La semplice media tende a "mascherare" le criticità, poiché valori positivi in alcuni ambiti rischiano di compensare e nascondere un forte disagio presente in un altro.
-   * **Enfasi sui Picchi di Vulnerabilità:** L'AMPI evita questo schiacciamento. Se anche **un solo indicatore registra un valore di disagio elevato**, l'indice rileva la disomogeneità e applica una penalità che spinge verso l'alto il valore finale dell'ISVM.
-   * **Risultato:** L'indice sintetico valorizza e mette in evidenza i quartieri che presentano anche una sola forma acuta di vulnerabilità, garantendo che le situazioni di emergenza locale non vengano annullate dal calcolo statistico.
+#### Normalizzazione dei Dati (Min-Max riscalata)
+La normalizzazione dei dati, finalizzata a depurare gli indicatori elementari dalla loro variabilità e 
+a consentire confronti assoluti nel tempo, è basata su una trasformazione degli
+indicatori elementari rispetto ai due valori minimo e massimo che rappresentano il campo
+di variazione di ciascun indicatore per l’intero periodo considerato.
+Ciascun indicatore elementare $j$ dell'unità $i$ è stato normalizzato per depurarlo dalla propria unità 
+di misura ed estensione, riconducendolo a un campo di variazione compreso tra **70 e 130**:
+
+$$r_{ij} = \frac{x_{ij} - \text{Min}_{xj}}{\text{Max}_{xj} - \text{Min}_{xj}} \cdot 60 + 70$$
+
+Dove:
+* $r_{ij}$ è il valore normalizzato dell'indicatore $j$ nell'unità $i$.
+* $x_{ij}$ è il valore effettivo dell'indicatore $j$ nell'unità $i$.
+* $\min_{j}$ e $\max_{j}$ rappresentano i valori minimo e massimo dell'indicatore nella distribuzione considerata.
+
+#### Aggregazione con Penalità per Squilibrio ($\text{AMPI}^+$)
+L’indice composito si ottiene aggregando gli indicatori normalizzati con peso uguale
+mediante media aritmetica semplice, una funzione di sintesi additiva che in quanto tale
+presuppone un effetto compensativo fra gli indicatori elementari. In
+questa applicazione l’effetto compensativo della media aritmetica (effetto medio) è corretto
+aggiungendo alla media un fattore (coefficiente di penalità) che dipende dalla variabilità dei
+valori normalizzati di ciascuna unità (denominata variabilità orizzontale), ossia dalla variabilità 
+degli indicatori rispetto ai valori di riferimento utilizzati per la normalizzazione.
+L'indice di sintesi finale si ottiene applicando l'**AMPI con penalità positiva ($\text{AMPI}^+$)**:
+
+$$\text{AMPI}_i^+ = M_{ri} + S_{ri} \cdot cv_i$$
+
+Dove:
+* $M_{ri}$ è la media aritmetica dei valori normalizzati degli indicatori per l'unità $i$.
+* $S_{ri}$ è lo scostamento quadratico medio dei valori normalizzati per l'unità $i$.
+* $cv_i = \frac{S_{ri}}{M_{ri}}$ è il **coefficiente di variazione**, che misura lo squilibrio orizzontale tra gli indicatori.
+
+> **Perché la penalità positiva?** Trattandosi di un fenomeno "negativo" (vulnerabilità e svantaggio), 
+> il coefficiente di penalità corregge la media degli indicatori normalizzati "spingendola verso 
+> l'alto". Il fattore correttivo è funzione diretta del coefficiente di variazione dei valori 
+> normalizzati per ogni unità ($S_{ri} \cdot cv_i$) e, a parità di media aritmetica, consente di 
+> penalizzare le unità che presentano un maggiore squilibrio fra gli indicatori o la presenza anche di 
+> un solo valore estremamente critico. Più è alto il valore dell'indice, maggiore è il livello di 
+> vulnerabilità dell'area. Di conseguenza, l'indice sintetico valorizza e mette in evidenza i quartieri che 
+> presentano anche una sola forma acuta di vulnerabilità, garantendo che le situazioni di emergenza 
+> locale non vengano annullate dal calcolo statistico.
+{: style="font-size: 0.85rem; line-height: 1.3;" }
+
+
 
 ---
 
