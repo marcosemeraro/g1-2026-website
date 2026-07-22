@@ -72,3 +72,25 @@ layout: minimal
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 </script>
+
+<!--MathJax math expression renderer-->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [
+        ['$', '$'],
+        ['\\(', '\\)']
+      ],
+      displayMath: [
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
+</script>

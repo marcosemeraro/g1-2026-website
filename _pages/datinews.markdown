@@ -29,8 +29,95 @@ subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali div
 }
 </style>
 
+Per capire come una città fosse stata raccontata nel corso del tempo, volevamo raccogliere molti anni di notiziari regionali.
+{: .lead }
+<br>
+Prima degli algoritmi, delle mappe e dei modelli di linguaggio, il progetto è iniziato con un **incontro sul campo**: una visita alla sede di un notiziario regionale per esplorare le possibilità di accesso a **dieci anni** di edizioni locali.
+{: .lead }
+<br>
+> "Per richiedere i materiali è necessario consultarli prima, uno per uno, e indicare quali sono quelli di interesse." 
+
+Una procedura del tutto comprensibile per chi entra in un archivio alla ricerca di un contenuto preciso. Ma noi volevamo analizzare dieci anni di informazione senza conoscere preventivamente ciò che avremmo trovato.
+{: .lead}
+<br>
+
+La soluzione è arrivata quando abbiamo scoperto, come fonte alternativa, le edizioni locali del network [City News](https://www.citynews.it){:target="_blank"}.
+{: .lead }
+<br>
+
+## La redazione di City News
+Nel suo archivio convivono le ultime notizie, la cronaca, gli eventi, le zone, le segnalazioni e molto altro. È un flusso continuo nel quale la città compare attraverso fatti eccezionali e gesti ordinari, incidenti e concerti, cantieri e mostre, problemi di quartiere e occasioni di partecipazione. Citynews definisce la propria forza attraverso il legame con il territorio e la capacità delle sue testate di prossimità (come [FirenzeToday](https://www.firenzetoday.it/notizie/firenze/){:target="_blank"}) di entrare nella vita delle comunità locali.
+{: .lead}
+<br>
+
+## La pipeline
+Da qui nasce l'idea di costruire un sistema per raccogliere le notizie, riconoscere i riferimenti geografici Asc2 e analizzare la tonalità del linguaggio per rispondere a diverse domande. 
+{: .lead}
+<br>
+Le diverse parti di una città ricevono la stessa attenzione giornalistica? Quali aree sono nominate più spesso? Il linguaggio è prevalentemente positivo, negativo o neutro?
+{: .lead}
+<br>
+Analizzare la distribuzione territoriale delle notizie permette di osservare non soltanto ciò che accade, ma anche quali parti della città diventano visibili nel discorso pubblico e attraverso quale sentimento narrativo.
+{: .lead}
+<br>
 
 
+
+
+
+
+
+
+
+<!-- commento sui risultati.
+Le notizie non costituiscono una fotografia completa della città. Raccontano una realtà selezionata attraverso criteri editoriali, routine professionali, disponibilità delle fonti ed eventi considerati notiziabili. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- # Dati Elettorali
 
 L'idea di utilizzare i dati elettorali per analizzare i processi di segregazione all'interno delle città italiane ci 
 è nata leggendo il lavoro di [Gabriele Pinto](https://www.tandfonline.com/doi/full/10.1080/2474736X.2023.2185158){:target="_blank"} pubblicato nel 2023 con il titolo _"Sezioni Elettorali Italiane (SEI): a new database of Italian electoral results geocoded at precinct level"_ che raccoglie i dati delle elezioni degli ultimi anni a livello di singole sezioni.
@@ -38,10 +125,7 @@ L'aspetto che ci ha colpito di questa enorme raccolta di dati è stata la possib
 {: .lead }
 
 
----
-
 ![](https://placehold.co/800x200/png)
-# Dati Elettorali
 
 Puoi usare titoli, paragrafi ed elenchi per strutturare il contenuto in modo efficace. Questo può essere fatto usando la sintassi Markdown, che consente una facile formattazione del testo. Ad esempio, puoi usare testo **grassetto** o *corsivo* per enfatizzare punti chiave, e puoi creare elenchi per organizzare le informazioni in modo chiaro.
 
@@ -49,7 +133,65 @@ Questo è un esempio di come formattare il testo in modo visivamente accattivant
 In questo paragrafo usiamo una classe `.lead` per evidenziare i punti principali del progetto.
 {: .lead}
 
-<p class="green"> 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Esplora Correnti
+</button>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Correnti politiche</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <th>Corrente</th>
+            <th>Partiti</th>
+          </tr>
+          <tr>
+            <td>Centro-Sinistra</td>
+            <td>Partito Democratico, +Europa, Comunisti Italiani, Rifondazione Comunista, 
+                Italia dei Valori, Federazione dei Verdi, Partito Comunista dei Lavoratori, 
+                Partito Socialista Italiano, Sinistra Ecologia e Libertà, Centro Democratico, 
+                Rivoluzione Civile, Unione Popolare, Italia Europa Insieme, Civica Popolare Lorenzin, 
+                Liberi e Uguali, Potere al Popolo!, Partito Comunista, Lista del Popolo per la Costituzione, 
+                Per una Sinistra Rivoluzionaria, Partito Valore Umano, Alleanza Verdi e Sinistra, 
+                Impegno Civico Luigi Di Maio</td>
+          </tr>
+          <tr>
+            <td>Centro</td>
+            <td>Unione di Centro, Scelta Civica con Monti, Fare per Fermare il Declino, 
+                Partito Repubblicano Italiano, Il Popolo della Famiglia, Azione - Italia Viva, 
+                Noi di Centro Mastella</td>
+          </tr>
+          <tr>
+            <td>Centro-Destra</td>
+            <td>Forza Italia, Lega, Fiamma Tricolore, 
+                Partito Pensionati, Liberali per l'Italia - PLI, Forza Nuova, 
+                Grande Sud - MPA, Fratelli d'Italia, La Destra, MIR - Moderati in Rivoluzione,
+                Intesa Popolare, Futuro e Libertà, CasaPound Italia, Io Amo l'Italia,
+                Riformisti Italiani, Liberi per una Italia Equa, Rifondazione Missina Italiana,
+                Italia agli Italiani, Blocco Nazionale per le Libertà, Ilalexit per l'Italia</td>
+          </tr>
+          <tr>
+            <td>Movimento 5 Stelle</td>
+            <td>Movimento 5 Stelle</td>
+          </tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+        </div>
+    </div>
+    </div>
+</div>
+ -->
+
+
+
+
+<!-- <p class="green"> 
     Puoi completare l'intera pagina usando solo la sintassi markdown, ma puoi anche usare tag HTML per aggiungere elementi più complessi. In questo esempio, usiamo un paragrafo con una classe "green" per evidenziare il testo in colore verde.
 </p>
 
@@ -118,4 +260,4 @@ Durante lo sviluppo, lavorerai con <strong>dataset del mondo reale</strong>, esp
         </div>
     </div>
 </div>
-
+ -->
