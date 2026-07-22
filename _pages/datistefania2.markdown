@@ -4,30 +4,91 @@ title: "Prova"
 show_sidetoc: true
 header_type: hero
 header_img: assets/images/roma_banner.webp
-header_title: "Pagina di Prova"
-subtitle: "Una Pagina di Prova del gruppo 1"
+header_title: "La Geografia della Ricchezza nelle Città"
+subtitle: "Un'analisi micro-territoriale delle disuguaglianze attraverso le dichiarazioni dei redditi IRPEF"
 ---
 
 <div class="full-width-wrapper">
     <img src="{{ site.baseurl }}/assets/images/header_alt2.svg" alt="sbd-pattern" class="full-width-image">
 </div>
 
-L'idea di utilizzare i dati elettorali per analizzare i processi di segregazione all'interno delle città italiane ci 
-è nata leggendo il lavoro di [Gabriele Pinto](https://www.tandfonline.com/doi/full/10.1080/2474736X.2023.2185158){:target="_blank"} pubblicato nel 2023 con il titolo _"Sezioni Elettorali Italiane (SEI): a new database of Italian electoral results geocoded at precinct level"_ che raccoglie i dati delle elezioni degli ultimi anni a livello di singole sezioni.
-L'aspetto che ci ha colpito di questa enorme raccolta di dati è stata la possibilità di poter guardare da vicino cosa avviene nei singoli quartieri e da lì è sorta la voglia di capire meglio come funzionano le nostre città. 
+I dati fiscali sulle dichiarazioni dei redditi rappresentano la traccia più concreta per misurare le 
+disuguaglianze e la capacità economica della popolazione all'interno dello spazio urbano. 
+Superando la visione omogenea offerta dai dati medi comunali, abbiamo voluto guardare da vicino la struttura 
+economica delle singole zone cittadine. L'obiettivo è capire quanto la polarizzazione della ricchezza 
+e il peso fiscale incidano sulle dinamiche sociali e sulla trasformazione dei quartieri 
+nelle sei grandi città italiane.
 {: .lead }
-
 
 ---
 
 ![](https://placehold.co/800x200/png)
-# Dati Elettorali
+# Dati Fiscali MEF e Mappatura della Disuguaglianza
 
-Puoi usare titoli, paragrafi ed elenchi per strutturare il contenuto in modo efficace. Questo può essere fatto usando la sintassi Markdown, che consente una facile formattazione del testo. Ad esempio, puoi usare testo **grassetto** o *corsivo* per enfatizzare punti chiave, e puoi creare elenchi per organizzare le informazioni in modo chiaro.
+I dati sulle dichiarazioni dei redditi IRPEF, messi a disposizione dal Ministero dell'Economia e delle Finanze 
+(MEF) per le annualità **2011, 2015 e dal 2019 al 2024**, rappresentano la fonte primaria per analizzare 
+la distribuzione della ricchezza, la capacità economica e le dinamiche della disuguaglianza nelle sei città 
+oggetto di studio (*Milano, Torino, Bologna, Firenze, Roma e Napoli*).
 
-Questo è un esempio di come formattare il testo in modo visivamente accattivante e facile da leggere.
-In questo paragrafo usiamo una classe `.lead` per evidenziare i punti principali del progetto.
-{: .lead}
+Poiché le rilevazioni ufficiali del MEF sono state diffuse su scala sub-comunale, per questo lavoro 
+è stato effettuato un processo di elaborazione, normalizzazione e attribuzione delle informazioni fiscali 
+alla griglia territoriale delle **Aree Sub-Comunali (ASC2)**. L'analisi condotta su questa scala permette 
+di superare la rigidità del valore medio cittadino e di far emergere le forti polarizzazioni e le disparità 
+economiche che caratterizzano i diversi quartieri all'interno dello stesso contesto urbano.
+{: .lead }
+
+---
+
+### Documentazione e Metodologia degli Indici Statistico-Economici
+
+Le tabelle rilasciate dal MEF organizzano i dati dei contribuenti e dei redditi complessivi suddividendoli in 
+classi di frequenza e ammontare per scaglioni di reddito. A partire da questa struttura informatica, sono stati 
+definiti e calcolati **4 indicatori analitici** per ciascuna Area Sub-Comunale (ASC2):
+
+* **1. Indice di Gini (Gini Coefficient):**
+  È il coefficiente standard utilizzato a livello internazionale per misurare il grado di disuguaglianza e la concentrazione della ricchezza o del reddito all'interno di una popolazione. Il suo valore varia strettamente tra **0** (*perfetta uguaglianza*, in cui tutti i contribuenti percepiscono esattamente lo stesso reddito) e **1** (*perfetta disuguaglianza*, dove un singolo contribuente possiede la totalità del reddito complessivo).
+  
+  Nel contesto delle Aree Sub-Comunali analizzate, un valore più alto dell'Indice di Gini segnala che in quel determinato quartiere il reddito è fortemente concentrato nelle mani di poche persone, mentre un valore più basso indica un tessuto sociale ed economicamente più omogeneo.
+  
+  Poiché i dati del MEF non sono disponibili per i singoli individui ma sono forniti aggregati "in classi di reddito" (es. 0–10.000 €, 10.000–15.000 €, ecc.), l'Indice di Gini è stato calcolato attraverso un'approssimazione geometrica basata sulle percentuali cumulate:
+  1. Si calcola il reddito medio teorico di ogni fascia dividendo l'Ammontare complessivo per la Frequenza dei contribuenti della fascia stessa.
+  2. Si ordinano le fasce dalla più povera alla più ricca in base a questo valore.
+  3. Si calcola la frazione cumulata della popolazione dei contribuenti (vettore $P$).
+  4. Si calcola la frazione cumulata del reddito totale generato (vettore $Q$).
+  5. Geometricamente, l'insieme dei punti definiti dai vettori $P$ e $Q$ identifica la distribuzione cumulata. L'Indice di Gini viene estratto calcolando l'area sottesa a questa spezzata tramite la **regola dei trapezi** e sottraendola dall'area del triangolo di ideale uguaglianza.
+
+* **2. Quota di Reddito Alta (Top Income Share - Fascia > 120.000 Euro):**
+  È un indicatore di concentrazione della ricchezza che si focalizza unicamente sulla coda più ricca della distribuzione (*top tail*). Rappresenta una percentuale (%) pura che indica quale quota dell'intera massa di redditi di una determinata area finisce nelle tasche dei contribuenti più abbienti, ovvero coloro che dichiarano oltre 120.000 euro all'anno. 
+  
+  Ad esempio, se in un'Area Sub-Comunale questo valore è pari a 25.0%, significa che il gruppo di residenti che guadagna oltre 120.000 euro da solo assorbe il 25% di tutto il reddito complessivamente generato in quel quartiere. La formula mette in rapporto l'ammontare della fascia superiore a 120.000 euro con la somma totale di tutti gli ammontari del quartiere, moltiplicando il risultato per 100.
+
+* **3. Aliquota Media Percentuale (Effettivo Peso Fiscale dell'Area):**
+  È un indicatore microeconomico che misura la pressione fiscale reale media esercitata dal prelievo IRPEF sui redditi all'interno di una specifica area geografica. Esprime una percentuale (%) che indica quanti euro vengono effettivamente trattenuti dal fisco per ogni 100 euro lordi guadagnati cumulativamente dai residenti di quell'Area Sub-Comunale. 
+  
+  Poiché il sistema fiscale italiano è basato sul principio della progressività, questo valore funge da indicatore territoriale della ricchezza: le aree sub-comunali con un'aliquota media significativamente più alta riflettono una maggiore presenza di contribuenti posizionati su scaglioni IRPEF elevati. A differenza delle aliquote teoriche di legge, questo indicatore calcola il peso dell'**imposta NETTA**, incorporando l'impatto reale sul territorio di deduzioni e detrazioni fiscali (come spese mediche, carichi di famiglia o bonus edilizi). Il calcolo mette direttamente in rapporto l'imposta netta globale con la massa dei redditi lordi, moltiplicato per 100.
+
+* **4. Reddito Medio:**
+  È l'indicatore sintetico della capacità reddituale media per contribuente all'interno di ciascuna Area Sub-Comunale (ASC2). Offre un parametro immediato per valutare il livello di ricchezza media dichiarata ed è calcolato dividendo la somma di tutti gli ammontari dei redditi prodotti nell'area per il numero totale dei contribuenti residenti.
+
+---
+
+### Pipeline di Aggregazione e Costruzione del Dataset Unico Comparativo
+
+Per analizzare l'evoluzione temporale delle dinamiche economiche, i dati storici sono stati allineati e strutturati in **3 macro-periodi di riferimento** per ciascuna area sub-comunale (quartiere):
+
+* **2011–2015** (Primo periodo)
+* **2019–2021** (Secondo periodo)
+* **2022–2024** (Terzo periodo)
+
+Per ciascuno dei 4 indici economici calcolati (Indice di Gini, Top Income Share, Aliquota Media Percentuale, 
+Reddito Medio) sono state estratte e inserite nel dataset finale **6 metriche di sintesi e di trend**:
+
+* **Struttura Base e Distance from Election:** Creazione dello scheletro dei periodi e inserimento della distanza temporale dalle elezioni di riferimento (3 per il periodo 2011–2015; 1 per i trienni 2019–2021 e 2022–2024).
+* **Latest Level (`_latest_level`):** Valore puntuale dell'indice registrato nell'ultimo anno utile del periodo considerato (2015 per il primo periodo, 2021 per il secondo, 2024 per il terzo).
+* **Mean Economic Condition (`_mean`):** Condizione economica media dell'area all'interno del periodo, calcolata tramite la media aritmetica semplice sui singoli anni compresi nel macro-periodo.
+* **Percentage Change (`_change_%`):** Variazione percentuale dell'indice rilevata da inizio a fine periodo (ad esempio, dal 2011 al 2015, dal 2019 al 2021 e dal 2022 al 2024).
+* **Slope Lineare (`_slope`):** Pendenza (coefficiente angolare) della retta di regressione calcolata sui punti del periodo, utilizzata per identificare la direzione e l'intensità del trend evolutivo interno.
+* **Volatilità Normalizzata (`_volatility`):** Misura dell'instabilità annuale dell'indicatore all'interno del periodo, calcolata tramite Deviazione Standard e successivamente riscalata con il metodo Min-Max all'interno di un range fisso compreso tra [0, 1].
 
 <p class="green"> 
     Puoi completare l'intera pagina usando solo la sintassi markdown, ma puoi anche usare tag HTML per aggiungere elementi più complessi. In questo esempio, usiamo un paragrafo con una classe "green" per evidenziare il testo in colore verde.
