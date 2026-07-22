@@ -60,11 +60,23 @@ L'ISVM nasce quindi per misurare il **grado di esposizione al rischio dei territ
 ![](https://placehold.co/800x200/png)
 # Dati Censuari ISTAT
 
-L'ISTAT rilascia periodicamente i dati dei **Censimenti Generali della Popolazione e delle Abitazioni**, che rappresentano 
-la fonte fondamentale per analizzare le dinamiche socio-economiche del territorio. Per questo studio, sono state estratte 
-le variabili di base a livello micro-territoriale, superando la sola dimensione comunale per accedere a una scala d'analisi 
-molto più dettagliata. 
+L'ISTAT rilascia periodicamente i dati dei **Censimenti Generali della Popolazione e delle
+Abitazioni**, fonte fondamentale per analizzare le dinamiche socio-economiche del territorio. 
+Per questo studio sono stati estratti i dati a livello micro-territoriale per gli anni
+**2011 e 2021**, superando la dimensione comunale per accedere a una scala d'analisi 
+molto più dettagliata.
 {: .lead}
+
+---
+
+### Selezione e Pulizia dei Dati
+
+Il processo di preparazione del dataset ha richiesto un'attenta fase di selezione:
+
+* **Dataset di partenza:** Oltre 150 variabili censuarie grezze scaricate ed analizzate.
+* **Filtering & Data Cleaning:** Selezione esclusiva delle variabili idonee al calcolo dei 7 indicatori elementari.
+* **Risoluzione criticità:** Correzione dei dati incompleti o non uniformi a livello di **Area Sub-Comunale (ASC2)** per garantire la perfetta confrontabilità territoriale.
+
 ---
 
 
