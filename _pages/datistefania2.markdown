@@ -84,11 +84,11 @@ Per ciascuno dei 4 indici economici calcolati (Indice di Gini, Top Income Share,
 Reddito Medio) sono state estratte e inserite nel dataset finale **6 metriche di sintesi e di trend**:
 
 * **Struttura Base e Distance from Election:** Creazione dello scheletro dei periodi e inserimento della distanza temporale dalle elezioni di riferimento (3 per il periodo 2011–2015; 1 per i trienni 2019–2021 e 2022–2024).
-* **Latest Level (`_latest_level`):** Valore puntuale dell'indice registrato nell'ultimo anno utile del periodo considerato (2015 per il primo periodo, 2021 per il secondo, 2024 per il terzo).
-* **Mean Economic Condition (`_mean`):** Condizione economica media dell'area all'interno del periodo, calcolata tramite la media aritmetica semplice sui singoli anni compresi nel macro-periodo.
-* **Percentage Change (`_change_%`):** Variazione percentuale dell'indice rilevata da inizio a fine periodo (ad esempio, dal 2011 al 2015, dal 2019 al 2021 e dal 2022 al 2024).
-* **Slope Lineare (`_slope`):** Pendenza (coefficiente angolare) della retta di regressione calcolata sui punti del periodo, utilizzata per identificare la direzione e l'intensità del trend evolutivo interno.
-* **Volatilità Normalizzata (`_volatility`):** Misura dell'instabilità annuale dell'indicatore all'interno del periodo, calcolata tramite Deviazione Standard e successivamente riscalata con il metodo Min-Max all'interno di un range fisso compreso tra [0, 1].
+* **Latest Level:** Valore puntuale dell'indice registrato nell'ultimo anno utile del periodo considerato (2015 per il primo periodo, 2021 per il secondo, 2024 per il terzo).
+* **Mean Economic Condition:** Condizione economica media dell'area all'interno del periodo, calcolata tramite la media aritmetica semplice sui singoli anni compresi nel macro-periodo.
+* **Percentage Change:** Variazione percentuale dell'indice rilevata da inizio a fine periodo (ad esempio, dal 2011 al 2015, dal 2019 al 2021 e dal 2022 al 2024).
+* **Slope Lineare:** Pendenza (coefficiente angolare) della retta di regressione calcolata sui punti del periodo, utilizzata per identificare la direzione e l'intensità del trend evolutivo interno.
+* **Volatilità Normalizzata:** Misura dell'instabilità annuale dell'indicatore all'interno del periodo, calcolata tramite Deviazione Standard e successivamente riscalata con il metodo Min-Max all'interno di un range fisso compreso tra [0, 1].
 
 <p class="green"> 
     Puoi completare l'intera pagina usando solo la sintassi markdown, ma puoi anche usare tag HTML per aggiungere elementi più complessi. In questo esempio, usiamo un paragrafo con una classe "green" per evidenziare il testo in colore verde.
