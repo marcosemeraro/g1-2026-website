@@ -17,7 +17,7 @@ disuguaglianze e la capacità economica della popolazione all'interno dello spaz
 Superando la visione omogenea offerta dai dati medi comunali, abbiamo voluto guardare da vicino la struttura 
 economica delle singole zone cittadine. L'obiettivo è capire quanto la polarizzazione della ricchezza 
 e il peso fiscale incidano sulle dinamiche sociali e sulla trasformazione dei quartieri 
-nelle sei grandi città italiane.
+nelle sei grandi città italiane oggetto di studio: Milano, Torino, Firenze, Bologna, Napoli.
 {: .lead }
 
 ---
@@ -28,11 +28,12 @@ nelle sei grandi città italiane.
 I dati sulle dichiarazioni dei redditi IRPEF, messi a disposizione dal Ministero dell'Economia e delle Finanze 
 (MEF) per le annualità **2011, 2015 e dal 2019 al 2024**, rappresentano la fonte primaria per analizzare 
 la distribuzione della ricchezza, la capacità economica e le dinamiche della disuguaglianza nelle sei città 
-oggetto di studio (*Milano, Torino, Bologna, Firenze, Roma e Napoli*).
+oggetto di studio. 
+{: .lead }
 
 Poiché le rilevazioni ufficiali del MEF sono state diffuse su scala sub-comunale, per questo lavoro 
 è stato effettuato un processo di elaborazione, normalizzazione e attribuzione delle informazioni fiscali 
-alla griglia territoriale delle **Aree Sub-Comunali (ASC2)**. L'analisi condotta su questa scala permette 
+alla griglia territoriale delle **Sezioni di Censimento (ASC2)**. L'analisi condotta su questa scala permette 
 di superare la rigidità del valore medio cittadino e di far emergere le forti polarizzazioni e le disparità 
 economiche che caratterizzano i diversi quartieri all'interno dello stesso contesto urbano.
 {: .lead }
@@ -45,7 +46,8 @@ Le tabelle rilasciate dal MEF organizzano i dati dei contribuenti e dei redditi 
 classi di frequenza e ammontare per scaglioni di reddito. A partire da questa struttura informatica, sono stati 
 definiti e calcolati **4 indicatori analitici** per ciascuna Area Sub-Comunale (ASC2):
 
-* **1. Indice di Gini (Gini Coefficient):**
+
+* **Indice di Gini (Gini Coefficient):**
   È il coefficiente standard utilizzato a livello internazionale per misurare il grado di disuguaglianza e la concentrazione della ricchezza o del reddito all'interno di una popolazione. Il suo valore varia strettamente tra **0** (*perfetta uguaglianza*, in cui tutti i contribuenti percepiscono esattamente lo stesso reddito) e **1** (*perfetta disuguaglianza*, dove un singolo contribuente possiede la totalità del reddito complessivo).
   
   Nel contesto delle Aree Sub-Comunali analizzate, un valore più alto dell'Indice di Gini segnala che in quel determinato quartiere il reddito è fortemente concentrato nelle mani di poche persone, mentre un valore più basso indica un tessuto sociale ed economicamente più omogeneo.
@@ -57,24 +59,24 @@ definiti e calcolati **4 indicatori analitici** per ciascuna Area Sub-Comunale (
   4. Si calcola la frazione cumulata del reddito totale generato (vettore $Q$).
   5. Geometricamente, l'insieme dei punti definiti dai vettori $P$ e $Q$ identifica la distribuzione cumulata. L'Indice di Gini viene estratto calcolando l'area sottesa a questa spezzata tramite la **regola dei trapezi** e sottraendola dall'area del triangolo di ideale uguaglianza.
 
-* **2. Quota di Reddito Alta (Top Income Share - Fascia > 120.000 Euro):**
+* **Quota di Reddito Alta (Top Income Share - Fascia > 120.000 Euro):**
   È un indicatore di concentrazione della ricchezza che si focalizza unicamente sulla coda più ricca della distribuzione (*top tail*). Rappresenta una percentuale (%) pura che indica quale quota dell'intera massa di redditi di una determinata area finisce nelle tasche dei contribuenti più abbienti, ovvero coloro che dichiarano oltre 120.000 euro all'anno. 
   
   Ad esempio, se in un'Area Sub-Comunale questo valore è pari a 25.0%, significa che il gruppo di residenti che guadagna oltre 120.000 euro da solo assorbe il 25% di tutto il reddito complessivamente generato in quel quartiere. La formula mette in rapporto l'ammontare della fascia superiore a 120.000 euro con la somma totale di tutti gli ammontari del quartiere, moltiplicando il risultato per 100.
 
-* **3. Aliquota Media Percentuale (Effettivo Peso Fiscale dell'Area):**
-  È un indicatore microeconomico che misura la pressione fiscale reale media esercitata dal prelievo IRPEF sui redditi all'interno di una specifica area geografica. Esprime una percentuale (%) che indica quanti euro vengono effettivamente trattenuti dal fisco per ogni 100 euro lordi guadagnati cumulativamente dai residenti di quell'Area Sub-Comunale. 
+* **Aliquota Media Percentuale (Effettivo Peso Fiscale dell'Area):**
+  È un indicatore microeconomico che misura la pressione fiscale reale media esercitata dal prelievo IRPEF sui redditi all'interno di una specifica area geografica. Esprime una percentuale (%) che indica quanti euro vengono effettivamente trattenuti dal fisco per ogni 100 euro lordi guadagnati cumulativamente dai residenti di quel quartiere. 
   
-  Poiché il sistema fiscale italiano è basato sul principio della progressività, questo valore funge da indicatore territoriale della ricchezza: le aree sub-comunali con un'aliquota media significativamente più alta riflettono una maggiore presenza di contribuenti posizionati su scaglioni IRPEF elevati. A differenza delle aliquote teoriche di legge, questo indicatore calcola il peso dell'**imposta NETTA**, incorporando l'impatto reale sul territorio di deduzioni e detrazioni fiscali (come spese mediche, carichi di famiglia o bonus edilizi). Il calcolo mette direttamente in rapporto l'imposta netta globale con la massa dei redditi lordi, moltiplicato per 100.
+  Poiché il sistema fiscale italiano è basato sul principio della progressività, questo valore funge da indicatore territoriale della ricchezza: i quartieri (ASC2) con un'aliquota media significativamente più alta riflettono una maggiore presenza di contribuenti posizionati su scaglioni IRPEF elevati. A differenza delle aliquote teoriche di legge, questo indicatore calcola il peso dell'**imposta NETTA**, incorporando l'impatto reale sul territorio di deduzioni e detrazioni fiscali (come spese mediche, carichi di famiglia o bonus edilizi). Il calcolo mette direttamente in rapporto l'imposta netta globale con la massa dei redditi lordi, moltiplicato per 100.
 
-* **4. Reddito Medio:**
+* **Reddito Medio:**
   È l'indicatore sintetico della capacità reddituale media per contribuente all'interno di ciascuna Area Sub-Comunale (ASC2). Offre un parametro immediato per valutare il livello di ricchezza media dichiarata ed è calcolato dividendo la somma di tutti gli ammontari dei redditi prodotti nell'area per il numero totale dei contribuenti residenti.
 
 ---
 
 ### Pipeline di Aggregazione e Costruzione del Dataset Unico Comparativo
 
-Per analizzare l'evoluzione temporale delle dinamiche economiche, i dati storici sono stati allineati e strutturati in **3 macro-periodi di riferimento** per ciascuna area sub-comunale (quartiere):
+Per analizzare l'evoluzione temporale delle dinamiche economiche in relazione alle elezioni politiche  i dati storici sono stati allineati e strutturati in **3 macro-periodi di riferimento** per ciascuna area sub-comunale (quartiere):
 
 * **2011–2015** (Primo periodo)
 * **2019–2021** (Secondo periodo)
