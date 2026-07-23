@@ -5,7 +5,7 @@ show_sidetoc: true
 header_type: hero
 header_img: assets/images/news_header_AI.png
 header_title: "Dalle cronache locali alla geografia delle differenze urbane"
-subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali diverse dentro la stessa città"
+#subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali diverse dentro la stessa città"
 ---
 
 <!-- <div class="full-width-wrapper">
@@ -223,7 +223,7 @@ Da qui nasce l'idea di costruire un sistema per raccogliere le notizie, riconosc
 
 
 <!-- step3 -->
-<!-- <section class="news-pipeline-step" id="geografia">
+<section class="news-pipeline-step" id="geografia">
 
   <div class="news-pipeline-label">
     <span class="news-pipeline-number">03</span>
@@ -247,7 +247,7 @@ Da qui nasce l'idea di costruire un sistema per raccogliere le notizie, riconosc
   
   
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asc2Modal">
-  Esplora dettagli tecnici
+  Dettagli tecnici
   </button>
     <div class="modal fade" id="asc2Modal" tabindex="-1" aria-labelledby="asc2ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -256,356 +256,167 @@ Da qui nasce l'idea di costruire un sistema per raccogliere le notizie, riconosc
             <h5 class="modal-title" id="asc2ModalLabel">Riconoscimento delle aree ASC2</h5>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
         </div>
-        <div class="modal-body">
-            <h4>Dalle parole delle notizie alle aree subcomunali</h4>
-            <p>Per collegare ogni notizia alla geografia della città abbiamo cercato, all’interno della categoria, del titolo e del trafiletto, le denominazioni associate alle Aree Sub-Comunali di secondo livello, indicate come ASC2.</p>
-            <p>La ricerca non è stata limitata al nome ufficiale dell’area. Per ogni ASC2 è stato utilizzato un insieme di varianti, quartieri e toponimi riconducibili alla stessa zona urbana.</p>
-            <hr>
-            <h4>1. Normalizzazione del testo</h4>
-            <p>Prima del confronto, sia il testo delle notizie sia le denominazioni territoriali sono stati trasformati in una forma comune.</p>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Operazione</th>
-                            <th>Esempio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Conversione in minuscolo</td>
-                            <td><code>Città Studi</code> → <code>città studi</code></td>
-                        </tr>
-                        <tr>
-                            <td>Rimozione degli accenti</td>
-                            <td><code>città studi</code> → <code>citta studi</code></td>
-                        </tr>
-                        <tr>
-                            <td>Sostituzione della punteggiatura con spazi</td>
-                            <td><code>città-studi</code> → <code>citta studi</code></td>
-                        </tr>
-                        <tr>
-                            <td>Riduzione degli spazi multipli</td>
-                            <td><code>porta&nbsp;&nbsp;&nbsp;nuova</code> → <code>porta nuova</code></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <hr>
-            <h4>2. Costruzione del dizionario geografico</h4>
-            <p>Per ciascuna ASC2 abbiamo costruito una lista di parole chiave a partire dalla colonna contenente le varianti territoriali. Le denominazioni separate dal simbolo <code>|</code> sono state divise, normalizzate e raccolte in un insieme privo di duplicati.</p>
-            <div class="alert alert-light">
-                <strong>Esempio semplificato</strong><br>
-                Area ASC2: Città Studi<br>
-                Varianti: <code>città studi | piola | lambrate</code><br>
-                Parole ricercate: <code>citta studi</code>, <code>piola</code>, <code>lambrate</code>
-            </div>
-            <p>Le denominazioni sono state ordinate dalla più lunga alla più corta. In questo modo una forma più specifica, come <code>porta nuova</code>, viene controllata prima di termini più brevi eventualmente contenuti al suo interno.</p>
-            <hr>
-            <h4>3. Ricerca delle denominazioni</h4>
-            <p>Ogni parola chiave è stata cercata nei tre campi testuali normalizzati. La corrispondenza è stata effettuata considerando la denominazione come parola o espressione completa.</p>
-            <div class="alert alert-light text-center my-4">
-                <code>pattern = \b + denominazione + \b</code>
-            </div>
-            <p>I confini di parola <code>\b</code> riducono le corrispondenze accidentali. Una denominazione viene quindi riconosciuta quando compare come unità autonoma e non semplicemente come sequenza di lettere contenuta in un’altra parola.</p>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Testo della notizia</th>
-                            <th>Denominazione</th>
-                            <th>Esito</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>“Nuovi lavori nel quartiere Niguarda”</td>
-                            <td><code>niguarda</code></td>
-                            <td>Corrispondenza</td>
-                        </tr>
-                        <tr>
-                            <td>“Evento organizzato a Porta Nuova”</td>
-                            <td><code>porta nuova</code></td>
-                            <td>Corrispondenza</td>
-                        </tr>
-                        <tr>
-                            <td>Parola più lunga che contiene casualmente la denominazione</td>
-                            <td>Termine breve</td>
-                            <td>Nessuna corrispondenza parziale</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <hr>
-            <h4>4. Informazioni registrate</h4>
-            <p>Per ogni coppia composta da una notizia e un’area ASC2 sono state prodotte tre informazioni.</p>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Campo</th>
-                            <th>Significato</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Indicatore ASC2</td>
-                            <td>Vale 1 quando almeno una denominazione dell’area è presente nella notizia e 0 in caso contrario.</td>
-                        </tr>
-                        <tr>
-                            <td><code>ASC2_codice_match</code></td>
-                            <td>Contiene le denominazioni che hanno prodotto la corrispondenza.</td>
-                        </tr>
-                        <tr>
-                            <td><code>ASC2_codice_dove</code></td>
-                            <td>Indica se la corrispondenza è stata trovata nella categoria, nel titolo, nel trafiletto o in più campi.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="alert alert-light text-center my-4">
-                \[
-                I_{iq} =
-                \begin{cases}
-                1 & \text{se la notizia } i \text{ contiene una denominazione dell'area } q \\
-                0 & \text{altrimenti}
-                \end{cases}
-                \]
-            </div>
-            <p>Il sistema conserva tutte le denominazioni riconosciute. Se, per esempio, <code>porta nuova</code> compare contemporaneamente nella categoria, nel titolo e nel trafiletto, i tre campi vengono registrati senza creare tre associazioni territoriali distinte.</p>
-            <hr>
-            <h4>5. Perché abbiamo escluso “centro storico”</h4>
-            <p>La denominazione <em>centro storico</em> è stata rimossa dal dizionario di ricerca perché troppo generica. Nelle descrizioni territoriali può comparire in relazione a più aree diverse e non permette, da sola, di stabilire quale specifica ASC2 sia citata.</p>
-            <div class="alert alert-light">
-                <strong>Esempio:</strong><br>
-                una descrizione come <code>Centro storico - Duomo, San Babila, Montenapoleone</code> conserva come riferimenti informativi <code>duomo</code>, <code>san babila</code> e <code>montenapoleone</code>, mentre la forma generica <code>centro storico</code> non viene utilizzata per attribuire la notizia.
-            </div>
-            <hr>
-            <h4>6. Notizie associate a più aree</h4>
-            <p>Una stessa notizia può citare più quartieri e quindi essere associata a più ASC2. Per evitare che venga contata interamente una volta per ogni zona, nei passaggi successivi abbiamo applicato un peso frazionario.</p>
-            <div class="alert alert-light text-center my-4">
-                \[
-                w_{iq} = \frac{I_{iq}}{k_i}
-                \]
-            </div>
-            <p>dove \(k_i\) è il numero di ASC2 riconosciute nella notizia \(i\). Se una notizia cita due aree, ciascuna riceve un peso pari a \(1/2\); se ne cita quattro, ciascuna riceve \(1/4\).</p>
-            <div class="alert alert-light">
-                <strong>Esempio:</strong><br>
-                una notizia cita Niguarda e Affori.<br>
-                Numero di aree riconosciute: <code>k = 2</code><br>
-                Peso attribuito a Niguarda: <code>1/2</code><br>
-                Peso attribuito ad Affori: <code>1/2</code><br>
-                Peso complessivo della notizia: <code>1</code>
-            </div>
-            <hr>
+        
+<div class="modal-body">
+  <h4>1. Normalizzazione del testo</h4>
 
-<h4>7. Recupero delle notizie localizzate tramite le zone OMI</h4>
+  <p>
+    Prima della ricerca, testi e denominazioni territoriali sono stati
+    convertiti in minuscolo, privati degli accenti e della punteggiatura
+    e uniformati negli spazi.
+  </p>
 
-<p>
-    Il riconoscimento testuale delle ASC2 non ha permesso di localizzare
-    tutte le notizie. In alcuni casi il titolo, la categoria o il trafiletto
-    non contenevano il nome di un’area ASC2, ma presentavano un riferimento
-    a una zona dell’Osservatorio del Mercato Immobiliare, indicata come
-    zona OMI.
-</p>
+  <div class="alert alert-light">
+    <strong>Esempio</strong><br><br>
+    <code>Notizie da NOVOLI-LIPPI</code><br>
+    diventa<br>
+    <code>notizie da novoli lippi</code>
+  </div>
 
-<p>
-    Per recuperare anche queste notizie abbiamo utilizzato una tabella di
-    corrispondenza spaziale tra zone OMI e aree ASC2. La procedura è stata
-    applicata soltanto alle notizie che non possedevano già
-    un’associazione ASC2 diretta.
-</p>
+  <hr>
 
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Informazione disponibile</th>
-                <th>Operazione eseguita</th>
-            </tr>
-        </thead>
+  <h4>2. Costruzione del dizionario geografico</h4>
 
-        <tbody>
-            <tr>
-                <td>La notizia contiene già una ASC2</td>
-                <td>
-                    Viene mantenuta l’associazione ottenuta direttamente
-                    dal testo.
-                </td>
-            </tr>
+  <p>
+    Per ogni ASC2 abbiamo costruito una lista di parole chiave a partire
+    dalle varianti presenti nel file territoriale. Le denominazioni
+    separate dal simbolo <code>|</code> sono state divise, normalizzate
+    e raccolte senza duplicati.
+  </p>
 
-            <tr>
-                <td>La notizia non contiene ASC2, ma contiene una zona OMI</td>
-                <td>
-                    La zona OMI viene ricondotta alle ASC2 con cui presenta
-                    una sovrapposizione territoriale.
-                </td>
-            </tr>
+  <div class="alert alert-light">
+    <strong>Esempio: ASC2 Novoli - Lippi</strong><br><br>
 
-            <tr>
-                <td>La notizia non contiene né ASC2 né zone OMI</td>
-                <td>
-                    Non viene attribuita a una specifica area subcomunale.
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    Varianti originali:<br>
+    <code>novoli|lippi</code><br><br>
 
-<p>
-    Nel notebook vengono quindi selezionate le notizie che possiedono
-    almeno un riferimento OMI ma nessun riferimento ASC2. In questo modo
-    la conversione funziona come procedura di recupero e non modifica le
-    associazioni territoriali già riconosciute direttamente nel testo.
-</p>
+    Parole ricercate:<br>
+    <code>novoli</code>, <code>lippi</code>
+  </div>
 
-<div class="alert alert-light text-center my-4">
-    <code>nessuna ASC2 diretta + almeno una zona OMI → conversione OMI–ASC2</code>
-</div>
+  <p>
+    Alcune parole, come <code>novoli</code>, compaiono nelle varianti
+    di più ASC2: Novoli - Lippi, Novoli - Fiat, Novoli - Baracca Est
+    e Novoli - Baracca Ovest.
+  </p>
 
-<h4>8. La corrispondenza spaziale OMI–ASC2</h4>
+  <hr>
 
-<p>
-    Le due zonizzazioni non presentano necessariamente gli stessi confini.
-    Una zona OMI può coincidere quasi interamente con una ASC2 oppure
-    sovrapporsi a più aree subcomunali.
-</p>
+  <h4>3. Ricerca delle denominazioni</h4>
 
-<p>
-    Per ogni coppia composta da una zona OMI e una ASC2 è stato quindi
-    calcolato un peso di corrispondenza, basato sulla loro intersezione
-    territoriale.
-</p>
+  <p>
+    Le parole chiave sono state cercate nei campi normalizzati della
+    categoria, del titolo e del trafiletto. Il confronto utilizza i
+    confini di parola, così da riconoscere soltanto termini o espressioni
+    complete.
+  </p>
 
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Campo</th>
-                <th>Significato</th>
-            </tr>
-        </thead>
+  <div class="alert alert-light text-center my-4">
+    <strong>Pattern utilizzato</strong><br><br>
+    <code>\b + denominazione + \b</code>
+  </div>
 
-        <tbody>
-            <tr>
-                <td>Codice OMI</td>
-                <td>Zona immobiliare riconosciuta nella notizia.</td>
-            </tr>
+  <div class="alert alert-light">
+    <strong>Esempio</strong><br><br>
 
-            <tr>
-                <td>Codice ASC2</td>
-                <td>Area subcomunale alla quale può essere attribuita.</td>
-            </tr>
+    Testo:<br>
+    <code>Nuovi lavori nel quartiere di Novoli</code><br><br>
 
-            <tr>
-                <td>Area di intersezione</td>
-                <td>Superficie condivisa dalle due geometrie.</td>
-            </tr>
+    Keyword riconosciuta:<br>
+    <code>novoli</code>
+  </div>
 
-            <tr>
-                <td><code>peso_omi_to_asc2</code></td>
-                <td>
-                    Quota con cui la zona OMI viene distribuita verso
-                    la specifica ASC2.
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+  <p>
+    Per ogni corrispondenza vengono conservate anche la parola trovata
+    e la parte della notizia in cui compare.
+  </p>
 
-<h4>9. Il peso della notizia convertita</h4>
+  <hr>
 
-<p>
-    Il peso con cui una notizia era stata associata alla zona OMI viene
-    moltiplicato per il peso geografico della corrispondenza OMI–ASC2.
-</p>
+  <h4>4. Il caso dell’ASC2 Centro</h4>
 
-<div class="alert alert-light text-center my-4">
-    \[
-    w_{iq}^{OMI}
-    =
-    w_{io}
-    \times
-    w_{o \rightarrow q}
-    \]
-</div>
+  <p>
+    A Firenze l’ASC2 49 si chiama <strong>Centro</strong>. Abbiamo escluso
+    questa espressione perché troppo generica e presente nella categoria
+    di molte notizie riferite a luoghi differenti.
+  </p>
 
-<p>
-    dove \(w_{io}\) è il peso della notizia \(i\) nella zona OMI \(o\),
-    mentre \(w_{o \rightarrow q}\) rappresenta la quota con cui quella
-    zona OMI viene attribuita all’ASC2 \(q\).
-</p>
+  <p>
+    Per recuperare le notizie del centro abbiamo sfruttato le descrizioni
+    OMI, che contengono denominazioni più precise.
+  </p>
 
-<div class="alert alert-light">
+  <div class="alert alert-light">
+    <strong>Esempio di zona OMI</strong><br><br>
+
+    <code>
+      CENTRO STORICO (SIGNORIA - DUOMO - PITTI - SAN NICCOLO)
+    </code><br><br>
+
+    Parole utilizzate:<br>
+    <code>signoria</code>,
+    <code>duomo</code>,
+    <code>pitti</code>,
+    <code>san niccolo</code>
+  </div>
+
+  <hr>
+
+  <h4>5. Notizie associate a più aree</h4>
+
+  <p>
+    Una notizia può citare più zone oppure contenere una denominazione
+    condivisa da più ASC2. Contarla interamente in ciascuna zona
+    aumenterebbe artificialmente il numero totale delle notizie.
+  </p>
+
+  <div class="alert alert-light">
+    <strong>Esempio</strong><br><br>
+
+    La parola <code>novoli</code> è associata a quattro ASC2.<br><br>
+
+    La notizia viene quindi distribuita tra le quattro aree:<br>
+    <code>0,25</code> per ciascuna ASC2.<br><br>
+
+    Il peso complessivo rimane pari a <code>1</code>.
+  </div>
+
+  <hr>
+
+  <h4>6. Conversione dalle zone OMI alle ASC2</h4>
+
+  <p>
+    La conversione è stata applicata soltanto alle notizie che avevano
+    un riferimento OMI ma nessun match ASC2 diretto. Il peso della
+    notizia è stato distribuito tra le ASC2 in proporzione alla superficie
+    condivisa con la zona OMI.
+  </p>
+
+  <div class="alert alert-light">
     <strong>Esempio semplificato</strong><br><br>
 
-    Una notizia è associata a una zona OMI con peso pari a
-    <code>1</code>.<br>
+    Una notizia ha peso OMI pari a <code>1</code>.<br>
+    La zona OMI ricade per il 70% nell’ASC2 A e per il 30% nell’ASC2 B.
+    <br><br>
 
-    La zona OMI si sovrappone per il 70% all’ASC2 A e per il 30%
-    all’ASC2 B.<br><br>
+    Peso ASC2 A: <code>0,70</code><br>
+    Peso ASC2 B: <code>0,30</code><br>
+    Peso totale: <code>1</code>
+  </div>
 
-    Peso attribuito all’ASC2 A:
-    <code>1 × 0,70 = 0,70</code><br>
-
-    Peso attribuito all’ASC2 B:
-    <code>1 × 0,30 = 0,30</code><br><br>
-
-    Peso complessivo della notizia:
-    <code>0,70 + 0,30 = 1</code>
+  <p>
+    Nel dataset possiamo inoltre ricostruire se la localizzazione della
+    notizia deriva da un match ASC2 diretto oppure dalla conversione di
+    una zona OMI.
+  </p>
 </div>
-
-<p>
-    Anche in questo caso la notizia non viene duplicata integralmente:
-    il suo contributo viene distribuito tra le aree interessate.
-</p>
-
-<h4>10. Origine dell’associazione geografica</h4>
-
-<p>
-    Nel dataset finale abbiamo conservato anche l’origine della
-    localizzazione, distinguendo le aree riconosciute direttamente nel
-    testo da quelle ricostruite attraverso la conversione OMI–ASC2.
-</p>
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Valore</th>
-                <th>Significato</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><code>match_testuale_asc2</code></td>
-                <td>
-                    La denominazione dell’ASC2 o una sua variante è stata
-                    trovata direttamente nella notizia.
-                </td>
-            </tr>
-            <tr>
-                <td><code>imputata_da_omi</code></td>
-                <td>
-                    L’ASC2 è stata ricostruita a partire da una zona OMI
-                    riconosciuta nella notizia.
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<p>
-    Questa distinzione permette di ricostruire il percorso attraverso cui
-    ogni notizia è stata localizzata e di valutare separatamente le
-    attribuzioni dirette e quelle ottenute mediante conversione.
-</p>
-        </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
         </div>
     </div>
     </div>
 </div>
-  </section> -->
+  </section> 
 
 <!-- step4 -->
 <!-- <section class="news-pipeline-step" id="sentiment">
@@ -882,7 +693,7 @@ Da qui nasce l'idea di costruire un sistema per raccogliere le notizie, riconosc
   </div>
 </div>
   
-</section> -->
+</section>
 
 <!-- step5 -->
 <!-- <section class="news-pipeline-step" id="topic-modelling">
