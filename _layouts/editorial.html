@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title | default: site.title }}</title>
+<meta name="description" content="{{ page.description | default: site.description | strip_newlines | truncate: 160 }}">
+
+<!-- ===== Bootstrap + jQuery: richiesti dalla navbar del template (dropdown) ===== -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+{% if page.mathjax %}
+<!-- ===== MathJax (attivato con `mathjax: true` nel front matter) ===== -->
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+{% endif %}
+
+<style>
+/* ================================================================
+   EDITORIAL DESIGN SYSTEM
+   Caricato DOPO Bootstrap: a parità di specificità vince questo.
+   ================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #F5F1EA; --panel: #FBFAF6; --panel-2: #EFE9DC;
+  --ink: #1A1A1A; --ink-2: #333; --muted: #6B6157; --muted-2: #A39B8E;
+  --rule: #DDD4C4; --rule-2: #C7BEA9;
+  --accent: #A0402E; --accent-2: #C58B31;
+  --p-cdx: #1F3A5F; --p-csx: #A02222; --p-cen: #C58B31; --p-mcs: #7A7B32;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono:  'IBM Plex Mono', 'Menlo', monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg) !important; color: var(--ink); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+/* ===== Navbar chulapa: riverniciata con la palette editoriale ===== */
+.navbar-chulapa { background: rgba(245,241,234,0.94) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); padding: .5rem 1.5rem; }
+.navbar-chulapa .navbar-brand { color: var(--ink) !important; font-weight: 300; letter-spacing: 0.05em; }
+.navbar-chulapa .navbar-brand:hover { color: var(--accent) !important; }
+.navbar-chulapa .nav-link { color: var(--muted) !important; letter-spacing: 0.08em; font-size: 13px; font-weight: 300; }
+.navbar-chulapa .nav-link:hover { color: var(--ink) !important; }
+.navbar-chulapa .nav-link.active, .navbar-chulapa .nav-item.active > .nav-link { color: var(--ink) !important; font-weight: 700; }
+.navbar-chulapa .dropdown-menu { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.navbar-chulapa .dropdown-item { color: var(--muted); font-size: 12px; letter-spacing: 0.06em; padding: .4rem 1.25rem; }
+.navbar-chulapa .dropdown-item:hover { background: rgba(0,0,0,0.04); color: var(--ink); }
+.navbar-chulapa .dropdown-item.active { background: transparent; color: var(--accent); font-weight: 700; }
+.navbar-chulapa-fab .navbar-toggler { background: var(--panel) !important; border: 1px solid var(--rule) !important; }
+.navbar-chulapa-fab-nav { background: var(--panel) !important; }
+
+/* ===== Barra di lettura (se la pagina la usa): sopra la navbar ===== */
+body > div.progress { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 3px !important; background: transparent !important; z-index: 9999 !important; padding: 0 !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; display: block !important; }
+body > div.progress > .progress-bar, body > div.progress > #progressBar { height: 100% !important; background: var(--accent) !important; width: 0; transition: width 60ms linear; border-radius: 0 !important; animation: none !important; }
+.navbar-chulapa, nav.sticky-top { z-index: 100 !important; }
+
+/* ===== Componenti editoriali (classi da usare nelle pagine) ===== */
+.cover { padding: 60px 32px 40px; max-width: 1240px; margin: 0 auto; }
+.cover .kicker { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); text-align: center; margin-bottom: 22px; }
+.cover h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(48px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.03em; margin: 0 auto 26px; max-width: 900px; text-align: center; text-wrap: balance; }
+.cover h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.cover .dek { font-family: var(--serif); font-size: 22px; line-height: 1.45; color: var(--ink-2); max-width: 780px; margin: 0 auto 34px; text-align: center; text-wrap: balance; }
+.cover .byline { font-family: var(--sans); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); max-width: 720px; margin: 0 auto; }
+.cover .byline b { color: var(--ink); font-weight: 600; }
+
+section.chapter { padding: 40px 0 20px; border-top: 1px solid var(--rule); }
+section.chapter:first-of-type { border-top: none; }
+.section-marker, .chapter-marker { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 14px; color: var(--accent); text-align: center; margin-bottom: 18px; }
+.section-marker::before, .section-marker::after, .chapter-marker::before, .chapter-marker::after { content: '·'; margin: 0 12px; color: var(--muted-2); }
+.section-title, .chapter-title { font-family: var(--serif); font-weight: 700; font-size: clamp(30px, 4.5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 auto 16px; max-width: 860px; text-align: center; text-wrap: balance; }
+.section-title em, .chapter-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+.section-dek, .chapter-dek { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 700px; margin: 0 auto 40px; text-align: center; font-style: italic; }
+.subsection-title { font-family: var(--serif); font-weight: 700; font-size: 26px; letter-spacing: -0.01em; margin: 42px auto 12px; max-width: 720px; padding: 0 32px; color: var(--ink); }
+.subsubsection-title { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 32px auto 10px; max-width: 720px; padding: 20px 32px 0; border-top: 1px solid var(--rule); }
+
+.prose { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+.prose p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); margin: 0 0 22px; text-wrap: pretty; }
+.prose p.lead { font-size: 22px; line-height: 1.5; color: var(--ink); }
+.prose p b, .prose p strong { color: var(--ink); font-weight: 600; }
+.prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.prose a:hover { border-bottom-color: var(--accent); }
+.prose img { max-width: 100%; height: auto; display: block; margin: 32px auto; border-radius: 2px; }
+.prose ul, .prose ol { font-family: var(--serif); font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0 0 22px; padding-left: 24px; }
+.prose table { border-collapse: collapse; width: 100%; margin: 20px 0 26px; }
+.prose table th { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; }
+.prose table td { color: var(--ink-2); font-family: var(--serif); font-size: 16px; line-height: 1.4; border-bottom: 1px solid var(--rule); padding: 10px 14px; vertical-align: top; }
+.prose table td:first-child { font-family: var(--mono); font-size: 13px; color: var(--ink); white-space: nowrap; }
+
+.equation { margin: 24px auto; padding: 22px 32px; background: var(--panel); border-left: 3px solid var(--accent-2); overflow-x: auto; max-width: 720px; }
+
+.viz-embed { max-width: 1180px; margin: 40px auto; padding: 0 32px; }
+.viz-embed .viz-title { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 auto 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-embed iframe { width: 100%; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; min-height: 500px; }
+.viz-embed .caption { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 14px; }
+
+/* ===== Fallback: markdown nudo dentro .ed-content (pagine .markdown col layout) ===== */
+.ed-content > h1, .ed-content > h2 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.02em; max-width: 720px; margin: 42px auto 14px; padding: 0 32px; }
+.ed-content > h1 { font-size: 38px; }
+.ed-content > h2 { font-size: 30px; }
+.ed-content > h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; max-width: 720px; margin: 32px auto 10px; padding: 0 32px; }
+.ed-content > p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px; }
+.ed-content > ul, .ed-content > ol { font-family: var(--serif); font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px 0 56px; }
+.ed-content > table { max-width: 720px; margin: 20px auto 26px; border-collapse: collapse; }
+.ed-content > table th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; }
+.ed-content > table td { font-family: var(--serif); font-size: 16px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 10px 14px; }
+.ed-content > img { max-width: 720px; width: 100%; height: auto; display: block; margin: 32px auto; }
+.ed-content > blockquote { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); border-left: 3px solid var(--accent); max-width: 680px; margin: 36px auto; padding: 8px 32px; }
+
+/* ===== Footer ===== */
+.ed-footer { max-width: 900px; margin: 60px auto 0; padding: 50px 32px 70px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
+.ed-footer a { color: var(--accent); text-decoration: none; }
+.ed-footer .copy { margin-top: 16px; font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted-2); }
+
+@media (max-width: 800px) {
+  .cover { padding: 40px 20px 30px; }
+  .prose, .ed-content > p { padding: 0 20px; }
+  .prose p, .ed-content > p { font-size: 17px; }
+}
+</style>
+{{ page.custom_head }}
+</head>
+<body>
+
+{% include navbar.html pageurl=page.url %}
+
+<main class="ed-content">
+{{ content }}
+</main>
+
+<footer class="ed-footer">
+  {% for repo in site.github_repo %}<a href="{{ repo.url }}" target="_blank" rel="noopener">{{ repo.name }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}
+  <div class="copy">{{ site.footer.copyright | default: site.title }}</div>
+</footer>
+
+</body>
+</html>
