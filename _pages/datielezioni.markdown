@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: editorial
 title: "Elezioni"
 show_sidetoc: true
 header_type: hero
