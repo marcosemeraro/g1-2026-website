@@ -49,6 +49,8 @@ navbar:
     img: "./assets/images/Logo_masthead.png" # non modificare
     url: /
   nav:
+    - title: Articolo
+      url: /articolo.html
     - title: Approfondimenti
       child:
         - title: Dati Omi
