@@ -4,7 +4,7 @@ title: "Notizie"
 show_sidetoc: true
 header_type: hero
 header_img: assets/images/news_header_AI.png
-header_title: "Dalle cronache locali alla geografia delle differenze urbane"
+header_title: "Dalle cronache locali alla geografia del tono mediatico"
 #subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali diverse dentro la stessa città"
 ---
 
@@ -338,7 +338,7 @@ Da qui nasce l'idea di costruire un sistema per raccogliere le notizie, riconosc
   <p>
     A Firenze l’ASC2 49 si chiama <strong>Centro</strong>. Abbiamo escluso
     questa espressione perché troppo generica e presente nella categoria
-    di molte notizie riferite a luoghi differenti.
+    di molte notizie riferite anche a luoghi differenti.
   </p>
 
   <p>
@@ -418,282 +418,59 @@ Da qui nasce l'idea di costruire un sistema per raccogliere le notizie, riconosc
 </div>
   </section> 
 
+
 <!-- step4 -->
-<!-- <section class="news-pipeline-step" id="sentiment">
+<section class="news-pipeline-step" id="sentiment">
   <div class="news-pipeline-label">
     <span class="news-pipeline-number">04</span>
     <span class="news-pipeline-separator">·</span>
     <span>Sentiment</span>
   </div>
-
-  <h3 class="news-pipeline-title">
-    Dalle parole alla tonalità emotiva delle notizie
-  </h3>
-
-  <p class="news-pipeline-text">
-    Dopo aver collegato le notizie alle aree ASC2, abbiamo osservato non
-    soltanto quali parti della città ricevessero maggiore attenzione, ma
-    anche attraverso quale linguaggio venissero raccontate.
-  </p>
-
-  <p class="news-pipeline-text">
-    Per farlo abbiamo utilizzato ItEM, un lessico emotivo della lingua
-    italiana. Anziché assegnare immediatamente a ogni notizia un’etichetta
-    positiva o negativa, ItEM permette di ricostruirne un profilo articolato
-    in otto dimensioni: attese, disgusto, fiducia, gioia, paura, rabbia,
-    sorpresa e tristezza.
-  </p>
-
-  <p class="news-pipeline-text">
-    Per ogni articolo abbiamo analizzato insieme titolo e trafiletto,
-    individuato i termini riconosciuti dal lessico e calcolato gli score
-    delle diverse emozioni. Da questi valori abbiamo poi ricavato
-    l’emozione dominante e un indice sintetico di polarità compreso tra
-    −1 e +1.
-  </p>
-
-  <p class="news-pipeline-text">
-    La polarità non descrive una caratteristica oggettiva del quartiere:
-    misura il modo in cui le notizie associate a quell’area vengono
-    formulate. Una zona con valori più negativi non è quindi necessariamente
-    una zona “peggiore”, ma una parte della città raccontata più spesso
-    attraverso un linguaggio legato a paura, rabbia, tristezza o disgusto.
-  </p>
-  <button
-  type="button"
-  class="btn btn-primary"
-  data-toggle="modal"
-  data-target="#sentimentModal"
->
-  Dentro il calcolo del sentiment
-  <span class="news-pipeline-button-icon" aria-hidden="true"></span>
-</button>
-
-
-<div
-  class="modal fade"
-  id="sentimentModal"
-  tabindex="-1"
-  aria-labelledby="sentimentModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-xl modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="sentimentModalLabel"
-        >
-          Sentiment analysis con ItEM
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h6 class="news-pipeline-modal-section-title">
-          Il testo analizzato
-        </h6>
-        <p>
-          Per ogni notizia abbiamo unito il titolo e il trafiletto,
-          costruendo un unico testo breve da sottoporre all’analisi
-          emotiva.
-        </p>
-        <div class="news-pipeline-example">
-          <strong>Titolo</strong>
-          &nbsp;＋&nbsp;
-          <strong>trafiletto</strong>
-          &nbsp;→&nbsp;
-          testo della notizia
+  <h3 class="news-pipeline-title">Dalle emozioni alla polarità territoriale</h3>
+  <p class="news-pipeline-text">Con <a href="https://github.com/Unipisa/ItEM" target="_blank" rel="noopener noreferrer">
+    ItEM </a> (lessico emotivo ad alta copertura per la lingua italiana in cui a ciascun termine target viene assegnato un punteggio di associazione con le emozioni di base definite nella tassonomia di Plutchik (1994)) abbiamo analizzato titolo e trafiletto di ogni notizia, ottenendo uno score per otto emozioni: attese, disgusto, fiducia, gioia, paura, rabbia, sorpresa e tristezza.</p>
+  <p class="news-pipeline-text">Da questi valori abbiamo ricavato uno score di polarità compreso tra −1 e +1 per ogni notizia. Le polarità delle singole notizie sono state poi aggregate per area ASC2 e periodo elettorale, tenendo conto del peso territoriale di ciascun articolo.</p>
+  <p class="news-pipeline-text">Il risultato permette di distinguere la quantità di attenzione ricevuta da una zona dal tono, relativamente positivo o negativo, con cui viene raccontata rispetto alla propria città.</p>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sentimentModal">Dentro il calcolo della polarità</button>
+  <div class="modal fade" id="sentimentModal" tabindex="-1" aria-labelledby="sentimentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sentimentModalLabel">Dalle emozioni agli indicatori territoriali</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
         </div>
-        <h6 class="news-pipeline-modal-section-title">
-          Dalle parole ai lemmi
-        </h6>
-        <p>
-          Il testo viene convertito in minuscolo e ripulito da link,
-          numeri, punteggiatura e spazi ripetuti. Attraverso spaCy,
-          ogni parola viene poi ricondotta al proprio lemma e alla
-          relativa categoria grammaticale.
-        </p>
-        <p>
-          Sono conservati sostantivi, nomi propri, aggettivi, verbi e
-          ausiliari. Vengono invece escluse le stopword, le sequenze non
-          alfabetiche e le parole composte da due caratteri o meno.
-        </p>
-        <div class="news-pipeline-example">
-          <strong>Frase originale</strong><br>
-          I prezzi delle case aumentano e molte famiglie povere sono
-          in difficoltà.
-          <br><br>
-          <strong>Termini utilizzati</strong><br>
-          prezzo-s · casa-s · aumentare-v · famiglia-s · povero-a ·
-          difficoltà-s
+        <div class="modal-body">
+          <h6 class="news-pipeline-modal-section-title">Dalle emozioni alla polarità</h6>
+          <p>Abbiamo riunito <strong>gioia, fiducia, attese e sorpresa</strong> nella componente positiva e <strong>tristezza, rabbia, paura e disgusto</strong> nella componente negativa.</p>
+          <div class="news-pipeline-formula">
+            \[
+            P_i=\frac{S_i^{+}-S_i^{-}}{S_i^{+}+S_i^{-}}
+            \]
+          </div>
+          <p>La polarità varia tra −1 e +1: valori positivi indicano una prevalenza delle emozioni positive, valori negativi una prevalenza di quelle negative. Le notizie senza termini riconosciuti da ItEM vengono escluse dal calcolo, perché l’assenza di uno score non equivale a neutralità.</p>
+          <h6 class="news-pipeline-modal-section-title">Polarità media della zona</h6>
+          <p>Per ogni ASC2 e periodo elettorale abbiamo calcolato la media delle polarità, pesando ogni notizia per la quota attribuita alla zona. Un articolo condiviso tra più aree influenza quindi ciascuna di esse soltanto per la propria frazione.</p>
+          <h6 class="news-pipeline-modal-section-title">Polarità z-normalizzata</h6>
+          <p>Per confrontare territori con livelli medi differenti, la polarità della zona viene rapportata alla media e alla variabilità della propria città nello stesso periodo.</p>
+          <div class="news-pipeline-formula">
+            \[
+            Z_{q,p}=\frac{\overline{P}_{q,p}-\mu_{c,p}}{\sigma_{c,p}}
+            \]
+          </div>
+          <div class="news-pipeline-example"><code>Z &gt; 0</code>: tono più positivo della media cittadina.<br><code>Z &lt; 0</code>: tono più negativo della media cittadina.<br><code>Z ≈ 0</code>: tono vicino alla media della città.</div>
+          <p>Lo z-score non descrive una qualità oggettiva del quartiere, ma la sua posizione relativa nella narrazione mediatica della città.</p>
         </div>
-        <p>
-          Le lettere finali indicano la categoria grammaticale:
-          <strong>s</strong> per sostantivo,
-          <strong>a</strong> per aggettivo e
-          <strong>v</strong> per verbo.
-        </p>
-        <h6 class="news-pipeline-modal-section-title">
-          Le otto emozioni
-        </h6>
-        <p>
-          ItEM associa ciascun termine a otto dimensioni emotive:
-          attese, disgusto, fiducia, gioia, paura, rabbia, sorpresa
-          e tristezza.
-        </p>
-        <div class="news-pipeline-modal-table-wrapper">
-          <table class="news-pipeline-modal-table">
-            <thead>
-              <tr>
-                <th>Componente positiva</th>
-                <th>Componente negativa</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Gioia</td>
-                <td>Tristezza</td>
-              </tr>
-              <tr>
-                <td>Fiducia</td>
-                <td>Rabbia</td>
-              </tr>
-              <tr>
-                <td>Attese</td>
-                <td>Paura</td>
-              </tr>
-              <tr>
-                <td>Sorpresa</td>
-                <td>Disgusto</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
         </div>
-        <h6 class="news-pipeline-modal-section-title">
-          Lo score di ogni emozione
-        </h6>
-        <p>
-          Per ciascuna emozione vengono sommati gli score dei termini
-          riconosciuti da ItEM. Il risultato viene normalizzato rispetto
-          al numero complessivo di termini informativi della notizia.
-        </p>
-        <div class="news-pipeline-formula">
-          \[
-          E_{i,e}
-          =
-          \frac{
-            \sum_{j \in T_i}
-            \operatorname{cosine}(j,e)
-          }{
-            N_i
-          }
-          \]
-        </div>
-        <p>
-          L’emozione con lo score più alto viene registrata come emozione
-          dominante della notizia.
-        </p>
-        <h6 class="news-pipeline-modal-section-title">
-          Dalle emozioni alla polarità
-        </h6>
-        <p>
-          Gli score emotivi vengono successivamente aggregati in una
-          componente positiva e in una componente negativa.
-        </p>
-        <div class="news-pipeline-formula">
-          \[
-          S_i^{+}
-          =
-          gioia_i + fiducia_i + attese_i + sorpresa_i
-          \]
-        </div>
-        <div class="news-pipeline-formula">
-          \[
-          S_i^{-}
-          =
-          tristezza_i + rabbia_i + paura_i + disgusto_i
-          \]
-        </div>
-        <p>
-          La polarità della notizia è calcolata come:
-        </p>
-        <div class="news-pipeline-formula">
-          \[
-          P_i
-          =
-          \frac{
-            S_i^{+} - S_i^{-}
-          }{
-            S_i^{+} + S_i^{-}
-          }
-          \]
-        </div>
-        <p>
-          L’indice varia tra −1 e +1. I valori positivi indicano una
-          prevalenza della componente emotiva positiva, mentre quelli
-          negativi indicano una prevalenza di paura, rabbia, tristezza
-          e disgusto.
-        </p>
-        <h6 class="news-pipeline-modal-section-title">
-          La copertura del lessico
-        </h6>
-        <p>
-          Per verificare quanta parte del testo abbia contribuito al
-          risultato, abbiamo calcolato anche la copertura di ItEM.
-        </p>
-        <div class="news-pipeline-formula">
-          \[
-          C_i
-          =
-          \frac{
-            \text{termini riconosciuti da ItEM}
-          }{
-            \text{termini analizzati}
-          }
-          \]
-        </div>
-        <div class="news-pipeline-example">
-          <strong>Polarità uguale a zero con termini riconosciuti:</strong>
-          equilibrio tra componente positiva e negativa.
-          <br><br>
-          <strong>Polarità uguale a zero senza termini riconosciuti:</strong>
-          assenza di informazioni sufficienti, non neutralità.
-        </div>
-        <p>
-          Per questo motivo, nelle analisi successive abbiamo considerato
-          valida la polarità soltanto quando almeno un termine della notizia
-          aveva trovato corrispondenza nel lessico.
-        </p>
-        <h6 class="news-pipeline-modal-section-title">
-          Come interpretare il risultato
-        </h6>
-        <p>
-          La polarità non stabilisce se una zona urbana sia positiva o
-          negativa. Descrive la tonalità emotiva del linguaggio con cui
-          vengono formulate le notizie associate a quell’area.
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-dismiss="modal"
-        >
-          Chiudi
-        </button>
       </div>
     </div>
   </div>
-</div>
-  
 </section>
+
+
+
+
 
 <!-- step5 -->
 <!-- <section class="news-pipeline-step" id="topic-modelling">
