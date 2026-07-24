@@ -8,10 +8,6 @@ header_title: "Analisi della Vulnerabilità Sociale e Materiale"
 subtitle: "Calcolo e distribuzione dell'ISVM sui dati dei Censimenti ISTAT"
 ---
 
-<div class="full-width-wrapper">
-    <img src="{{ site.baseurl }}/assets/images/header_alt2.svg" alt="sbd-pattern" class="full-width-image">
-</div>
-
 # L'Indice di Vulnerabilità Sociale e Materiale (ISVM)
 
 L’**Indice di Vulnerabilità Sociale e Materiale (ISVM)** è un indicatore composito costruito attraverso la sintesi di 7 indicatori elementari, riferiti alle dimensioni della vulnerabilità ritenute più rilevanti per la caratterizzazione del territorio.
