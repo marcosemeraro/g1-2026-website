@@ -55,8 +55,6 @@ navbar:
       child:
         - title: Dati Omi
           url: /datiomi.html
-        - title: Dati Elezioni
-          url: /datielezioni.html
         - title: Dati Elezioni 2
           url: /datielezioni2.html
         - title: Dati news
