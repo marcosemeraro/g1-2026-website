@@ -1,0 +1,401 @@
+---
+layout: null
+permalink: /datielezioni2.html
+sitemap: false
+---
+
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elezioni · Una città, Due mercati</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root {
+  --bg: #F5F1EA; --panel: #FBFAF6; --panel-2: #EFE9DC;
+  --ink: #1A1A1A; --ink-2: #333; --muted: #6B6157; --muted-2: #A39B8E;
+  --rule: #DDD4C4; --rule-2: #C7BEA9;
+  --accent: #A0402E; --accent-2: #C58B31;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono:  'IBM Plex Mono', 'Menlo', monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; background: var(--bg); color: var(--ink); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+/* Cover */
+.cover { padding: 60px 32px 40px; max-width: 1240px; margin: 0 auto; }
+.cover .kicker { font-family: var(--sans); font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); text-align:center; margin-bottom:22px; }
+.cover h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(48px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.03em; margin: 0 auto 26px; max-width:900px; text-align:center; text-wrap: balance; }
+.cover h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.cover .dek { font-family: var(--serif); font-size: 22px; line-height: 1.45; color: var(--ink-2); max-width: 780px; margin: 0 auto 34px; text-align:center; text-wrap: balance; }
+.cover .byline { font-family: var(--sans); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align:center; padding: 14px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); max-width: 720px; margin: 0 auto; }
+.cover .byline b { color: var(--ink); font-weight: 600; }
+.hero-banner { max-width: 1240px; margin: 0 auto; padding: 0 32px 30px; }
+.hero-banner img { width: 100%; height: auto; display: block; border-radius: 2px; opacity: 0.95; }
+
+/* Sections */
+section.chapter { padding: 40px 0 20px; border-top: 1px solid var(--rule); }
+section.chapter:first-of-type { border-top: none; }
+.section-marker { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 14px; color: var(--accent); text-align:center; margin-bottom: 18px; }
+.section-marker::before, .section-marker::after { content: '·'; margin: 0 12px; color: var(--muted-2); }
+.section-title { font-family: var(--serif); font-weight: 700; font-size: clamp(30px, 4.5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 auto 16px; max-width: 860px; text-align:center; text-wrap: balance; }
+.section-dek { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 700px; margin: 0 auto 40px; text-align:center; font-style: italic; }
+.subsection-title { font-family: var(--serif); font-weight: 700; font-size: 26px; letter-spacing: -0.01em; margin: 42px auto 12px; max-width: 720px; padding: 0 32px; color: var(--ink); }
+.subsubsection-title { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 32px auto 10px; max-width: 720px; padding: 0 32px; border-top: 1px solid var(--rule); padding-top: 20px; }
+
+/* Prose */
+.prose { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+.prose p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); margin: 0 0 22px; text-wrap: pretty; }
+.prose p.lead { font-size: 22px; line-height: 1.5; color: var(--ink); }
+.prose p b, .prose p strong { color: var(--ink); font-weight: 600; }
+.prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.prose a:hover { border-bottom-color: var(--accent); }
+.prose img { max-width: 100%; height: auto; display: block; margin: 32px auto; border-radius: 2px; }
+.prose img.small { max-width: 640px; }
+.prose ul, .prose ol { font-family: var(--serif); font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0 0 22px; padding-left: 24px; }
+.prose li { margin-bottom: 6px; }
+
+/* Table */
+.prose table { border-collapse: collapse; width: 100%; margin: 20px 0 26px; font-family: var(--sans); font-size: 14px; }
+.prose table th, .prose table td { padding: 10px 14px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+.prose table th { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--rule-2); }
+.prose table td { color: var(--ink-2); font-family: var(--serif); font-size: 16px; line-height: 1.4; }
+.prose table td:first-child { font-family: var(--mono); font-size: 13px; color: var(--ink); white-space: nowrap; }
+
+/* Equation */
+.equation { margin: 24px auto; padding: 22px 32px; background: var(--panel); border-left: 3px solid var(--accent-2); font-family: var(--serif); overflow-x: auto; max-width: 720px; }
+
+/* Details/currents */
+details.currents { max-width: 720px; margin: 24px auto; padding: 0; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; }
+details.currents summary { padding: 14px 22px; cursor: pointer; font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); list-style: none; }
+details.currents summary::-webkit-details-marker { display: none; }
+details.currents summary::before { content: '▸ '; color: var(--muted-2); }
+details[open].currents summary::before { content: '▾ '; }
+details.currents .content { padding: 4px 22px 22px; border-top: 1px solid var(--rule); }
+
+/* Viz embed */
+.viz-embed { max-width: 1180px; margin: 40px auto; padding: 0 32px; }
+.viz-embed .viz-title { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align:center; margin: 0 auto 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-embed iframe { width: 100%; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; min-height: 500px; }
+.viz-embed .caption { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 14px; }
+
+/* Footer */
+.footer { max-width: 900px; margin: 60px auto 0; padding: 60px 32px 80px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
+.footer h3 { font-family: var(--serif); font-weight: 600; font-size: 18px; color: var(--ink); margin: 24px 0 8px; }
+</style>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+<style>
+/* Minimal styling for the chulapa navbar (imitating theme defaults for standalone HTML). */
+.navbar-chulapa { background: rgba(245,241,234,0.94) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid #DDD4C4; padding: .5rem 1.5rem; }
+.navbar-chulapa .navbar-brand { color: #161616 !important; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 300; }
+.navbar-chulapa .navbar-brand img { border-radius: 4px; }
+.navbar-chulapa .nav-link { color: #6B6157 !important; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.5rem 1rem !important; font-weight: 300; font-size: 13px; }
+.navbar-chulapa .nav-link:hover { color: #161616 !important; }
+.navbar-chulapa .nav-link.active, .navbar-chulapa .nav-item.active > .nav-link { color: #161616 !important; font-weight: 700; }
+.navbar-chulapa .dropdown-menu { background: #FBFAF6; border: 1px solid #DDD4C4; border-radius: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.navbar-chulapa .dropdown-item { color: #6B6157; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 300; font-size: 12px; padding: .4rem 1.25rem; }
+.navbar-chulapa .dropdown-item:hover, .navbar-chulapa .dropdown-item:focus { background: rgba(0,0,0,0.04); color: #161616; }
+.navbar-chulapa .dropdown-item.active { background: transparent; color: #A0402E; font-weight: 700; }
+/* Push page content below the sticky nav */
+
+</style>
+
+
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* --- Override Bootstrap's reset that painted the body white --- */
+html, body { background: #F5F1EA !important; }
+
+/* --- Restore the original reading progress bar --- */
+/* Bootstrap's .progress and .progress-bar were hijacking these classes  */
+body > div.progress {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 3px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  z-index: 9999 !important;    /* above the sticky navbar */
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+body > div.progress > .progress-bar,
+body > div.progress > #progressBar {
+  height: 100% !important;
+  background: #A0402E !important;
+  background-color: #A0402E !important;
+  width: 0;
+  transition: width 60ms linear;
+  color: transparent !important;
+  border-radius: 0 !important;
+  animation: none !important;
+}
+
+/* Sticky navbar: sit BELOW the reading bar's z-index but keep sticky */
+.navbar-chulapa { z-index: 100 !important; }
+</style>
+
+</head>
+<body>
+
+
+<!-- Mobile FAB (chulapa dual style) -->
+<div class="navbar-chulapa-fab d-md-none">
+  <input type="checkbox" class="navbar-chulapa-fab-button d-none" id="navi-toggle">
+  <label for="navi-toggle" class="navbar-toggler p-1 m-0 text-center d-flex">
+    <span class="navbar-toggler-icon m-auto">&nbsp;</span>
+  </label>
+  <div class="navbar-chulapa-fab-background">&nbsp;</div>
+  <nav class="navbar-chulapa-fab-nav" aria-label="alternative-navigation">
+    <ul class="navbar-nav text-center text-uppercase font-weight-light mt-0 mb-1 py-1">
+      <li class="nav-item">
+        <a class="nav-link px-3 navbar-brand mx-1" href="./index.html">
+          <img src="./assets/images/Logo_masthead.png" width="30" height="30" class="d-inline-block align-top rounded-lg text-center mr-1" alt="NavbarLogo">
+          Una città, Due mercati
+        </a>
+      </li>
+      <li class="nav-item my-0 py-1">
+        <a class="nav-link px-3 py-1" href="./articolo.html">Articolo</a>
+      </li>
+      <li class="nav-item dropdown my-0 py-1">
+        <a class="nav-link dropdown-toggle px-3 py-1 active font-weight-bold" href="#" id="Approfondimenti" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approfondimenti</a>
+        <div class="dropdown-menu dropdown-menu-right text-center rounded-0 pr-4" aria-labelledby="Approfondimenti">
+          <a class="dropdown-item nav-link d-block px-3 small" href="./datiomi.html">Dati Omi</a>
+          <a class="dropdown-item nav-link d-block px-3 small active font-weight-bold" href="./datielezioni.html">Dati Elezioni</a>
+          <a class="dropdown-item nav-link d-block px-3 small" href="./datinews.html">Dati news</a>
+          <a class="dropdown-item nav-link d-block px-3 small" href="./datistefania1.html">Dati Stefania 1</a>
+          <a class="dropdown-item nav-link d-block px-3 small" href="./datistefania2.html">Dati Stefania 2</a>
+        </div>
+      </li>
+      <li class="nav-item my-0 py-1">
+        <a class="nav-link px-3 py-1" href="https://masterbigdata.it/">SBD Master</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<!-- Desktop (chulapa dual style) -->
+<nav class="navbar navbar-expand sticky-top navbar-chulapa d-none d-md-block" aria-label="primary-navigation">
+  <div class="container-fluid mx-md-2">
+    <a class="navbar-brand text-uppercase font-weight-light" href="./index.html">
+      <img src="./assets/images/Logo_masthead.png" width="30" height="30" class="d-inline-block align-top rounded-lg mr-1" alt="NavbarLogo">
+      Una città, Due mercati
+    </a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item mx-2">
+        <a class="nav-link text-uppercase font-weight-light" href="./articolo.html">Articolo</a>
+      </li>
+      <li class="nav-item mx-2 dropdown">
+        <a class="nav-link text-uppercase font-weight-light dropdown-toggle active font-weight-bold" href="#" id="Approfondimenti2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approfondimenti</a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Approfondimenti2">
+          <a class="dropdown-item text-uppercase font-weight-light" href="./datiomi.html">Dati Omi</a>
+          <a class="dropdown-item text-uppercase font-weight-light active font-weight-bold" href="./datielezioni.html">Dati Elezioni</a>
+          <a class="dropdown-item text-uppercase font-weight-light" href="./datinews.html">Dati news</a>
+          <a class="dropdown-item text-uppercase font-weight-light" href="./datistefania1.html">Dati Stefania 1</a>
+          <a class="dropdown-item text-uppercase font-weight-light" href="./datistefania2.html">Dati Stefania 2</a>
+        </div>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link text-uppercase font-weight-light" href="https://masterbigdata.it/">SBD Master</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<header class="cover">
+  <div class="kicker">Dati e Metodologie · Approfondimenti</div>
+  <h1>Elezioni <em>e territorio</em></h1>
+  <p class="dek">Come abbiamo raccolto, armonizzato e analizzato i dati elettorali per leggere la geografia politica delle città italiane.</p>
+  <p class="byline"><b>Fonti</b> · <b>Metodi</b> · <b>Indici</b> · <b>Scraping · Geocoding · Statistica spaziale</b></p>
+</header>
+
+<div class="prose">
+  <p class="lead">L'idea di utilizzare i dati elettorali per analizzare i processi di segregazione all'interno delle città italiane ci è nata leggendo il lavoro di <a href="https://www.tandfonline.com/doi/full/10.1080/2474736X.2023.2185158" target="_blank" rel="noopener">Gabriele Pinto</a> pubblicato nel 2023 con il titolo <em>"Sezioni Elettorali Italiane (SEI): a new database of Italian electoral results geocoded at precinct level"</em>.</p>
+  <p class="lead">L'aspetto che ci ha colpito è stata la possibilità di guardare da vicino cosa avviene nei singoli quartieri e da lì è sorta la voglia di capire meglio come funzionano le nostre città.</p>
+</div>
+
+<section class="chapter">
+  <div class="section-marker">Parte I</div>
+  <h2 class="section-title">Dati Elettorali</h2>
+  <p class="section-dek">La raccolta e l'armonizzazione dei dati grezzi.</p>
+
+  <div class="prose">
+    <p>Sul portale <b>Eligendo del Ministero dell'Interno</b> sono riportati i dati relativi ai voti di tutte le elezioni svoltesi in Italia dall'Assemblea Costituente ai giorni nostri. Il limite di tali dati per il nostro lavoro è che i risultati qui sono aggregati per Comune.</p>
+  </div>
+
+  <h3 class="subsubsection-title">Scraping dati mancanti</h3>
+  <div class="prose">
+    <p>Una volta scelto di concentrarci sui voti alla Camera, per preservare omogeneità dei dati tra città diverse, abbiamo fatto scraping dei dati che ci mancavano direttamente dal sito delle amministrazioni comunali.</p>
+  </div>
+
+  <h3 class="subsubsection-title">Partiti che vanno, partiti che vengono</h3>
+  <div class="prose">
+    <p>Appena abbiamo cominciato a mettere insieme dati di città diverse ci siamo accorti che i nomi dei partiti erano di volta in volta riportati in maniera diversa. Il primo step è stato quindi di armonizzare introducendo un codice che identificasse in maniera univoca ogni partito.</p>
+    <p>Il codice identificativo dei partiti è stato mantenuto da un anno all'altro per quei partiti che nel corso del tempo hanno modificato il nome ma mantenuto la struttura. A questo punto abbiamo raggruppato i partiti per <b>corrente politica</b>.</p>
+
+    <details class="currents">
+      <summary>Esplora le correnti</summary>
+      <div class="content">
+        <table>
+          <thead><tr><th>Corrente</th><th>Partiti</th></tr></thead>
+          <tbody>
+            <tr><td>Centro-Sinistra</td><td>Partito Democratico, +Europa, Comunisti Italiani, Rifondazione Comunista, Italia dei Valori, Federazione dei Verdi, Sinistra Ecologia e Libertà, Liberi e Uguali, Alleanza Verdi e Sinistra, e altri.</td></tr>
+            <tr><td>Centro</td><td>Unione di Centro, Scelta Civica con Monti, Azione - Italia Viva, Noi di Centro Mastella, e altri.</td></tr>
+            <tr><td>Centro-Destra</td><td>Forza Italia, Lega, Fratelli d'Italia, Fiamma Tricolore, CasaPound Italia, e altri.</td></tr>
+            <tr><td>Movimento 5 Stelle</td><td>Movimento 5 Stelle</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <h3 class="subsubsection-title">Sezioni che si muovono</h3>
+  <div class="prose">
+    <p>I dati raccolti fino a questo punto riportano il numero della sezione, ma non il nome dell'istituto scolastico in cui è ubicata né tantomeno l'indirizzo. Abbiamo ricostruito una <b>mappa dei cambi di location dei seggi</b> nel corso degli anni.</p>
+  </div>
+
+  <h3 class="subsubsection-title">Coordinate</h3>
+  <div class="prose">
+    <p>Anche in questo caso c'è stato bisogno di armonizzare gli indirizzi. Il sito <a href="https://nominatim.org/" target="_blank" rel="noopener">Nominatim</a> mette a disposizione un'Api per il <b>geocoding</b>. Manualmente sono stati aggiunti tramite Google Maps quegli indirizzi che Nominatim non era riuscita a identificare.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="section-marker">Parte II</div>
+  <h2 class="section-title">Aree Sub Comunali</h2>
+  <p class="section-dek">La suddivisione territoriale che abbiamo scelto per l'analisi.</p>
+
+  <div class="prose">
+    <p>L'<a href="https://www.istat.it/notizia/basi-territoriali-e-variabili-censuarie/" target="_blank" rel="noopener">Istat</a> fornisce le <b>Aree sub comunali (Asc2)</b> delle principali città. Poste a metà tra i Cap e le aree di censimento, forniscono una suddivisione fissata nel tempo del territorio comunale in quartieri a un livello di dettaglio idoneo al nostro studio.</p>
+    <p>Una volta scaricati gli <em>shapefile</em> delle aree, tramite <b>geopandas</b> abbiamo associato le coordinate delle sezioni elettorali alle rispettive aree nel cui perimetro sono localizzate.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="section-marker">Parte III</div>
+  <h2 class="section-title">Indici</h2>
+  <p class="section-dek">Come misuriamo concentrazione, autocorrelazione spaziale, polarizzazione.</p>
+
+  <h3 class="subsection-title">Gini</h3>
+  <div class="prose">
+    <p>Nella ricerca di un indice capace di descrivere la disuguaglianza dei valori dei risultati elettorali la prima scelta è stata di usare l'<b>indice di Gini</b>. Ne abbiamo creato due versioni, una che descrive la disuguaglianza dei voti del quartiere e una a livello cittadino.</p>
+  </div>
+
+  <div class="equation">
+    $$
+    G = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n} |x_i - x_j|}{2n\sum_{i=1}^{n} x_i}
+    $$
+  </div>
+
+  <div class="prose">
+    <p>Per far fronte al cambio di numero di correnti politiche abbiamo creato una versione <b>normalizzata</b>:</p>
+  </div>
+
+  <div class="equation">
+    $$
+    G^*_{a,t} = \frac{\sum_{i=1}^{n_t}\sum_{j=1}^{n_t} |x_{i,a,t} - x_{j,a,t}|}{2n_t \sum_{i=1}^{n_t} x_{i,a,t}} \cdot \frac{n_t}{n_t - 1}
+    $$
+  </div>
+
+  <div class="prose">
+    <p>dove: $a$ zona ASC2, $t$ anno, $x_i$ voti per la corrente $i$, $n_t$ numero di correnti attive.</p>
+    <table>
+      <thead><tr><th>Gini</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>Voti perfettamente bilanciati tra le correnti</td></tr>
+        <tr><td>1</td><td>Una corrente prende tutti i voti</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title">I di Moran globale</h3>
+  <div class="prose">
+    <p>Se il Gini ci dice se i risultati in un quartiere sono concentrati o frammentati, non dice nulla sul fatto che quartieri simili sono spazialmente vicini. Per quantificare la presenza di <b>cluster all'interno del territorio comunale</b>, abbiamo calcolato l'indice di Moran, misura di autocorrelazione spaziale.</p>
+  </div>
+
+  <div class="equation">
+    $$
+    I_{c,t} = \frac{n_{c,t}}{S_{0,c,t}} \frac{\sum_{i,j} w_{ij,c,t}(x_{i,c,t} - \bar{x}_{c,t})(x_{j,c,t} - \bar{x}_{c,t})}{\sum_{i} (x_{i,c,t} - \bar{x}_{c,t})^2}
+    $$
+  </div>
+
+  <div class="prose">
+    <table>
+      <thead><tr><th>Moran's I</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>Positivo</td><td>Aree simili sono spazialmente clusterizzate</td></tr>
+        <tr><td>Intorno allo 0</td><td>Nessun pattern spaziale chiaro</td></tr>
+        <tr><td>Negativo</td><td>Aree confinanti sono dissimili</td></tr>
+        <tr><td>p-value significativo</td><td>Il pattern è improbabile essere random</td></tr>
+      </tbody>
+    </table>
+    <p>Utilizzando la libreria <b>libpysal</b> abbiamo scelto <b>KNN</b> come metodo di calcolo dei vicini, per riuscire sempre a individuare un quartiere nelle vicinanze anche se non confinante.</p>
+  </div>
+
+  <h3 class="subsection-title">I di Moran locale</h3>
+  <div class="prose">
+    <p>Se l'indice globale risponde alla domanda se esistono cluster, l'indice locale ci dice <em>in quali quartieri</em> ciò accade.</p>
+  </div>
+
+  <div class="equation">
+    $$
+    I_{a,c,t} = \frac{x_{a,c,t} - \bar{x}_{c,t}}{m_{2,c,t}} \sum_{b=1}^{n_{c,t}} w_{ab,c,t} \left(x_{b,c,t} - \bar{x}_{c,t}\right)
+    $$
+  </div>
+
+  <div class="prose">
+    <p>Ogni quartiere è stato classificato tramite <b>Lisa (Local Indicators of Spatial Association) cluster</b>:</p>
+    <table>
+      <thead><tr><th>Lisa cluster</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>High-High</td><td>alta concentrazione politica circondata da alta concentrazione politica</td></tr>
+        <tr><td>Low-Low</td><td>bassa concentrazione politica circondata da bassa concentrazione politica</td></tr>
+        <tr><td>High-Low</td><td>alta concentrazione politica circondata da bassa concentrazione politica</td></tr>
+        <tr><td>Low-High</td><td>bassa concentrazione politica circondata da alta concentrazione politica</td></tr>
+        <tr><td>Not significant</td><td>cluster locale non statisticamente significativo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title">80/20 Percentile</h3>
+  <div class="prose">
+    <p>Il <b>rapporto dei percentili 80/20</b> misura la distanza tra la parte alta e bassa della distribuzione, suggerendo che una maggiore distanza tra i due estremi indichi una maggiore polarizzazione.</p>
+  </div>
+
+  <div class="viz-embed">
+    <div class="viz-title">Decision Tree · classificazione dei quartieri</div>
+    <iframe src="./assets/charts/chart_decisionTree.html" width="100%" height="500" style="border:0" allowfullscreen loading="lazy"></iframe>
+    <p class="caption">Grafico interattivo caricato da <code>chart_decisionTree.html</code>.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <h3>Metodologia</h3>
+  <p>I codici, i dataset e i notebook di analisi sono nel repository del progetto. L'analisi spaziale utilizza <code>libpysal</code> e <code>esda</code> per il calcolo di Moran's I globale e locale (LISA) con pesi KNN (k=5) e 999 permutazioni.</p>
+  <h3>Fonti</h3>
+  <p>Portale Eligendo del Ministero dell'Interno; siti delle amministrazioni comunali (scraping); Nominatim (geocoding); ISTAT (basi territoriali ASC2 2021).</p>
+</footer>
+
+</body>
+</html>
