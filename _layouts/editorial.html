@@ -99,18 +99,31 @@ section.chapter:first-of-type { border-top: none; }
 .viz-embed iframe { width: 100%; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; min-height: 500px; }
 .viz-embed .caption { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 14px; }
 
-/* ===== Fallback: markdown nudo dentro .ed-content (pagine .markdown col layout) ===== */
-.ed-content > h1, .ed-content > h2 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.02em; max-width: 720px; margin: 42px auto 14px; padding: 0 32px; }
-.ed-content > h1 { font-size: 38px; }
-.ed-content > h2 { font-size: 30px; }
-.ed-content > h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; max-width: 720px; margin: 32px auto 10px; padding: 0 32px; }
-.ed-content > p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px; }
-.ed-content > ul, .ed-content > ol { font-family: var(--serif); font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px 0 56px; }
-.ed-content > table { max-width: 720px; margin: 20px auto 26px; border-collapse: collapse; }
-.ed-content > table th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; }
-.ed-content > table td { font-family: var(--serif); font-size: 16px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 10px 14px; }
-.ed-content > img { max-width: 720px; width: 100%; height: auto; display: block; margin: 32px auto; }
-.ed-content > blockquote { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); border-left: 3px solid var(--accent); max-width: 680px; margin: 36px auto; padding: 8px 32px; }
+/* ===== Fallback per pagine .markdown (il layout aggiunge la classe .ed-md) =====
+   Selettori DISCENDENTI (non figli diretti): prendono anche i tag annidati nei div.
+   Scoped su .ed-md: le pagine HTML con i componenti editoriali non vengono toccate. */
+.ed-md h1, .ed-md h2 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.02em; max-width: 720px; margin: 42px auto 14px; padding: 0 32px; color: var(--ink); }
+.ed-md h1 { font-size: 38px; }
+.ed-md h2 { font-size: 30px; }
+.ed-md h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; max-width: 720px; margin: 32px auto 10px; padding: 0 32px; color: var(--ink); }
+.ed-md p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px; }
+.ed-md .lead { font-family: var(--serif); font-size: 22px; line-height: 1.5; font-weight: 400; color: var(--ink); }
+.ed-md a:not(.btn) { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.ed-md a:not(.btn):hover { color: var(--accent); border-bottom-color: var(--accent); }
+.ed-md ul, .ed-md ol { font-family: var(--serif); font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px 0 56px; }
+.ed-md table { max-width: 720px; margin: 20px auto 26px; border-collapse: collapse; background: transparent; }
+.ed-md table th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; background: transparent; }
+.ed-md table td { font-family: var(--serif); font-size: 16px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 10px 14px; background: transparent; }
+.ed-md img { max-width: 720px; width: 100%; height: auto; display: block; margin: 32px auto; }
+.ed-md blockquote { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); border-left: 3px solid var(--accent); max-width: 680px; margin: 36px auto; padding: 8px 32px; }
+.ed-md code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); color: var(--ink); padding: 2px 6px; border-radius: 2px; }
+.ed-md hr { border: 0; border-top: 1px solid var(--rule); max-width: 720px; margin: 36px auto; }
+.ed-md .btn-primary { background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; border-radius: 0; font-family: var(--sans); letter-spacing: 0.06em; text-transform: uppercase; font-size: 13px; }
+.ed-md .btn-primary:hover { background: var(--ink) !important; border-color: var(--ink) !important; }
+.ed-md .btn-secondary { border-radius: 0; }
+.ed-md .modal-content { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; }
+.ed-md .modal-header, .ed-md .modal-footer { border-color: var(--rule); }
+.ed-md .modal-title { font-family: var(--serif); font-weight: 700; color: var(--ink); }
 
 /* ===== Footer ===== */
 .ed-footer { max-width: 900px; margin: 60px auto 0; padding: 50px 32px 70px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
@@ -119,8 +132,8 @@ section.chapter:first-of-type { border-top: none; }
 
 @media (max-width: 800px) {
   .cover { padding: 40px 20px 30px; }
-  .prose, .ed-content > p { padding: 0 20px; }
-  .prose p, .ed-content > p { font-size: 17px; }
+  .prose, .ed-md p { padding: 0 20px; }
+  .prose p, .ed-md p { font-size: 17px; }
 }
 </style>
 {{ page.custom_head }}
@@ -129,7 +142,8 @@ section.chapter:first-of-type { border-top: none; }
 
 {% include navbar.html pageurl=page.url %}
 
-<main class="ed-content">
+{%- assign page_ext = page.path | split: "." | last -%}
+<main class="ed-content{% if page_ext == 'markdown' or page_ext == 'md' %} ed-md{% endif %}">
 {{ content }}
 </main>
 
