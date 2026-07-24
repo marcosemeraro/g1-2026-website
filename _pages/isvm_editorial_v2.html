@@ -590,12 +590,7 @@ body {
           <td class="num">29,3%</td>
           <td style="font-family: var(--sans); font-size: 13px; color: var(--muted);">Lieve miglioramento, forte polarizzazione</td>
         </tr>
-      <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-      <script>
-vegaEmbed("#mappa_isvm", "assets/json/mappa_isvm.json");
-</script>
+
       </tbody>
     </table>
 
@@ -697,9 +692,14 @@ vegaEmbed("#mappa_isvm", "assets/json/mappa_isvm.json");
   <h3>Fonti e metodologia</h3>
   <p>Dati: ISTAT — Censimento della Popolazione e delle Abitazioni 2011 e 2021, sistema <em>8milaCensus</em>. Metodologia AMPI: Mazziotta M., Pareto A. (2011), <em>Un indicatore sintetico di dotazione infrastrutturale</em>. Strumenti: Python, GeoPandas, Altair (Vega-Lite).</p>
 </footer>
-
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 <script>
 (function() {
+vegaEmbed("#mappa_isvm", "assets/charts/mappa_isvm.json", {
+    actions: false
+}).catch(console.error);
   /* ── Progress bar ── */
   var bar = document.getElementById('progress-bar');
   function updateBar() {
