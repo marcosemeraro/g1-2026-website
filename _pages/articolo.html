@@ -3,7 +3,6 @@ layout: null
 permalink: /articolo.html
 sitemap: false
 ---
-{% raw %}
 <!doctype html>
 <html lang="it">
 <head>
@@ -888,9 +887,48 @@ svg .kicker {
   .prose-col p { font-size: 18px; }
   .chapter { padding: 60px 0 30px; }
 }
+
+
+@media (max-width: 800px) {
+  
+  
+  
+}
+/* Sticky nav + sticky progress bar: move progress below nav */
+.progress { top: 60px !important; }
+
+/* ============ Editorial navbar ============ */
+.ed-nav { position: sticky; top: 0; z-index: 100; background: rgba(245,241,234,0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
+.ed-nav__inner { max-width: 1240px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 24px; }
+.ed-nav__brand { display: flex; flex-direction: column; text-decoration: none; color: var(--ink); flex-shrink: 0; }
+.ed-nav__brand-title { font-family: var(--serif); font-weight: 700; font-size: 20px; line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+.ed-nav__brand-sub { font-family: var(--sans); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.ed-nav__brand:hover .ed-nav__brand-title { color: var(--accent); }
+.ed-nav__links { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0 0 0 auto; padding: 0; }
+.ed-nav__link { font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; color: var(--muted); text-decoration: none; padding: 8px 12px; border-bottom: 2px solid transparent; transition: color 120ms, border-color 120ms; display: inline-block; }
+.ed-nav__link:hover { color: var(--ink); }
+.ed-nav__link.is-active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 700; }
+.ed-nav__link--ext { color: var(--accent); font-weight: 600; }
+.ed-nav__link--ext:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.ed-nav__sep { width: 1px; height: 20px; background: var(--rule); margin: 0 8px; }
+.ed-nav__toggle { display: none; background: none; border: 1px solid var(--rule); padding: 8px 10px; cursor: pointer; margin-left: auto; }
+.ed-nav__toggle span { display: block; width: 20px; height: 2px; background: var(--ink); margin: 4px 0; }
+.progress { top: 62px !important; }
+@media (max-width: 900px) {
+  .ed-nav__inner { padding: 12px 20px; }
+  .ed-nav__toggle { display: block; }
+  .ed-nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; background: var(--panel); border-bottom: 1px solid var(--rule); padding: 12px 20px; gap: 0; }
+  .ed-nav__links.is-open { display: flex; }
+  .ed-nav__link { padding: 10px 8px; border-bottom: 1px solid var(--rule); }
+  .ed-nav__link.is-active { border-bottom: 1px solid var(--accent); }
+  .ed-nav__sep { display: none; }
+}
 </style>
 </head>
 <body>
+{% include nav_editorial.html %}
+{% raw %}
+
 <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
 <a href="#explorer" class="skip" id="skipToExplorer">Lorem ipsum</a>
 
@@ -2489,7 +2527,7 @@ svg .kicker {
 })();
 </script>
 
+{% endraw %}
 </body>
 </html>
 
-{% endraw %}
