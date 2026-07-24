@@ -26,8 +26,13 @@ body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font
 
 /* ── Progress bar ── */
 #progress-bar {
-  position: fixed; top: 0; left: 0; width: 0%; height: 3px;
-  background: var(--accent); z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent);
+  z-index: 20000;
   transition: width 80ms linear;
 }
 
@@ -242,9 +247,11 @@ body {
 </style>
 </head>
 <body>
-<body>
+
+<div id="progress-bar"></div>
 
 <nav class="top-navbar">
+
   <div class="nav-inner">
     <a href="./index.html" class="nav-brand">
       <img src="./assets/images/Logo_masthead.png" alt="Logo">
@@ -261,9 +268,7 @@ body {
   </div>
 </nav>
 
-<div class="progress">
-  <div class="progress-bar"></div>
-</div>
+<div id="progress-bar"></div>
 <header class="cover">
   <div class="kicker">Analisi territoriale · ISTAT · Censimenti 2011–2021</div>
   <h1>Indice di <em>Vulnerabilità</em> Sociale e Materiale</h1>
@@ -701,20 +706,6 @@ body {
   document.addEventListener('scroll', updateBar, { passive: true });
   window.addEventListener('scroll', updateBar, { passive: true });
   updateBar();
-
-  /* ---- Fixed editorial navbar ---- */
-
-.top-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 58px;
-  background: rgba(245,241,234,0.92);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--rule);
-  z-index: 1000;
-}
 
 .nav-inner {
   max-width: 1240px;
