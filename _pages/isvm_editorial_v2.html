@@ -497,7 +497,7 @@ body {
 
   <!-- 7.1 Mappa ISVM -->
   <div class="results-block">
-    <div style="font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px;">7.1 — Mappa ISVM</div>
+    <div id="mappa_isvm"></div>
     <p class="results-intro">Le mappe del 2021 non mostrano un'Italia omogeneamente più povera, ma <b>città nettamente più frammentate</b>: la distanza sociale e territoriale tra i quartieri del benessere e quelli della fragilità si è allargata nell'ultimo decennio. Tre grandi dinamiche attraversano il Paese.</p>
 
     <div class="cities-grid">
@@ -590,6 +590,12 @@ body {
           <td class="num">29,3%</td>
           <td style="font-family: var(--sans); font-size: 13px; color: var(--muted);">Lieve miglioramento, forte polarizzazione</td>
         </tr>
+      <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+      <script>
+vegaEmbed("#mappa_isvm", "assets/json/mappa_isvm.json");
+</script>
       </tbody>
     </table>
 
