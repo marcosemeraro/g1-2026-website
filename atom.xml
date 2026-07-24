@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" >
+	<generator uri="https://dieghernan.github.io/chulapa" version="1.0.0">Chulapa</generator>
+	<link href="https://marcosemeraro.github.io/g1-2026-website/atom.xml" rel="self" type="application/atom+xml" />
+	<link href="https://marcosemeraro.github.io/g1-2026-website" rel="alternate" type="text/html" />
+	<updated>2026-07-24T14:28:33+00:00</updated>
+	<id>https://marcosemeraro.github.io/g1-2026-website/atom.xml</id>
+	<title>Template per Progettoni | Questo è un template per i progetti del Master SoBigData</title>
+	<subtitle>Questo è un template per i progetti del Master SoBigData</subtitle>
+	<author>
+		<name></name>
+					
+	</author>
+	<rights>(c) 2026, </rights>
+	<icon>https://marcosemeraro.github.io/g1-2026-website/assets/images/Logo_masthead.png</icon>
+	<logo></logo></feed>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+	<channel>
+		<title>Template per Progettoni | Questo è un template per i progetti del Master SoBigData</title>
+		<generator>(c) Chulapa Jekyll Theme RSS generator</generator>
+		<link>https://marcosemeraro.github.io/g1-2026-website</link>
+		<description>Scrivi qui una descrizione accattivante per il tuo nuovo sito. Puoi modificare questa riga in _config.yml. Apparirà nei meta del documento head (per i risultati di ricerca di Google) e nella descrizione del sito in feed.xml.</description>
+		<language>en-US</language>
+		<copyright>(c) 2026, </copyright>	
+		<pubDate>Fri, 24 Jul 2026 14:28:33 +0000</pubDate>
+		<lastBuildDate>Fri, 24 Jul 2026 14:28:33 +0000</lastBuildDate>
+		<category>blog</category>
+		<ttl>60</ttl>
+		<atom:link href="https://marcosemeraro.github.io/g1-2026-website/rss.xml" rel="self" type="application/rss+xml" />
+		<image>
+			<title>Template per Progettoni | Questo è un template per i progetti del Master SoBigData</title>
+			<url></url>
+			<link>https://marcosemeraro.github.io/g1-2026-website</link>
+			<description>Scrivi qui una descrizione accattivante per il tuo nuovo sito. Puoi modificare questa riga in _config.yml. Apparirà nei meta del documento head (per i risultati di ricerca di Google) e nella descrizione del sito in feed.xml.</description>
+		</image></channel>
+</rss>
