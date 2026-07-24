@@ -1,0 +1,426 @@
+---
+layout: null
+permalink: /datielezioni.html
+sitemap: false
+---
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elezioni · Una città, Due mercati</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root {
+  --bg: #F5F1EA; --panel: #FBFAF6; --panel-2: #EFE9DC;
+  --ink: #1A1A1A; --ink-2: #333; --muted: #6B6157; --muted-2: #A39B8E;
+  --rule: #DDD4C4; --rule-2: #C7BEA9;
+  --accent: #A0402E; --accent-2: #C58B31;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono:  'IBM Plex Mono', 'Menlo', monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; background: var(--bg); color: var(--ink); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+
+/* === COVER === */
+.cover { padding: 80px 32px 50px; max-width: 1240px; margin: 0 auto; }
+.cover .kicker { font-family: var(--sans); font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); text-align:center; margin-bottom:22px; }
+.cover h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(48px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.03em; margin: 0 auto 26px; max-width:900px; text-align:center; text-wrap: balance; }
+.cover h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.cover .dek { font-family: var(--serif); font-size: 22px; line-height: 1.45; color: var(--ink-2); max-width: 780px; margin: 0 auto 34px; text-align:center; text-wrap: balance; }
+.cover .byline { font-family: var(--sans); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align:center; padding: 14px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); max-width: 720px; margin: 0 auto; }
+.cover .byline b { color: var(--ink); font-weight: 600; }
+
+.hero-banner { max-width: 1240px; margin: 0 auto; padding: 0 32px 30px; }
+.hero-banner img { width: 100%; height: auto; display: block; border-radius: 2px; opacity: 0.95; }
+
+/* === SECTIONS === */
+section.chapter { padding: 40px 0 20px; border-top: 1px solid var(--rule); }
+section.chapter:first-of-type { border-top: none; }
+.section-marker { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 14px; color: var(--accent); text-align:center; margin-bottom: 18px; }
+.section-marker::before, .section-marker::after { content: '·'; margin: 0 12px; color: var(--muted-2); }
+.section-title { font-family: var(--serif); font-weight: 700; font-size: clamp(30px, 4.5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 auto 16px; max-width: 860px; text-align:center; text-wrap: balance; }
+.section-dek { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 700px; margin: 0 auto 40px; text-align:center; font-style: italic; }
+.subsection-title { font-family: var(--serif); font-weight: 700; font-size: 26px; letter-spacing: -0.01em; margin: 42px auto 12px; max-width: 720px; padding: 0 32px; color: var(--ink); }
+.subsubsection-title { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 32px auto 10px; max-width: 720px; padding: 0 32px; border-top: 1px solid var(--rule); padding-top: 20px; }
+
+/* === PROSE === */
+.prose { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+.prose p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); margin: 0 0 22px; text-wrap: pretty; }
+.prose p.lead { font-size: 22px; line-height: 1.5; color: var(--ink); }
+.prose p b, .prose p strong { color: var(--ink); font-weight: 600; }
+.prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); transition: border-color 120ms; }
+.prose a:hover { border-bottom-color: var(--accent); }
+.prose img { max-width: 100%; height: auto; display: block; margin: 32px auto; border-radius: 2px; }
+.prose img.small { max-width: 640px; }
+.prose ul, .prose ol { font-family: var(--serif); font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0 0 22px; padding-left: 24px; }
+.prose li { margin-bottom: 6px; }
+
+/* === TABLE === */
+.prose table { border-collapse: collapse; width: 100%; margin: 20px 0 26px; font-family: var(--sans); font-size: 14px; }
+.prose table th, .prose table td { padding: 10px 14px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+.prose table th { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--rule-2); }
+.prose table td { color: var(--ink-2); font-family: var(--serif); font-size: 16px; line-height: 1.4; }
+.prose table td:first-child { font-family: var(--mono); font-size: 13px; color: var(--ink); white-space: nowrap; }
+
+/* === EQUATION BLOCKS === */
+.equation { margin: 24px auto; padding: 22px 32px; background: var(--panel); border-left: 3px solid var(--accent-2); font-family: var(--serif); overflow-x: auto; max-width: 720px; }
+.equation .MathJax { font-size: 1.05em !important; }
+
+/* === CALLOUT / DETAILS === */
+details.currents {
+  max-width: 720px;
+  margin: 24px auto;
+  padding: 0;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+details.currents summary {
+  padding: 14px 22px;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  list-style: none;
+}
+details.currents summary::-webkit-details-marker { display: none; }
+details.currents summary::before { content: '▸ '; color: var(--muted-2); }
+details[open].currents summary::before { content: '▾ '; }
+details.currents summary:hover { background: rgba(0,0,0,0.02); }
+details.currents .content { padding: 4px 22px 22px; border-top: 1px solid var(--rule); }
+details.currents table { margin-top: 12px; }
+
+/* === VIZ EMBEDS === */
+.viz-embed { max-width: 1180px; margin: 40px auto; padding: 0 32px; }
+.viz-embed .viz-title { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align:center; margin: 0 auto 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-embed .vega-wrap, .viz-embed iframe { width: 100%; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; padding: 20px; min-height: 400px; }
+.viz-embed iframe { padding: 0; min-height: 500px; }
+.viz-embed .caption { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 14px; }
+
+/* === FOOTER === */
+.footer { max-width: 900px; margin: 60px auto 0; padding: 60px 32px 80px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
+.footer h3 { font-family: var(--serif); font-weight: 600; font-size: 18px; color: var(--ink); margin: 24px 0 8px; letter-spacing: -0.005em; }
+
+@media (max-width: 800px) {
+  
+  
+  
+  .cover { padding: 40px 20px 30px; }
+  .prose { padding: 0 20px; }
+  .prose p { font-size: 17px; }
+}
+
+/* ============ Editorial navbar ============ */
+.ed-nav { position: sticky; top: 0; z-index: 100; background: rgba(245,241,234,0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
+.ed-nav__inner { max-width: 1240px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 24px; }
+.ed-nav__brand { display: flex; flex-direction: column; text-decoration: none; color: var(--ink); flex-shrink: 0; }
+.ed-nav__brand-title { font-family: var(--serif); font-weight: 700; font-size: 20px; line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+.ed-nav__brand-sub { font-family: var(--sans); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.ed-nav__brand:hover .ed-nav__brand-title { color: var(--accent); }
+.ed-nav__links { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0 0 0 auto; padding: 0; }
+.ed-nav__link { font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; color: var(--muted); text-decoration: none; padding: 8px 12px; border-bottom: 2px solid transparent; transition: color 120ms, border-color 120ms; display: inline-block; }
+.ed-nav__link:hover { color: var(--ink); }
+.ed-nav__link.is-active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 700; }
+.ed-nav__link--ext { color: var(--accent); font-weight: 600; }
+.ed-nav__link--ext:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.ed-nav__sep { width: 1px; height: 20px; background: var(--rule); margin: 0 8px; }
+.ed-nav__toggle { display: none; background: none; border: 1px solid var(--rule); padding: 8px 10px; cursor: pointer; margin-left: auto; }
+.ed-nav__toggle span { display: block; width: 20px; height: 2px; background: var(--ink); margin: 4px 0; }
+.progress { top: 62px !important; }
+@media (max-width: 900px) {
+  .ed-nav__inner { padding: 12px 20px; }
+  .ed-nav__toggle { display: block; }
+  .ed-nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; background: var(--panel); border-bottom: 1px solid var(--rule); padding: 12px 20px; gap: 0; }
+  .ed-nav__links.is-open { display: flex; }
+  .ed-nav__link { padding: 10px 8px; border-bottom: 1px solid var(--rule); }
+  .ed-nav__link.is-active { border-bottom: 1px solid var(--accent); }
+  .ed-nav__sep { display: none; }
+}
+</style>
+
+<!-- MathJax per equazioni LaTeX -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<!-- Vega per grafici -->
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+
+{% include nav_editorial.html %}
+
+<header class="cover">
+  <div class="kicker">Dati e Metodologie · Approfondimenti</div>
+  <h1>Elezioni <em>e territorio</em></h1>
+  <p class="dek">Come abbiamo raccolto, armonizzato e analizzato i dati elettorali per leggere la geografia politica delle città italiane.</p>
+  <p class="byline"><b>Fonti</b> · <b>Metodi</b> · <b>Indici</b> · <b>Scraping · Geocoding · Statistica spaziale</b></p>
+</header>
+
+<div class="hero-banner">
+  <img src="{{ site.baseurl }}/assets/images/header_alt2.svg" alt="sbd-pattern">
+</div>
+
+<div class="prose">
+  <p class="lead">L'idea di utilizzare i dati elettorali per analizzare i processi di segregazione all'interno delle città italiane ci è nata leggendo il lavoro di <a href="https://www.tandfonline.com/doi/full/10.1080/2474736X.2023.2185158" target="_blank" rel="noopener">Gabriele Pinto</a> pubblicato nel 2023 con il titolo <em>"Sezioni Elettorali Italiane (SEI): a new database of Italian electoral results geocoded at precinct level"</em> che raccoglie i dati delle elezioni degli ultimi anni a livello di singole sezioni.</p>
+  <p class="lead">L'aspetto che ci ha colpito di questa enorme raccolta di dati è stata la possibilità di poter guardare da vicino cosa avviene nei singoli quartieri e da lì è sorta la voglia di capire meglio come funzionano le nostre città.</p>
+</div>
+
+<section class="chapter">
+  <div class="section-marker">Parte I</div>
+  <h2 class="section-title">Dati Elettorali</h2>
+  <p class="section-dek">La raccolta e l'armonizzazione dei dati grezzi.</p>
+
+  <div class="prose">
+    <p>Sul portale <b>Eligendo del Ministero dell'Interno</b> sono riportati i dati relativi ai voti di tutte le elezioni svoltesi in Italia dall'Assemblea Costituente ai giorni nostri. Il limite di tali dati per il nostro lavoro è che i risultati qui sono aggregati per Comune.</p>
+  </div>
+
+  <h3 class="subsubsection-title">Scraping dati mancanti</h3>
+  <div class="prose">
+    <p>Una volta scelto di concentrarci sui voti alla Camera, per preservare omogeneità dei dati tra città diverse, abbiamo fatto scraping dei dati che ci mancavano direttamente dal sito delle amministrazioni comunali.</p>
+  </div>
+
+  <h3 class="subsubsection-title">Partiti che vanno, partiti che vengono</h3>
+  <div class="prose">
+    <p>Appena abbiamo cominciato a mettere insieme dati di città diverse ci siamo accorti che i nomi dei partiti erano di volta in volta riportati in maniera diversa. Il primo step è stato quindi di armonizzare introducendo un codice che identificasse in maniera univoca ogni partito.</p>
+    <p>Il codice identificativo dei partiti è stato mantenuto da un anno all'altro per quei partiti che nel corso del tempo hanno modificato il nome ma mantenuto la struttura (e qui Wikipedia è stata d'aiuto per ricostruire la storia di scissioni e unioni, e fissare l'area di appartenenza politica). Nei casi in cui un partito fosse nato dall'unione di più di un altro partito, invece, abbiamo creato un nuovo codice.</p>
+    <p>A questo punto abbiamo raggruppato i partiti per <b>corrente politica</b>. Come nel paper di riferimento, alcune entità politiche spiccatamente apartitiche non sono state assegnate a nessuna corrente e anche per la loro scarsa rilevanza in termini di voti non hanno fatto parte dell'analisi.</p>
+
+    <details class="currents">
+      <summary>Esplora le correnti</summary>
+      <div class="content">
+        <table>
+          <thead>
+            <tr><th>Corrente</th><th>Partiti</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Centro-Sinistra</td>
+              <td>Partito Democratico, +Europa, Comunisti Italiani, Rifondazione Comunista, Italia dei Valori, Federazione dei Verdi, Partito Comunista dei Lavoratori, Partito Socialista Italiano, Sinistra Ecologia e Libertà, Centro Democratico, Rivoluzione Civile, Unione Popolare, Italia Europa Insieme, Civica Popolare Lorenzin, Liberi e Uguali, Potere al Popolo!, Partito Comunista, Lista del Popolo per la Costituzione, Per una Sinistra Rivoluzionaria, Partito Valore Umano, Alleanza Verdi e Sinistra, Impegno Civico Luigi Di Maio</td>
+            </tr>
+            <tr>
+              <td>Centro</td>
+              <td>Unione di Centro, Scelta Civica con Monti, Fare per Fermare il Declino, Partito Repubblicano Italiano, Il Popolo della Famiglia, Azione - Italia Viva, Noi di Centro Mastella</td>
+            </tr>
+            <tr>
+              <td>Centro-Destra</td>
+              <td>Forza Italia, Lega, Fiamma Tricolore, Partito Pensionati, Liberali per l'Italia - PLI, Forza Nuova, Grande Sud - MPA, Fratelli d'Italia, La Destra, MIR - Moderati in Rivoluzione, Intesa Popolare, Futuro e Libertà, CasaPound Italia, Io Amo l'Italia, Riformisti Italiani, Liberi per una Italia Equa, Rifondazione Missina Italiana, Italia agli Italiani, Blocco Nazionale per le Libertà, Italexit per l'Italia</td>
+            </tr>
+            <tr>
+              <td>Movimento 5 Stelle</td>
+              <td>Movimento 5 Stelle</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <h3 class="subsubsection-title">Sezioni che si muovono</h3>
+  <div class="prose">
+    <p>I dati raccolti fino a questo punto riportano il numero della sezione, ma non il nome dell'istituto scolastico in cui è ubicata né tantomeno l'indirizzo. E da qui la domanda: <em>"Ma la sezione X del 2013 è nella stessa posizione nel 2022?"</em> A quanto pare la risposta non è così banale, perché abbiamo riscontrato diversi cambi di indirizzi delle sezioni nel corso degli anni. Qui c'è da dire che la documentazione trovata è frammentata e riportata nei formati più disparati. Alcuni comuni hanno adottato il sistema OpenData da qualche anno, altri affidano a file Pdf o Doc le loro informazioni. Sulla base di quanto trovato abbiamo ricostruito una <b>mappa dei cambi di location dei seggi</b>. Eravamo ormai vicini a fissarne la posizione nello spazio, quasi.</p>
+  </div>
+
+  <h3 class="subsubsection-title">Coordinate</h3>
+  <div class="prose">
+    <p>Anche in questo caso c'è stato bisogno di armonizzare gli indirizzi e far sì che tutti i "V.le" diventassero "Viale" e "A. Manzoni", "Alessandro Manzoni". A tutti gli indirizzi è stato aggiunto il Cap e il nome della città. Questo è stato importante per lo step successivo, il <b>geocoding</b>.</p>
+    <p>Qui non è stato necessario fare scraping, perché il sito <a href="https://nominatim.org/" target="_blank" rel="noopener">Nominatim</a> mette a disposizione un'Api con la sola limitazione di una chiamata al secondo. Le appena acquisite coordinate Gps, insieme all'anno in cui quella sezione era presente e quell'indirizzo hanno popolato un nuovo dataset. Manualmente sono stati aggiunti tramite Google Maps quegli indirizzi che Nominatim non era riuscita a identificare, era arrivato il momento di testare i risultati.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="section-marker">Parte II</div>
+  <h2 class="section-title">Aree Sub Comunali</h2>
+  <p class="section-dek">La suddivisione territoriale che abbiamo scelto per l'analisi.</p>
+
+  <div class="prose">
+    <p>L'<a href="https://www.istat.it/notizia/basi-territoriali-e-variabili-censuarie/" target="_blank" rel="noopener">Istat</a> fornisce i dati geografici delle partizioni del territorio italiano e in particolare le <b>Aree sub comunali (Asc2)</b> delle principali città. Poste a metà tra i Cap e le aree di censimento, le Asc2 forniscono una suddivisione fissata nel tempo del territorio comunale in quartieri a un livello di dettaglio idoneo al nostro studio.</p>
+    <img src="{{ site.baseurl }}/assets/images/asc2_roma.webp" alt="ASC2" class="small">
+    <p>Una volta scaricati gli <em>shapefile</em> delle aree, tramite <b>geopandas</b> abbiamo associato le coordinate delle sezioni elettorali alle rispettive aree nel cui perimetro sono localizzate.</p>
+  </div>
+
+  <div class="viz-embed">
+    <div class="viz-title">Vincitore per area sub-comunale · risultati aggregati alle ASC2</div>
+    <div class="vega-wrap" id="chart-asc-winners"></div>
+    <p class="caption">Grafico Vega generato da <code>chart_asc_winners.json</code>.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="section-marker">Parte III</div>
+  <h2 class="section-title">Indici</h2>
+  <p class="section-dek">Come misuriamo concentrazione, autocorrelazione spaziale, polarizzazione.</p>
+
+  <h3 class="subsection-title">Gini</h3>
+  <div class="prose">
+    <p>Nella ricerca di un indice capace di descrivere la disuguaglianza dei valori dei risultati elettorali la prima scelta è stata di usare l'<b>indice di Gini</b>, metrica largamente utilizzata in letteratura.</p>
+    <p>Ne abbiamo creato due versioni, una che descrive la disuguaglianza dei voti del quartiere e una a livello cittadino di tutti i quartieri in una determinata elezione. Entrambe partono dalla definizione dell'indice che segue:</p>
+  </div>
+
+  <div class="equation">
+    $$
+    G = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n} |x_i - x_j|}{2n\sum_{i=1}^{n} x_i}
+    $$
+  </div>
+
+  <div class="prose">
+    <p>Per far fronte al cambio di numero di correnti politiche (comparsa del Movimento 5 Stelle nel 2018) abbiamo preferito creare una versione <b>normalizzata</b> per facilitare il confronto dei risultati:</p>
+  </div>
+
+  <div class="equation">
+    $$
+    G^*_{a,t} = \frac{\sum_{i=1}^{n_t}\sum_{j=1}^{n_t} |x_{i,a,t} - x_{j,a,t}|}{2n_t \sum_{i=1}^{n_t} x_{i,a,t}} \cdot \frac{n_t}{n_t - 1}
+    $$
+  </div>
+
+  <div class="prose">
+    <p>dove:</p>
+    <ul>
+      <li>$a$ zona ASC2</li>
+      <li>$t$ anno elezioni</li>
+      <li>$x_i$ numero di voti ricevuti dalla corrente $i$</li>
+      <li>$n_t$ numero di correnti politiche attive nell'anno $t$</li>
+    </ul>
+    <table>
+      <thead><tr><th>Gini</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>Voti perfettamente bilanciati tra le correnti</td></tr>
+        <tr><td>1</td><td>Una corrente prende tutti i voti</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title">I di Moran globale</h3>
+  <div class="prose">
+    <p>Se l'indice di Gini ci dice se i risultati elettorali in un quartiere sono politicamente concentrati o frammentati, non ci dice nulla sul fatto che quartieri simili sono spazialmente vicini l'uno l'altro.</p>
+    <p>Per quantificare la presenza di <b>cluster all'interno del territorio comunale</b>, abbiamo calcolato l'indice di Moran, misura di autocorrelazione spaziale che restituisce un valore positivo se valori simili sono localizzati spazialmente. Al contrario, una autocorrelazione spaziale negativa indica una prossimità spaziale di valori dissimili.</p>
+    <p>La formula è:</p>
+  </div>
+
+  <div class="equation">
+    $$
+    I_{c,t} = \frac{n_{c,t}}{S_{0,c,t}} \frac{\sum_{i=1}^{n_{c,t}} \sum_{j=1}^{n_{c,t}} w_{ij,c,t}(x_{i,c,t} - \bar{x}_{c,t})(x_{j,c,t} - \bar{x}_{c,t})}{\sum_{i=1}^{n_{c,t}} (x_{i,c,t} - \bar{x}_{c,t})^2}
+    $$
+  </div>
+
+  <div class="prose">
+    <p>dove:</p>
+    <ul>
+      <li>$c$ città</li>
+      <li>$t$ anno</li>
+      <li>$x_{i,c,t}$ è il valore della variabile $i$, città $c$, anno $t$, (es. <code>pol_gini</code>, <code>winner_share</code>, ecc.)</li>
+      <li>$\bar{x}_{c,t}$ è la media di quella variabile nella città $c$ e anno $t$</li>
+      <li>$w_{ij,c,t}$ è il peso spaziale tra area $i$ e area $j$ nella città $c$ e anno $t$</li>
+      <li>$S_{0,c,t} = \sum_i \sum_j w_{ij,c,t}$</li>
+      <li>$n_{c,t}$ è il numero di aree nella città $c$ e anno $t$</li>
+    </ul>
+    <table>
+      <thead><tr><th>Moran's I</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>Positivo</td><td>Aree simili sono spazialmente clusterizzate</td></tr>
+        <tr><td>Intorno allo 0</td><td>Nessun pattern spaziale chiaro</td></tr>
+        <tr><td>Negativo</td><td>Aree confinanti sono dissimili</td></tr>
+        <tr><td>p-value significativo</td><td>Il pattern è improbabile essere random</td></tr>
+      </tbody>
+    </table>
+    <img src="{{ site.baseurl }}/assets/images/elezioni_emptyASC.webp" alt="ASC vuote" class="small">
+    <p>I pesi spaziali $w_{ij,c,t}$ definiscono chi è considerato un vicino rispetto a ogni città e anno. Utilizzando l'analogia degli scacchi, i vicini possono essere tali se condividono tra loro spigoli, come lo spazio di manovra della torre, oppure spigoli e vertici come fa la regina. Tali metodi sono implementati nella libreria <b>libpysal</b> che offre strumenti per l'analisi spaziale.</p>
+    <p>Dopo aver provato entrambi i metodi, ci siamo resi conto della presenza di isole vuote dentro le nostre città, una rapida analisi ci ha fatto capire che ciò era dovuto al fatto che in alcuni quartieri non ci sono sezioni elettorali, quindi quei quartieri non hanno dati. Per questo motivo abbiamo deciso di utilizzare <b>KNN</b> come metodo di calcolo dei vicini, in modo da riuscire sempre a individuare un quartiere nelle vicinanze anche se non confinante.</p>
+  </div>
+
+  <h3 class="subsection-title">I di Moran locale</h3>
+  <div class="prose">
+    <p>Se l'indice di Moran globale risponde alla domanda se esistono dei cluster di valori tra loro limitrofi, l'indice locale ci dice in quali quartieri ciò accade.</p>
+    <p>Per un'area $a$, nella città $c$, nell'anno $t$, la formula è:</p>
+  </div>
+
+  <div class="equation">
+    $$
+    I_{a,c,t} = \frac{x_{a,c,t} - \bar{x}_{c,t}}{m_{2,c,t}} \sum_{b=1}^{n_{c,t}} w_{ab,c,t} \left(x_{b,c,t} - \bar{x}_{c,t}\right)
+    $$
+  </div>
+
+  <div class="prose"><p>con:</p></div>
+
+  <div class="equation">
+    $$
+    m_{2,c,t} = \frac{1}{n_{c,t}} \sum_{k=1}^{n_{c,t}} \left(x_{k,c,t} - \bar{x}_{c,t}\right)^2
+    $$
+  </div>
+
+  <div class="prose">
+    <p>dove:</p>
+    <ul>
+      <li>$a$ area ASC2</li>
+      <li>$b$ indicizza le aree limitrofe</li>
+      <li>$k$ indicizza ogni area nella stessa città-anno, usato per calcolare la varianza città-anno</li>
+      <li>$c$ città</li>
+      <li>$t$ anno</li>
+      <li>$x_{a,c,t}$ valore della variabile nell'area $a$, città $c$, anno $t$, es. <code>pol_gini</code></li>
+      <li>$\bar{x}_{c,t}$ valore medio di quella variabile nella città $c$ e anno $t$</li>
+      <li>$w_{ab,c,t}$ peso spaziale tra l'area $a$ e l'area $b$, nella stessa città-anno</li>
+      <li>$n_{c,t}$ numero di aree nella città $c$ e anno $t$</li>
+      <li>$m_{2,c,t}$ scaling term della varianza città-anno</li>
+    </ul>
+    <p>Dopo aver calcolato l'indice di Moran locale, ogni quartiere è stato classificato tramite <b>Lisa (Local Indicators of Spatial Association) cluster</b>. La classificazione è basata su due elementi:</p>
+    <ul>
+      <li>se il valore del quartiere è sopra o sotto la media della città-anno</li>
+      <li>se i valori dei vicini sono sopra o sotto la media della città-anno</li>
+    </ul>
+    <p>Per esempio per la variabile <code>pol_gini</code>, i risultati indicano:</p>
+    <table>
+      <thead><tr><th>Lisa cluster</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>High-High</td><td>alta concentrazione politica circondata da alta concentrazione politica</td></tr>
+        <tr><td>Low-Low</td><td>bassa concentrazione politica circondata da bassa concentrazione politica</td></tr>
+        <tr><td>High-Low</td><td>alta concentrazione politica circondata da bassa concentrazione politica</td></tr>
+        <tr><td>Low-High</td><td>bassa concentrazione politica circondata da alta concentrazione politica</td></tr>
+        <tr><td>Not significant</td><td>cluster locale non statisticamente significativo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title">80/20 Percentile</h3>
+  <div class="prose">
+    <p>Il <b>rapporto dei percentili 80/20</b> misura la distanza tra la parte alta e bassa della distribuzione, suggerendo che una maggiore distanza tra i due estremi indichi una maggiore polarizzazione.</p>
+  </div>
+
+  <div class="viz-embed">
+    <div class="viz-title">Decision Tree · classificazione dei quartieri</div>
+    <iframe src="{{ site.baseurl }}/assets/charts/chart_decisionTree.html" width="100%" height="500" style="border:0" allowfullscreen loading="lazy"></iframe>
+    <p class="caption">Grafico interattivo caricato da <code>chart_decisionTree.html</code>.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <h3>Metodologia</h3>
+  <p>I codici, i dataset e i notebook di analisi sono nel repository del progetto. L'analisi spaziale utilizza <code>libpysal</code> e <code>esda</code> per il calcolo di Moran's I globale e locale (LISA) con pesi KNN (k=5) e 999 permutazioni.</p>
+  <h3>Fonti</h3>
+  <p>Portale Eligendo del Ministero dell'Interno; siti delle amministrazioni comunali (scraping); Nominatim (geocoding); ISTAT (basi territoriali ASC2 2021).</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof vegaEmbed !== 'undefined') {
+    vegaEmbed('#chart-asc-winners', '{{ site.baseurl }}/assets/charts/chart_asc_winners.json', {actions: false})
+      .catch(err => console.warn('Vega chart failed:', err));
+  }
+});
+</script>
+
+</body>
+</html>
