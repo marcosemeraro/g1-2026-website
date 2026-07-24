@@ -242,6 +242,8 @@ body {
 </style>
 </head>
 <body>
+<body>
+
 <nav class="top-navbar">
   <div class="nav-inner">
     <a href="./index.html" class="nav-brand">
@@ -258,8 +260,10 @@ body {
     </div>
   </div>
 </nav>
-<div id="progress-bar"></div>
 
+<div class="progress">
+  <div class="progress-bar"></div>
+</div>
 <header class="cover">
   <div class="kicker">Analisi territoriale · ISTAT · Censimenti 2011–2021</div>
   <h1>Indice di <em>Vulnerabilità</em> Sociale e Materiale</h1>
@@ -697,6 +701,88 @@ body {
   document.addEventListener('scroll', updateBar, { passive: true });
   window.addEventListener('scroll', updateBar, { passive: true });
   updateBar();
+
+  /* ---- Fixed editorial navbar ---- */
+
+.top-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 58px;
+  background: rgba(245,241,234,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  z-index: 1000;
+}
+
+.nav-inner {
+  max-width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.nav-brand img {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--accent);
+}
+
+
+/* evita che la cover venga coperta */
+body {
+  padding-top: 58px;
+}
+
+
+@media(max-width:900px){
+
+  .nav-links {
+    display:none;
+  }
+
+  .nav-inner {
+    padding:0 18px;
+  }
+
+}
+
 
   /* ── Schematic boxplots ── */
   var cities = [
