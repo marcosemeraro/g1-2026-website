@@ -5,7 +5,7 @@ permalink: /datinews.html
 mathjax: true
 header_img: assets/images/news_header_AI.png
 header_title: "Dalle cronache locali alla geografia del tono mediatico"
-subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali diverse dentro la stessa città"
+#subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali diverse dentro la stessa città"
 ---
 
 <style>
@@ -58,8 +58,8 @@ details.tech .tech-body code { font-family: var(--mono); font-size: .85em; backg
   <div class="step-kicker"><span class="num">02</span> Tempo</div>
   <h2 class="section-title">Rimettere ogni notizia al suo posto nel tempo</h2>
   <div class="prose">
-    <p>La data raccolta dal sito non corrispondeva sempre a un giorno scritto nel formato tradizionale. Molte notizie erano accompagnate da espressioni relative come "ieri", "tre settimane fa", "aprile scorso" oppure semplicemente "nel 2018".</p>
-    <p>Abbiamo quindi ricostruito ogni riferimento temporale a partire dal giorno in cui è stato eseguito lo scraping. La conversione ha prodotto una data standardizzata, conservando però anche il livello di precisione dell'informazione originale: minuto, giorno, mese oppure anno.</p>
+    <p>La data raccolta dal sito non corrispondeva sempre a un giorno scritto nel formato tradizionale. Molte notizie erano accompagnate da espressioni relative come "ieri", "tre settimane fa", "aprile scorso".</p>
+    <p>Abbiamo quindi ricostruito ogni riferimento temporale a partire dal giorno in cui è stato eseguito lo scraping. La conversione ha prodotto una data standardizzata.</p>
   </div>
 
   <details class="tech">
@@ -78,7 +78,6 @@ details.tech .tech-body code { font-family: var(--mono); font-size: .85em; backg
           <tr><td>"5 mesi fa"</td><td>Sottrazione di cinque mesi</td><td>Febbraio 2026</td><td>Mese</td></tr>
           <tr><td>"2 anni fa, a ottobre"</td><td>Sottrazione di due anni e selezione del mese</td><td>Ottobre 2024</td><td>Mese</td></tr>
           <tr><td>"Aprile scorso"</td><td>Ricerca dell'ultima occorrenza passata di aprile</td><td>Aprile 2026</td><td>Mese</td></tr>
-          <tr><td>"Nel 2018"</td><td>Estrazione diretta dell'anno</td><td>2018</td><td>Anno</td></tr>
         </tbody>
       </table>
     </div>
