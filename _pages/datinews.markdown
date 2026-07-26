@@ -470,7 +470,7 @@ Da qui nasce l'idea di costruire un sistema per raccogliere le notizie, riconosc
 
 
 
-
+<!--  -->
 
 <!-- commento sui risultati.
 Le notizie non costituiscono una fotografia completa della città. Raccontano una realtà selezionata attraverso criteri editoriali, routine professionali, disponibilità delle fonti ed eventi considerati notiziabili. -->
