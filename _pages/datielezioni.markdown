@@ -286,6 +286,6 @@ Il rapporto dei percentili 80/20 misura la distanza tra la parte alta e bassa de
 <iframe class="container" src="{{ '/assets/charts/chart_decisionTree.html' | relative_url }}" 
         width="100%" 
         height="400px" 
-        style="border: 0px solid #ddd; border-radius: 0px;" 
+        style="border: none;" 
         allowfullscreen>
 </iframe>
