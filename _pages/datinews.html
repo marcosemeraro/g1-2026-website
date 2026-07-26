@@ -1,0 +1,151 @@
+---
+layout: editorial
+title: "Dalle cronache locali alla geografia del tono mediatico"
+permalink: /datinews.html
+mathjax: true
+header_img: assets/images/news_header_AI.png
+header_title: "Dalle cronache locali alla geografia del tono mediatico"
+subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali diverse dentro la stessa città"
+---
+
+<style>
+/* Componenti locali della pagina, costruiti sulle variabili editoriali (nessuna dipendenza da Bootstrap/chulapa) */
+.step-kicker { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); text-align: center; margin-bottom: 14px; }
+.step-kicker .num { font-family: var(--serif); font-style: italic; font-weight: 500; margin-right: 8px; color: var(--muted-2); }
+.quote-block { font-family: var(--serif); font-style: italic; font-size: 24px; line-height: 1.4; color: var(--ink); max-width: 680px; margin: 36px auto; padding: 8px 32px; border-left: 3px solid var(--accent); }
+details.tech { max-width: 820px; margin: 22px auto; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; }
+details.tech > summary { cursor: pointer; padding: 14px 22px; font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); list-style: none; }
+details.tech > summary::-webkit-details-marker { display: none; }
+details.tech > summary::before { content: '▸  '; color: var(--muted-2); }
+details[open].tech > summary::before { content: '▾  '; }
+details.tech > summary:hover { background: rgba(0,0,0,0.02); }
+details.tech .tech-body { padding: 6px 32px 26px; border-top: 1px solid var(--rule); }
+details.tech .tech-body h4 { font-family: var(--serif); font-weight: 700; font-size: 20px; color: var(--ink); margin: 24px 0 10px; }
+details.tech .tech-body p { font-family: var(--serif); font-size: 17px; line-height: 1.55; color: var(--ink-2); margin: 0 0 16px; }
+details.tech .tech-body table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; }
+details.tech .tech-body th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 8px 12px; text-align: left; }
+details.tech .tech-body td { font-family: var(--serif); font-size: 15px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 8px 12px; vertical-align: top; }
+details.tech .tech-body code { font-family: var(--mono); font-size: .85em; background: var(--panel-2); color: var(--ink); padding: 2px 6px; }
+.callout-box { background: var(--panel-2); border-left: 3px solid var(--accent-2); padding: 12px 16px; margin: 18px 0; font-family: var(--sans); font-size: 14px; line-height: 1.55; color: var(--ink-2); }
+.callout-box code { font-family: var(--mono); font-size: .9em; }
+.formula-box { background: var(--panel); border-left: 3px solid var(--accent-2); padding: 16px 24px; margin: 20px auto; max-width: 720px; overflow-x: auto; text-align: center; }
+</style>
+
+<div class="prose">
+  <p class="lead">Per capire come una città fosse stata raccontata nel corso del tempo, volevamo raccogliere molti anni di notiziari regionali. Prima degli algoritmi, delle mappe e dei modelli di linguaggio, il progetto è iniziato con un incontro sul campo: una visita alla sede di un notiziario regionale per esplorare le possibilità di accesso a dieci anni di edizioni locali.</p>
+</div>
+
+<blockquote class="quote-block">"Per richiedere i materiali è necessario consultarli prima, uno per uno, e indicare quali sono quelli di interesse."</blockquote>
+
+<div class="prose">
+  <p>Una procedura del tutto comprensibile per chi entra in un archivio alla ricerca di un contenuto preciso. Ma noi volevamo analizzare dieci anni di informazione senza conoscere preventivamente ciò che avremmo trovato.</p>
+  <p>La soluzione è arrivata quando abbiamo scoperto, come fonte alternativa, le edizioni locali del network <a href="https://www.citynews.it" target="_blank" rel="noopener">City News</a>. Nel suo archivio convivono le ultime notizie, la cronaca, gli eventi, le zone, le segnalazioni e molto altro. È un flusso continuo nel quale la città compare attraverso fatti eccezionali e gesti ordinari, incidenti e concerti, cantieri e mostre, problemi di quartiere e occasioni di partecipazione.</p>
+  <p>Citynews definisce la propria forza attraverso il legame con il territorio e la capacità delle sue testate di prossimità (come <a href="https://www.firenzetoday.it/notizie/firenze/" target="_blank" rel="noopener">FirenzeToday</a>) di entrare nella vita delle comunità locali.</p>
+</div>
+
+<!-- STEP 01 -->
+<section class="chapter" id="scraping">
+  <div class="step-kicker"><span class="num">01</span> Scraping</div>
+  <h2 class="section-title">Dal flusso delle notizie a un archivio strutturato</h2>
+  <div class="prose">
+    <p>Il primo passaggio è stato raccogliere in modo sistematico le notizie pubblicate dalle edizioni locali di CityNews. Per ciascuna città abbiamo sviluppato uno scraper in Python capace di percorrere le pagine dedicate alle notizie di zona, procedendo dagli articoli più recenti verso quelli più lontani nel tempo.</p>
+    <p>Per ogni notizia sono stati registrati la categoria (che può contenere informazioni territoriali, tipo di evento o altro), il titolo, il link, il trafiletto, la data mostrata sul sito e la pagina di provenienza. Queste informazioni sono state organizzate in un archivio tabellare, che costituisce il punto di partenza per le successive operazioni.</p>
+  </div>
+</section>
+
+<!-- STEP 02 -->
+<section class="chapter" id="tempo">
+  <div class="step-kicker"><span class="num">02</span> Tempo</div>
+  <h2 class="section-title">Rimettere ogni notizia al suo posto nel tempo</h2>
+  <div class="prose">
+    <p>La data raccolta dal sito non corrispondeva sempre a un giorno scritto nel formato tradizionale. Molte notizie erano accompagnate da espressioni relative come "ieri", "tre settimane fa", "aprile scorso" oppure semplicemente "nel 2018".</p>
+    <p>Abbiamo quindi ricostruito ogni riferimento temporale a partire dal giorno in cui è stato eseguito lo scraping. La conversione ha prodotto una data standardizzata, conservando però anche il livello di precisione dell'informazione originale: minuto, giorno, mese oppure anno.</p>
+  </div>
+
+  <details class="tech">
+    <summary>Dettagli tecnici · come abbiamo ricostruito le date</summary>
+    <div class="tech-body">
+      <h4>Riconoscere le diverse forme linguistiche</h4>
+      <p>Abbiamo costruito un parser basato su espressioni regolari. Ogni regola riconosce una particolare struttura della data e ne estrae gli elementi necessari, come la quantità, l'unità temporale, il mese, il giorno della settimana o l'orario.</p>
+      <div class="callout-box"><strong>Esempio:</strong> "3 settimane fa" → quantità: 3 · unità: settimane · operazione: sottrarre tre settimane dalla data dello scraping.</div>
+      <p>Abbiamo quindi utilizzato come riferimento la data dello scraping, fissata ad esempio all'8 luglio 2026, e abbiamo sottratto da essa l'intervallo temporale riconosciuto.</p>
+      <h4>Alcuni esempi</h4>
+      <table>
+        <thead><tr><th>Espressione originale</th><th>Operazione</th><th>Risultato</th><th>Precisione</th></tr></thead>
+        <tbody>
+          <tr><td>"L'altro ieri, 9:31"</td><td>Sottrazione di due giorni</td><td>6 luglio 2026, 9:31</td><td>Minuto</td></tr>
+          <tr><td>"3 settimane fa"</td><td>Sottrazione di tre settimane</td><td>17 giugno 2026</td><td>Giorno</td></tr>
+          <tr><td>"5 mesi fa"</td><td>Sottrazione di cinque mesi</td><td>Febbraio 2026</td><td>Mese</td></tr>
+          <tr><td>"2 anni fa, a ottobre"</td><td>Sottrazione di due anni e selezione del mese</td><td>Ottobre 2024</td><td>Mese</td></tr>
+          <tr><td>"Aprile scorso"</td><td>Ricerca dell'ultima occorrenza passata di aprile</td><td>Aprile 2026</td><td>Mese</td></tr>
+          <tr><td>"Nel 2018"</td><td>Estrazione diretta dell'anno</td><td>2018</td><td>Anno</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<!-- STEP 03 -->
+<section class="chapter" id="geografia">
+  <div class="step-kicker"><span class="num">03</span> Geografia</div>
+  <h2 class="section-title">Dal linguaggio delle notizie alle aree subcomunali</h2>
+  <div class="prose">
+    <p>I luoghi citati nelle cronache locali non seguono sempre una classificazione territoriale uniforme. Una stessa zona può essere indicata attraverso una via, una forma abbreviata, un quartiere, un parco oppure un toponimo conosciuto dagli abitanti.</p>
+    <p>Per collegare questi riferimenti a una geografia comune, abbiamo cercato nelle categorie, nei titoli e nei trafiletti le denominazioni e le varianti linguistiche delle aree subcomunali ASC2.</p>
+    <p>Ogni corrispondenza è stata associata alla relativa area territoriale, conservando anche la parola trovata e il campo della notizia nel quale compariva. Una stessa notizia può quindi essere collegata a più zone quando descrive eventi che coinvolgono parti diverse della città.</p>
+  </div>
+
+  <details class="tech">
+    <summary>Dettagli tecnici · riconoscimento delle aree ASC2</summary>
+    <div class="tech-body">
+      <h4>1. Normalizzazione del testo</h4>
+      <p>Prima della ricerca, testi e denominazioni territoriali sono stati convertiti in minuscolo, privati degli accenti e della punteggiatura e uniformati negli spazi.</p>
+      <div class="callout-box"><strong>Esempio:</strong> <code>Notizie da NOVOLI-LIPPI</code> diventa <code>notizie da novoli lippi</code></div>
+      <h4>2. Costruzione del dizionario geografico</h4>
+      <p>Per ogni ASC2 abbiamo costruito una lista di parole chiave a partire dalle varianti presenti nel file territoriale. Le denominazioni separate dal simbolo <code>|</code> sono state divise, normalizzate e raccolte senza duplicati.</p>
+      <div class="callout-box"><strong>ASC2 Novoli - Lippi</strong> — varianti originali: <code>novoli|lippi</code> · parole ricercate: <code>novoli</code>, <code>lippi</code></div>
+      <p>Alcune parole, come <code>novoli</code>, compaiono nelle varianti di più ASC2: Novoli - Lippi, Novoli - Fiat, Novoli - Baracca Est e Novoli - Baracca Ovest.</p>
+      <h4>3. Ricerca delle denominazioni</h4>
+      <p>Le parole chiave sono state cercate nei campi normalizzati della categoria, del titolo e del trafiletto. Il confronto utilizza i confini di parola, così da riconoscere soltanto termini o espressioni complete.</p>
+      <div class="callout-box"><strong>Pattern utilizzato:</strong> <code>\b + denominazione + \b</code></div>
+      <div class="callout-box"><strong>Esempio</strong> — testo: <code>Nuovi lavori nel quartiere di Novoli</code> · keyword riconosciuta: <code>novoli</code></div>
+      <h4>4. Il caso dell'ASC2 Centro</h4>
+      <p>A Firenze l'ASC2 49 si chiama <strong>Centro</strong>. Abbiamo escluso questa espressione perché troppo generica e presente nella categoria di molte notizie riferite anche a luoghi differenti. Per recuperare le notizie del centro abbiamo sfruttato le descrizioni OMI, che contengono denominazioni più precise.</p>
+      <div class="callout-box"><strong>Esempio di zona OMI:</strong> <code>CENTRO STORICO (SIGNORIA - DUOMO - PITTI - SAN NICCOLO)</code> · parole utilizzate: <code>signoria</code>, <code>duomo</code>, <code>pitti</code>, <code>san niccolo</code></div>
+      <h4>5. Notizie associate a più aree</h4>
+      <p>Una notizia può citare più zone oppure contenere una denominazione condivisa da più ASC2. Contarla interamente in ciascuna zona aumenterebbe artificialmente il numero totale delle notizie.</p>
+      <div class="callout-box">La parola <code>novoli</code> è associata a quattro ASC2. La notizia viene distribuita tra le quattro aree: <code>0,25</code> per ciascuna. Il peso complessivo rimane pari a <code>1</code>.</div>
+      <h4>6. Conversione dalle zone OMI alle ASC2</h4>
+      <p>La conversione è stata applicata soltanto alle notizie che avevano un riferimento OMI ma nessun match ASC2 diretto. Il peso della notizia è stato distribuito tra le ASC2 in proporzione alla superficie condivisa con la zona OMI.</p>
+      <div class="callout-box">Una notizia ha peso OMI pari a <code>1</code>. La zona OMI ricade per il 70% nell'ASC2 A e per il 30% nell'ASC2 B → peso A: <code>0,70</code>, peso B: <code>0,30</code>, totale <code>1</code>.</div>
+    </div>
+  </details>
+</section>
+
+<!-- STEP 04 -->
+<section class="chapter" id="sentiment">
+  <div class="step-kicker"><span class="num">04</span> Sentiment</div>
+  <h2 class="section-title">Dalle emozioni alla polarità territoriale</h2>
+  <div class="prose">
+    <p>Con <a href="https://github.com/Unipisa/ItEM" target="_blank" rel="noopener">ItEM</a> (lessico emotivo ad alta copertura per la lingua italiana, in cui a ciascun termine target viene assegnato un punteggio di associazione con le emozioni di base definite nella tassonomia di Plutchik, 1994) abbiamo analizzato titolo e trafiletto di ogni notizia, ottenendo uno score per otto emozioni: attese, disgusto, fiducia, gioia, paura, rabbia, sorpresa e tristezza.</p>
+    <p>Da questi valori abbiamo ricavato uno score di polarità compreso tra −1 e +1 per ogni notizia. Le polarità delle singole notizie sono state poi aggregate per area ASC2 e periodo elettorale, tenendo conto del peso territoriale di ciascun articolo.</p>
+    <p>Il risultato permette di distinguere la quantità di attenzione ricevuta da una zona dal tono, relativamente positivo o negativo, con cui viene raccontata rispetto alla propria città.</p>
+  </div>
+
+  <details class="tech">
+    <summary>Dentro il calcolo della polarità</summary>
+    <div class="tech-body">
+      <h4>Dalle emozioni alla polarità</h4>
+      <p>Abbiamo riunito <strong>gioia, fiducia, attese e sorpresa</strong> nella componente positiva e <strong>tristezza, rabbia, paura e disgusto</strong> nella componente negativa.</p>
+      <div class="formula-box">$$P_i = \frac{S_i^{+} - S_i^{-}}{S_i^{+} + S_i^{-}}$$</div>
+      <p>La polarità varia tra −1 e +1: valori positivi indicano una prevalenza delle emozioni positive, valori negativi una prevalenza di quelle negative. Le notizie senza termini riconosciuti da ItEM vengono escluse dal calcolo, perché l'assenza di uno score non equivale a neutralità.</p>
+      <h4>Polarità media della zona</h4>
+      <p>Per ogni ASC2 e periodo elettorale abbiamo calcolato la media delle polarità, pesando ogni notizia per la quota attribuita alla zona. Un articolo condiviso tra più aree influenza ciascuna di esse soltanto per la propria frazione.</p>
+      <h4>Polarità z-normalizzata</h4>
+      <p>Per confrontare territori con livelli medi differenti, la polarità della zona viene rapportata alla media e alla variabilità della propria città nello stesso periodo.</p>
+      <div class="formula-box">$$Z_{q,p} = \frac{\overline{P}_{q,p} - \mu_{c,p}}{\sigma_{c,p}}$$</div>
+      <div class="callout-box"><code>Z &gt; 0</code>: tono più positivo della media cittadina · <code>Z &lt; 0</code>: tono più negativo · <code>Z ≈ 0</code>: tono vicino alla media.</div>
+      <p>Lo z-score non descrive una qualità oggettiva del quartiere, ma la sua posizione relativa nella narrazione mediatica della città.</p>
+    </div>
+  </details>
+</section>

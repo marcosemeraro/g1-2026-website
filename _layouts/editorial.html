@@ -12,6 +12,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+<!-- ===== custom.css del progetto: componenti delle pagine markdown (.full-width-*, .news-pipeline-*, ecc.) ===== -->
+<link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+
 {% if page.mathjax %}
 <!-- ===== MathJax (attivato con `mathjax: true` nel front matter) ===== -->
 <script>
@@ -54,11 +57,24 @@ body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font
 .navbar-chulapa .dropdown-item.active { background: transparent; color: var(--accent); font-weight: 700; }
 .navbar-chulapa-fab .navbar-toggler { background: var(--panel) !important; border: 1px solid var(--rule) !important; }
 .navbar-chulapa-fab-nav { background: var(--panel) !important; }
+/* nessun anello blu di focus sui link della navbar */
+.navbar-chulapa .nav-link:focus, .navbar-chulapa .dropdown-item:focus, .navbar-chulapa .dropdown-toggle:focus, .navbar-chulapa .navbar-brand:focus, .navbar-chulapa a:focus { outline: none !important; box-shadow: none !important; }
+/* nascondi del tutto il menu mobile (FAB) e il suo sfondo su desktop: evita il flash del "residuo" al click */
+@media (min-width: 768px) { .navbar-chulapa-fab, .navbar-chulapa-fab-background, .navbar-chulapa-fab-nav { display: none !important; } }
+/* rimuovi il bordo che custom.css mette attorno all'ultimo item (SBD Master) */
+.navbar-chulapa .nav-item:last-child { border: none !important; }
 
 /* ===== Barra di lettura (se la pagina la usa): sopra la navbar ===== */
 body > div.progress { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 3px !important; background: transparent !important; z-index: 9999 !important; padding: 0 !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; display: block !important; }
 body > div.progress > .progress-bar, body > div.progress > #progressBar { height: 100% !important; background: var(--accent) !important; width: 0; transition: width 60ms linear; border-radius: 0 !important; animation: none !important; }
 .navbar-chulapa, nav.sticky-top { z-index: 100 !important; }
+
+/* ===== Hero header (per le pagine markdown con header_title / header_img) ===== */
+.ed-hero { position: relative; max-width: 1240px; margin: 0 auto 20px; }
+.ed-hero img { width: 100%; height: 320px; object-fit: cover; display: block; filter: saturate(0.85); }
+.ed-hero__text { max-width: 900px; margin: 0 auto; padding: 40px 32px 20px; text-align: center; }
+.ed-hero__text h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(38px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 14px; color: var(--ink); text-wrap: balance; }
+.ed-hero__sub { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 720px; margin: 0 auto; text-wrap: balance; }
 
 /* ===== Componenti editoriali (classi da usare nelle pagine) ===== */
 .cover { padding: 60px 32px 40px; max-width: 1240px; margin: 0 auto; }
@@ -106,15 +122,15 @@ section.chapter:first-of-type { border-top: none; }
 .ed-md h1 { font-size: 38px; }
 .ed-md h2 { font-size: 30px; }
 .ed-md h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; max-width: 720px; margin: 32px auto 10px; padding: 0 32px; color: var(--ink); }
-.ed-md p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px; }
+.ed-md p:not([class]) { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px; }
 .ed-md .lead { font-family: var(--serif); font-size: 22px; line-height: 1.5; font-weight: 400; color: var(--ink); }
 .ed-md a:not(.btn) { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
 .ed-md a:not(.btn):hover { color: var(--accent); border-bottom-color: var(--accent); }
-.ed-md ul, .ed-md ol { font-family: var(--serif); font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px 0 56px; }
-.ed-md table { max-width: 720px; margin: 20px auto 26px; border-collapse: collapse; background: transparent; }
-.ed-md table th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; background: transparent; }
-.ed-md table td { font-family: var(--serif); font-size: 16px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 10px 14px; background: transparent; }
-.ed-md img { max-width: 720px; width: 100%; height: auto; display: block; margin: 32px auto; }
+.ed-md ul:not([class]), .ed-md ol:not([class]) { font-family: var(--serif); font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px 0 56px; }
+.ed-md table:not([class]) { max-width: 720px; margin: 20px auto 26px; border-collapse: collapse; background: transparent; }
+.ed-md table:not([class]) th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; background: transparent; }
+.ed-md table:not([class]) td { font-family: var(--serif); font-size: 16px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 10px 14px; background: transparent; }
+.ed-md img:not([class]) { max-width: 720px; width: 100%; height: auto; display: block; margin: 32px auto; }
 .ed-md blockquote { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); border-left: 3px solid var(--accent); max-width: 680px; margin: 36px auto; padding: 8px 32px; }
 .ed-md code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); color: var(--ink); padding: 2px 6px; border-radius: 2px; }
 .ed-md hr { border: 0; border-top: 1px solid var(--rule); max-width: 720px; margin: 36px auto; }
@@ -125,6 +141,21 @@ section.chapter:first-of-type { border-top: none; }
 .ed-md .modal-header, .ed-md .modal-footer { border-color: var(--rule); }
 .ed-md .modal-title { font-family: var(--serif); font-weight: 700; color: var(--ink); }
 
+/* ===== Contesto per la griglia Bootstrap nelle pagine markdown =====
+   Chulapa avvolgeva tutto in .container-lg > .col-lg-8; editorial no.
+   Qui ricreo un contenitore coerente e neutralizzo i margini negativi
+   delle .row che altrimenti sporgono dal bordo (i "brutti offset"). */
+.ed-md .container, .ed-md .container-lg, .ed-md .container-fluid { max-width: 960px; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto; }
+.ed-md .row { margin-left: 0; margin-right: 0; }           /* annulla i -15px che sporgono */
+.ed-md [class*="col-"] { padding-left: 12px; padding-right: 12px; }
+/* dentro colonne/container il testo NON deve restare a 720px centrato:
+   deve riempire la colonna (queste regole vengono dopo il fallback e vincono a parità di specificità) */
+.ed-md .container p, .ed-md [class*="col-"] p { max-width: none; padding: 0; margin: 0 0 18px; }
+.ed-md .container h1, .ed-md .container h2, .ed-md .container h3,
+.ed-md [class*="col-"] h1, .ed-md [class*="col-"] h2, .ed-md [class*="col-"] h3 { max-width: none; padding: 0; margin: 0 0 12px; }
+.ed-md .container ul, .ed-md .container ol, .ed-md [class*="col-"] ul, .ed-md [class*="col-"] ol { max-width: none; padding-left: 22px; margin: 0 0 18px; }
+.ed-md .container img, .ed-md [class*="col-"] img { max-width: 100%; margin: 0 0 18px; }
+
 /* ===== Footer ===== */
 .ed-footer { max-width: 900px; margin: 60px auto 0; padding: 50px 32px 70px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
 .ed-footer a { color: var(--accent); text-decoration: none; }
@@ -132,27 +163,26 @@ section.chapter:first-of-type { border-top: none; }
 
 @media (max-width: 800px) {
   .cover { padding: 40px 20px 30px; }
-  .prose, .ed-md p { padding: 0 20px; }
-  .prose p, .ed-md p { font-size: 17px; }
+  .prose, .ed-md p:not([class]) { padding: 0 20px; }
+  .prose p, .ed-md p:not([class]) { font-size: 17px; }
+  .ed-hero img { height: 200px; }
 }
 </style>
 {{ page.custom_head }}
-    <script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']]
-  }
-};
-</script>
-
-<script defer
-src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
 </head>
 <body>
 
 {% include navbar.html pageurl=page.url %}
+
+{% if page.header_title %}
+<header class="ed-hero">
+  {% if page.header_img %}<img src="{{ page.header_img | relative_url }}" alt="">{% endif %}
+  <div class="ed-hero__text">
+    <h1>{{ page.header_title }}</h1>
+    {% if page.subtitle %}<p class="ed-hero__sub">{{ page.subtitle }}</p>{% endif %}
+  </div>
+</header>
+{% endif %}
 
 {%- assign page_ext = page.path | split: "." | last -%}
 <main class="ed-content{% if page_ext == 'markdown' or page_ext == 'md' %} ed-md{% endif %}">

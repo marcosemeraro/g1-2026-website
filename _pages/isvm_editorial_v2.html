@@ -1,14 +1,9 @@
 ---
-layout: null
+layout: editorial
 permalink: /isvm_editorial_v2.html
+title: "ISVM — Analisi della Vulnerabilità Sociale e Materiale"
 sitemap: false
 ---
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ISVM — Analisi della Vulnerabilità Sociale e Materiale</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 :root {
@@ -166,108 +161,12 @@ svg.bpsvg { width: 100%; height: 28px; overflow: visible; }
   .pipe-step:last-child { border-radius: 0 0 6px 6px; }
   .pipe-arrow { display: none; }
 }
-    /* ── Fixed navbar ── */
-.top-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 64px;
-  background: rgba(251,250,246,0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--rule);
-  z-index: 9999;
-}
-
-.nav-inner {
-  max-width: 1240px;
-  height: 100%;
-  margin: auto;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--serif);
-  font-weight: 700;
-  color: var(--ink);
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.nav-brand img {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 24px;
-}
-
-.nav-links a {
-  font-family: var(--sans);
-  font-size: 12px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--muted);
-  transition: color .2s;
-}
-
-.nav-links a:hover,
-.nav-links .active {
-  color: var(--accent);
-}
-
-
-/* spazio sotto navbar */
-body {
-  padding-top: 64px;
-}
 
 
 @media(max-width:700px){
 
-  .nav-links {
-    display:none;
-  }
-
-  .nav-inner {
-    padding:0 18px;
-  }
-
 }
 </style>
-</head>
-<body>
-
-<div id="progress-bar"></div>
-
-<nav class="top-navbar">
-
-  <div class="nav-inner">
-    <a href="./index.html" class="nav-brand">
-      <img src="./assets/images/Logo_masthead.png" alt="Logo">
-      Una città, Due mercati
-    </a>
-
-    <div class="nav-links">
-      <a href="./articolo.html" class="active">Articolo</a>
-      <a href="./datiomi.html">Dati OMI</a>
-      <a href="./datielezioni.html">Dati Elezioni</a>
-      <a href="./datinews.html">Dati News</a>
-      <a href="https://masterbigdata.it/">SBD Master</a>
-    </div>
-  </div>
-</nav>
-
 <div id="progress-bar"></div>
 <header class="cover">
   <div class="kicker">Analisi territoriale · ISTAT · Censimenti 2011–2021</div>
@@ -713,72 +612,10 @@ vegaEmbed("#mappa_isvm", "assets/charts/mappa_isvm.json", {
   window.addEventListener('scroll', updateBar, { passive: true });
   updateBar();
 
-.nav-inner {
-  max-width: 1240px;
-  height: 100%;
-  margin: 0 auto;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: var(--ink);
-  font-family: var(--serif);
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.nav-brand img {
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: var(--muted);
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: var(--accent);
-}
 
 
-/* evita che la cover venga coperta */
-body {
-  padding-top: 58px;
-}
 
 
-@media(max-width:900px){
-
-  .nav-links {
-    display:none;
-  }
-
-  .nav-inner {
-    padding:0 18px;
-  }
-
-}
 
 
   /* ── Schematic boxplots ── */
@@ -906,5 +743,3 @@ body {
 
 })();
 </script>
-</body>
-</html>
