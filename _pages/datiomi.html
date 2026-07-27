@@ -2,21 +2,180 @@
 layout: editorial
 title: "Dati OMI"
 permalink: /datiomi.html
-header_img: assets/images/roma_banner.webp
-header_title: "Dati OMI"
-subtitle: "Osservatorio del Mercato Immobiliare: valori, zone e dinamiche dei prezzi per area sub-comunale"
 ---
 
-<div class="prose">
-  <p class="lead">L'Osservatorio del Mercato Immobiliare (OMI) dell'Agenzia delle Entrate pubblica, per ciascuna zona omogenea del territorio comunale, i valori di mercato e di locazione degli immobili. Questi dati permettono di leggere la geografia economica delle città attraverso il prezzo dello spazio abitativo.</p>
+<style>
+.omi-pipeline { display: flex; align-items: stretch; gap: 0; max-width: 1060px; margin: 34px auto 10px; padding: 0 32px; overflow-x: auto; }
+.omi-step { flex: 1; min-width: 118px; background: var(--panel); border: 1px solid var(--rule); padding: 15px 13px; position: relative; }
+.omi-step:not(:first-child) { border-left: none; }
+.omi-step:first-child { border-radius: 6px 0 0 6px; }
+.omi-step:last-child { border-radius: 0 6px 6px 0; }
+.omi-num { font-family: var(--mono); font-size: 11px; color: var(--accent-2); margin-bottom: 7px; font-weight: 500; }
+.omi-label { font-family: var(--serif); font-weight: 700; font-size: 13.5px; line-height: 1.25; color: var(--ink); }
+.omi-arrow { position: absolute; right: -11px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; font-size: 10px; color: white; }
+.omi-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 860px; margin: 30px auto; padding: 0 32px; }
+.omi-stat { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; text-align: center; }
+.omi-stat .v { font-family: var(--serif); font-weight: 800; font-size: 34px; letter-spacing: -0.02em; color: var(--accent); }
+.omi-stat .l { font-family: var(--sans); font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+.omi-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 860px; margin: 26px auto; padding: 0 32px; }
+.omi-col { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; }
+.omi-col .t { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.omi-col ul { font-family: var(--serif); font-size: 16px; line-height: 1.55; color: var(--ink-2); margin: 0; padding-left: 20px; }
+.omi-col li { margin-bottom: 7px; }
+.omi-col p { font-family: var(--serif); font-size: 16px; line-height: 1.55; color: var(--ink-2); margin: 0; }
+.omi-tab { width: 100%; max-width: 860px; margin: 26px auto; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+.omi-tab-wrap { max-width: 924px; margin: 0 auto; padding: 0 32px; overflow-x: auto; }
+.omi-tab th { font-size: 10.5px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; border-bottom: 2px solid var(--rule-2); text-align: left; background: var(--panel-2); }
+.omi-tab td { padding: 10px 12px; color: var(--ink-2); border-bottom: 1px solid var(--rule); vertical-align: top; }
+.omi-tab tr:last-child td { border-bottom: none; }
+.omi-tab td:first-child { font-family: var(--serif); font-weight: 700; color: var(--ink); white-space: nowrap; }
+.omi-box { background: var(--panel-2); border-left: 3px solid var(--accent-2); border-radius: 0 6px 6px 0; padding: 18px 22px; max-width: 796px; margin: 30px auto; }
+.omi-box .t { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 8px; }
+.omi-box p { font-family: var(--serif); font-size: 17px; line-height: 1.55; color: var(--ink-2); margin: 0; }
+.omi-box p b { color: var(--ink); }
+@media (max-width: 800px) {
+  .omi-pipeline { flex-direction: column; }
+  .omi-step { border-left: 1px solid var(--rule) !important; border-top: none; }
+  .omi-step:first-child { border-radius: 6px 6px 0 0; border-top: 1px solid var(--rule); }
+  .omi-step:last-child { border-radius: 0 0 6px 6px; }
+  .omi-arrow { display: none; }
+  .omi-stats, .omi-cols { grid-template-columns: 1fr; }
+}
+</style>
+
+<header class="cover">
+  <div class="kicker">Osservatorio del Mercato Immobiliare · Data preparation</div>
+  <h1>Data <em>OMI</em> Preparation</h1>
+  <p class="dek">Dal dato OMI grezzo al dataset territoriale finale: sintesi metodologica della pipeline utilizzata per rendere i dati immobiliari coerenti, confrontabili nel tempo e riferibili alle aree sub-comunali ASC2.</p>
+  <p class="byline"><b>Quotazioni semestrali</b> · <b>15 tipologie immobiliari</b> · <b>6 macro-categorie</b> · <b>Geografia ASC2</b></p>
+</header>
+
+<div style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);text-align:center;margin:36px auto 0;">Logica della pipeline di data preparation</div>
+<div class="omi-pipeline">
+  <div class="omi-step"><div class="omi-num">01</div><div class="omi-label">Dati OMI semestrali</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">02</div><div class="omi-label">Pulizia e controlli</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">03</div><div class="omi-label">Indicatori temporali</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">04</div><div class="omi-label">Aggregazione in 6 macro-categorie</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">05</div><div class="omi-label">Trasferimento OMI → ASC2</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">06</div><div class="omi-label">Dataset finale per zona ASC2</div></div>
 </div>
 
+<!-- ═══ I ═══ -->
 <section class="chapter">
-  <div class="section-marker">In preparazione</div>
-  <h2 class="section-title">Sezione in costruzione</h2>
-  <p class="section-dek">L'analisi dei dati OMI, l'aggregazione alle aree ASC2 e le visualizzazioni saranno pubblicate qui.</p>
+  <div class="section-marker">Capitolo I</div>
+  <h2 class="section-title">Obiettivo e <em>logica generale</em></h2>
 
   <div class="prose">
-    <p>Questa pagina raccoglierà la metodologia e i risultati relativi ai dati del mercato immobiliare: la mappatura delle zone OMI sulle aree sub-comunali ASC2, l'evoluzione dei valori nei periodi di riferimento e il confronto con gli altri indicatori del progetto (redditi, vulnerabilità sociale, dinamiche elettorali).</p>
+    <p>Il dataset finale non era disponibile come prodotto già pronto. I dati di partenza descrivevano le quotazioni immobiliari OMI per semestre, zona e tipologia di immobile, ma presentavano una struttura troppo frammentata per sostenere direttamente un confronto longitudinale tra aree urbane. La Data Preparation è stata quindi progettata come una pipeline progressiva: prima rendere affidabile la serie storica, poi sintetizzare le dinamiche osservate, infine trasferire gli indicatori dal perimetro OMI alle unità territoriali ASC2.</p>
+    <p>La scelta metodologica centrale è stata separare tre domande: come cambia il mercato nel tempo, quale composizione immobiliare caratterizza ogni zona e come tradurre entrambe le informazioni in un'unica geografia territoriale coerente. Ogni passaggio della pipeline risolve uno di questi problemi e produce un output utilizzabile nello step successivo.</p>
+  </div>
+
+  <div class="omi-stats">
+    <div class="omi-stat"><div class="v">70.788</div><div class="l">record nella serie iniziale</div></div>
+    <div class="omi-stat"><div class="v">436</div><div class="l">zone OMI per periodo</div></div>
+    <div class="omi-stat"><div class="v">419</div><div class="l">unità ASC2 finali</div></div>
+  </div>
+</section>
+
+<!-- ═══ II ═══ -->
+<section class="chapter">
+  <div class="section-marker">Capitolo II</div>
+  <h2 class="section-title">Costruire una serie storica <em>affidabile</em></h2>
+
+  <div class="prose">
+    <p>Il primo passaggio ha riguardato la verifica puntuale delle osservazioni. La serie OMI dal 2015 comprendeva valori di compravendita riferiti a 15 tipologie immobiliari e a numerosi semestri consecutivi. Prima di calcolare qualsiasi indicatore sono stati individuati record anomali o incompleti, soprattutto in specifiche combinazioni di città, zona, periodo e tipologia. In questi casi non è stata applicata una cancellazione indiscriminata: sono state costruite maschere selettive per rimuovere soltanto le osservazioni riconosciute come incoerenti.</p>
+    <p>È stata inoltre verificata la stabilità degli identificativi territoriali. Dove la stessa descrizione di zona risultava associata a codici differenti nel tempo, il codice è stato riallineato utilizzando la mappatura più recente disponibile. Questo controllo era necessario per evitare che una variazione amministrativa o nominale venisse interpretata come una trasformazione del mercato.</p>
+  </div>
+
+  <div class="omi-cols">
+    <div class="omi-col">
+      <div class="t">Controlli applicati</div>
+      <ul>
+        <li>verifica di anomalie per città, zona e tipologia</li>
+        <li>rimozione selettiva dei record incoerenti</li>
+        <li>riallineamento dei codici territoriali</li>
+        <li>ordinamento cronologico delle osservazioni</li>
+      </ul>
+    </div>
+    <div class="omi-col">
+      <div class="t">Perché era necessario</div>
+      <p>Gli indicatori temporali dipendono dalla corretta successione dei semestri. Un errore isolato o un cambio di codice avrebbe alterato trend, variazioni e volatilità.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ III ═══ -->
+<section class="chapter">
+  <div class="section-marker">Capitolo III</div>
+  <h2 class="section-title">Trasformare le quotazioni in <em>indicatori di dinamica</em></h2>
+
+  <div class="prose">
+    <p>Una volta consolidata la serie storica, il prezzo medio di compravendita è stato osservato come sequenza temporale per ogni combinazione di comune, zona OMI e tipologia immobiliare. Dal confronto tra semestri consecutivi sono state calcolate le variazioni percentuali; dall'intero intervallo sono stati ricavati trend, differenza tra primo e ultimo valore, variabilità e volatilità.</p>
+    <p>La pipeline non ha considerato soltanto il livello dei prezzi. È stata misurata anche l'eterogeneità interna della fascia di quotazione, usando la distanza tra valore minimo e massimo e indicatori di dispersione relativa. In questo modo una zona può essere descritta non solo come più o meno costosa, ma anche come stabile, uniforme, in crescita oppure caratterizzata da una crescente differenziazione interna.</p>
+  </div>
+
+  <div class="omi-tab-wrap">
+    <table class="omi-tab">
+      <thead><tr><th>Dimensione</th><th>Indicatori sintetizzati</th><th>Significato</th></tr></thead>
+      <tbody>
+        <tr><td>Prezzo</td><td>range, trend, variazione semestrale</td><td>direzione e intensità del cambiamento</td></tr>
+        <tr><td>Volatilità</td><td>deviazione e variazioni tra semestri</td><td>regolarità o instabilità del percorso</td></tr>
+        <tr><td>Eterogeneità</td><td>range, trend, variazione semestrale</td><td>uniformità o differenziazione interna</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ IV ═══ -->
+<section class="chapter">
+  <div class="section-marker">Capitolo IV</div>
+  <h2 class="section-title">Dalle tipologie immobiliari alle <em>funzioni urbane</em></h2>
+
+  <div class="prose">
+    <p>Le 15 tipologie immobiliari sono state mantenute durante il calcolo degli indicatori, per non perdere informazione. Nella fase di sintesi sono state però ricondotte a sei macro-categorie leggibili dal punto di vista urbano: <strong>Pertinenze, Residenziale di pregio, Residenziale ordinario, Produttivo, Terziario e Logistica</strong>.</p>
+    <p>Per ogni zona sono state calcolate la presenza delle tipologie, il numero di tipologie appartenenti a ciascuna macro-categoria e la relativa quota sul totale. Le quote descrivono la composizione funzionale della zona: un valore pari a zero indica che nessuna tipologia della categoria è censita nell'area.</p>
+    <p>I prezzi sono stati resi confrontabili attraverso un indice relativo alla media comunale. Un valore superiore a 1 indica che la zona si colloca sopra la media della propria città per quella tipologia o categoria; un valore inferiore a 1 indica il contrario. Questa normalizzazione riduce l'effetto delle differenze assolute tra città e consente di confrontare il posizionamento interno delle zone.</p>
+    <p>Gli indicatori temporali delle singole tipologie sono stati quindi aggregati all'interno delle sei macro-categorie. Le variabili sono state standardizzate e combinate in un indice di dinamicità per categoria. Infine, sia l'indice di dinamicità complessivo sia il prezzo relativo complessivo della zona sono stati calcolati come medie ponderate, usando come peso la composizione immobiliare effettivamente presente.</p>
+  </div>
+</section>
+
+<!-- ═══ V ═══ -->
+<section class="chapter">
+  <div class="section-marker">Capitolo V</div>
+  <h2 class="section-title">Trasferire gli indicatori dalle zone OMI alle <em>aree ASC2</em></h2>
+
+  <div class="prose">
+    <p>L'ultimo passaggio ha risolto il problema geografico. Le zone OMI e le unità ASC2 non coincidono perfettamente: una stessa area ASC2 può sovrapporsi a più zone OMI e una zona OMI può contribuire solo in parte a un'area ASC2. Per evitare assegnazioni arbitrarie, gli indicatori sono stati trasferiti usando la percentuale di sovrapposizione territoriale come peso.</p>
+    <p>Per ogni indicatore è stata calcolata una media ponderata sulle sole osservazioni valide. I valori mancanti non hanno contribuito né al numeratore né al denominatore. Questo dettaglio è fondamentale: impedisce che l'assenza di una tipologia immobiliare abbassi artificialmente il valore medio dell'area ASC2.</p>
+    <p>Le variabili di presenza sono state trattate in modo specifico. Prima dell'aggregazione gli zeri sono stati temporaneamente esclusi dal denominatore, così una tipologia presente in una delle zone OMI sovrapposte non venisse trasformata in una presenza frazionaria. Dopo il trasferimento, i valori sono stati ricondotti a una codifica intera e sono state ricalcolate le quote funzionali, l'indice di dinamicità complessivo e il prezzo relativo complessivo sulla nuova geografia ASC2.</p>
+  </div>
+</section>
+
+<!-- ═══ VI ═══ -->
+<section class="chapter">
+  <div class="section-marker">Capitolo VI</div>
+  <h2 class="section-title">Controlli finali e <em>risultato ottenuto</em></h2>
+
+  <div class="prose">
+    <p>La pipeline si chiude con controlli di coerenza tra presenza delle categorie e disponibilità degli indicatori, verifica delle aree prive di copertura OMI sufficiente, controllo degli identificativi territoriali e assenza di valori mancanti nei campi chiave CITY, COM_ASC2 e Periodo.</p>
+    <p>Il risultato è un dataset con una riga per ciascuna delle 419 aree ASC2 considerate in ogni periodo di analisi. Ogni area è descritta attraverso informazioni territoriali e demografiche, quote di composizione immobiliare, prezzi relativi per macro-categoria, indicatori di dinamicità e indici complessivi ricalcolati sulla geografia finale.</p>
+  </div>
+
+  <div class="omi-tab-wrap">
+    <table class="omi-tab">
+      <thead><tr><th>Blocco informativo</th><th>Contenuto del dataset finale</th></tr></thead>
+      <tbody>
+        <tr><td>Identificazione territoriale</td><td>città, codice ASC2, denominazione, geometria e periodo</td></tr>
+        <tr><td>Struttura urbana</td><td>numero e quota delle sei macro-categorie immobiliari</td></tr>
+        <tr><td>Posizionamento immobiliare</td><td>prezzi relativi per categoria e indice complessivo</td></tr>
+        <tr><td>Dinamica temporale</td><td>indicatori standardizzati e indice di dinamicità per categoria e zona</td></tr>
+        <tr><td>Controlli e copertura</td><td>presenze, missing informativi e aree senza adeguata sovrapposizione OMI</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="omi-box">
+    <div class="t">In sintesi</div>
+    <p>La Data Preparation ha trasformato una raccolta di quotazioni semestrali eterogenee in una base dati territoriale coerente e replicabile. La logica seguita è stata conservare il massimo dettaglio nelle fasi iniziali, sintetizzarlo solo dopo aver costruito gli indicatori temporali e trasferirlo alla geografia ASC2 mediante pesi territoriali espliciti. Il dataset finale non è quindi una semplice unione di fonti, ma il risultato di una sequenza controllata di pulizia, armonizzazione, normalizzazione, aggregazione e validazione.</p>
   </div>
 </section>

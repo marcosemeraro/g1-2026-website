@@ -63,6 +63,10 @@ navbar:
           url: /isvm_editorial_v2.html
         - title: Dati Stefania 2
           url: /datistefania2.html
+        - title: Classificatore
+          url: /classificatore.html
+        - title: UrbanGraph
+          url: /urbangraph.html
 
     - title: SBD Master # deve essere sempre l'ultimo elemento della navbar, non modificarlo
       url: https://masterbigdata.it/
