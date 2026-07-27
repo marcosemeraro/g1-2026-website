@@ -3,9 +3,6 @@ layout: editorial
 title: "Dalle cronache locali alla geografia del tono mediatico"
 permalink: /datinews.html
 mathjax: true
-header_img: assets/images/news_header_AI.png
-header_title: "Dalle cronache locali alla geografia del tono mediatico"
-#subtitle: "Come attenzione mediatica e sentiment raccontano aree subcomunali diverse dentro la stessa città"
 ---
 
 <style>
@@ -29,7 +26,72 @@ details.tech .tech-body code { font-family: var(--mono); font-size: .85em; backg
 .callout-box { background: var(--panel-2); border-left: 3px solid var(--accent-2); padding: 12px 16px; margin: 18px 0; font-family: var(--sans); font-size: 14px; line-height: 1.55; color: var(--ink-2); }
 .callout-box code { font-family: var(--mono); font-size: .9em; }
 .formula-box { background: var(--panel); border-left: 3px solid var(--accent-2); padding: 16px 24px; margin: 20px auto; max-width: 720px; overflow-x: auto; text-align: center; }
+.polarity-bubble-viz { max-width: 960px; margin: 26px auto 20px; padding: 24px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule); }
+.polarity-bubble-viz .polarity-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; }
+.polarity-bubble-viz .polarity-panel { min-width: 0; text-align: center; }
+.polarity-bubble-viz .polarity-heading { display: flex; justify-content: center; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.polarity-bubble-viz .polarity-heading h3 { margin: 0; font-family: var(--serif); font-size: 22px; font-weight: 700; }
+.polarity-bubble-viz .polarity-negative .polarity-heading h3 { color: #B4473D; }
+.polarity-bubble-viz .polarity-positive .polarity-heading h3 { color: #2B7A68; }
+.polarity-bubble-viz .polarity-heading span,
+.polarity-bubble-viz .method-note { font-family: var(--sans); font-size: 12px; color: var(--muted); }
+.polarity-bubble-viz .bubble-chart { display: block; width: 100%; height: auto; overflow: visible; }
+.polarity-bubble-viz .bubble circle { stroke-width: 1.5; }
+.polarity-bubble-viz .bubble-negativa circle { fill: #B4473D; fill-opacity: .20; stroke: #B4473D; }
+.polarity-bubble-viz .bubble-positiva circle { fill: #2B7A68; fill-opacity: .20; stroke: #2B7A68; }
+.polarity-bubble-viz .bubble text { fill: var(--ink); font-family: var(--sans); font-weight: 600; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+.polarity-bubble-viz .method-note { margin: 10px 0 0; line-height: 1.5; text-align: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.method-footer { max-width: 960px; margin: 56px auto 12px; padding: 22px 24px; border-top: 1px solid var(--rule-2); border-bottom: 1px solid var(--rule); text-align: center; }
+.method-footer h2 { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; }
+.method-footer p { font-family: var(--sans); font-size: 12px; line-height: 1.7; color: var(--muted); margin: 0; }
+.method-footer .tool { display: inline-block; white-space: nowrap; }
+@media (max-width: 760px) {
+  .polarity-bubble-viz { padding: 18px; }
+  .polarity-bubble-viz .polarity-grid { grid-template-columns: 1fr; }
+  .polarity-bubble-viz .polarity-panel { max-width: 410px; margin: 0 auto; }
+}
+
+/* Barra di avanzamento isolata: non modifica il layout né i dettagli tecnici. */
+#datinews-reading-progress {
+  position: fixed;
+  top: var(--datinews-progress-top, 0px);
+  right: 0;
+  left: 0;
+  z-index: 1040;
+  height: 3px;
+  overflow: hidden;
+  background: rgba(221, 212, 196, .55);
+  pointer-events: none;
+}
+#datinews-reading-progress-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent, #A0402E);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  #datinews-reading-progress-bar { will-change: auto; }
+}
 </style>
+
+<div
+  id="datinews-reading-progress"
+  role="progressbar"
+  aria-label="Avanzamento della lettura"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="0">
+  <span id="datinews-reading-progress-bar"></span>
+</div>
+
+<header class="cover" style="padding-top:88px;padding-bottom:20px">
+  <div class="kicker">Dati e metodologie · approfondimenti</div>
+  <h1>Dalle cronache locali alla <em>geografia del tono mediatico</em> </h1>
+</header>
 
 <div class="prose">
   <p class="lead">Per capire come una città fosse stata raccontata nel corso del tempo, volevamo raccogliere molti anni di notiziari regionali. Prima degli algoritmi, delle mappe e dei modelli di linguaggio, il progetto è iniziato con un incontro sul campo: una visita alla sede di un notiziario regionale per esplorare le possibilità di accesso a dieci anni di edizioni locali.</p>
@@ -49,7 +111,7 @@ details.tech .tech-body code { font-family: var(--mono); font-size: .85em; backg
   <h2 class="section-title">Dal flusso delle notizie a un archivio strutturato</h2>
   <div class="prose">
     <p>Il primo passaggio è stato raccogliere in modo sistematico le notizie pubblicate dalle edizioni locali di CityNews. Per ciascuna città abbiamo sviluppato uno scraper in Python capace di percorrere le pagine dedicate alle notizie di zona, procedendo dagli articoli più recenti verso quelli più lontani nel tempo.</p>
-    <p>Per ogni notizia sono stati registrati la categoria (che può contenere informazioni territoriali, tipo di evento o altro), il titolo, il link, il trafiletto, la data mostrata sul sito e la pagina di provenienza. Queste informazioni sono state organizzate in un archivio tabellare, che costituisce il punto di partenza per le successive operazioni.</p>
+    <p>Per ogni notizia sono stati registrati la categoria (che può contenere informazioni territoriali, tipo di evento o macrocategoria dell'argomento trattato), il titolo, il link, il trafiletto e la data mostrata sul sito. Queste informazioni sono state organizzate in un archivio tabellare, che costituisce il punto di partenza per le successive operazioni.</p>
   </div>
 </section>
 
@@ -109,7 +171,7 @@ details.tech .tech-body code { font-family: var(--mono); font-size: .85em; backg
       <div class="callout-box"><strong>Pattern utilizzato:</strong> <code>\b + denominazione + \b</code></div>
       <div class="callout-box"><strong>Esempio</strong> — testo: <code>Nuovi lavori nel quartiere di Novoli</code> · keyword riconosciuta: <code>novoli</code></div>
       <h4>4. Il caso dell'ASC2 Centro</h4>
-      <p>A Firenze l'ASC2 49 si chiama <strong>Centro</strong>. Abbiamo escluso questa espressione perché troppo generica e presente nella categoria di molte notizie riferite anche a luoghi differenti. Per recuperare le notizie del centro abbiamo sfruttato le descrizioni OMI, che contengono denominazioni più precise.</p>
+      <p>A Firenze l'ASC2 49 si chiama <strong>Centro</strong>. Abbiamo escluso questa espressione perché troppo generica. Per recuperare le notizie del centro abbiamo sfruttato le descrizioni OMI, che contengono denominazioni più precise.</p>
       <div class="callout-box"><strong>Esempio di zona OMI:</strong> <code>CENTRO STORICO (SIGNORIA - DUOMO - PITTI - SAN NICCOLO)</code> · parole utilizzate: <code>signoria</code>, <code>duomo</code>, <code>pitti</code>, <code>san niccolo</code></div>
       <h4>5. Notizie associate a più aree</h4>
       <p>Una notizia può citare più zone oppure contenere una denominazione condivisa da più ASC2. Contarla interamente in ciascuna zona aumenterebbe artificialmente il numero totale delle notizie.</p>
@@ -132,8 +194,25 @@ details.tech .tech-body code { font-family: var(--mono); font-size: .85em; backg
   </div>
 
   <details class="tech">
-    <summary>Dentro il calcolo della polarità</summary>
+    <summary>Dettagli tecnici · Dentro il calcolo della polarità</summary>
     <div class="tech-body">
+      <h4>Dal testo alle chiavi lemma–POS di ItEM</h4>
+      <p>ItEM non contiene soltanto parole isolate: le sue voci sono indicizzate come combinazioni di <strong>lemma</strong> e <strong>parte del discorso (POS)</strong>. Questa informazione permette di distinguere termini che hanno la stessa forma ma una funzione grammaticale diversa e rende necessario trasformare nello stesso formato anche le parole dei titoli e dei trafiletti.</p>
+      <p>Abbiamo unito titolo e trafiletto, convertito il testo in minuscolo, rimosso URL, caratteri non alfabetici e spazi multipli, quindi lo abbiamo elaborato con il modello italiano <code>it_core_news_sm</code> di spaCy. Per ogni token sono stati ricavati il lemma con <code>token.lemma_</code> e il POS con <code>token.pos_</code>; sono stati esclusi stopword, token non alfabetici, parole di due caratteri o meno e POS non presenti nella mappatura di ItEM. Per alleggerire l'elaborazione, parser sintattico e riconoscimento delle entità nominate sono stati disattivati, perché non necessari a questo confronto lessicale.</p>
+      <table>
+        <thead><tr><th>POS riconosciuto da spaCy</th><th>Codice ItEM</th><th>Esempio di chiave confrontata</th></tr></thead>
+        <tbody>
+          <tr><td><code>NOUN</code>, <code>PROPN</code></td><td><code>s</code></td><td><code>casa-s</code></td></tr>
+          <tr><td><code>ADJ</code></td><td><code>a</code></td><td><code>difficile-a</code></td></tr>
+          <tr><td><code>VERB</code>, <code>AUX</code></td><td><code>v</code></td><td><code>aumentare-v</code></td></tr>
+        </tbody>
+      </table>
+      <p>Le chiavi <code>lemma-POS</code> estratte dalle notizie sono state confrontate esattamente con l'indice del lessico. Per ogni termine riconosciuto, ItEM restituisce un vettore di otto punteggi: uno per ciascuna emozione.</p>
+      <h4>Da più termini a un solo profilo emotivo per notizia</h4>
+      <p>Titolo e trafiletto sono stati trattati insieme come un unico testo. I risultati non sono stati conservati come score separati per ciascuna frase o parola: sono stati <strong>appiattiti a livello di notizia</strong>. Per ogni emozione abbiamo sommato i punteggi ItEM di tutti i termini riconosciuti e abbiamo diviso la somma per il numero totale di termini eleggibili estratti da spaCy. Se uno stesso termine ricorre più volte nella notizia, ogni occorrenza contribuisce alla somma.</p>
+      <div class="formula-box">$$E_{i,e}=\frac{1}{N_i}\sum_{t\in M_i}c(t,e)$$</div>
+      <p>Dove \(E_{i,e}\) è lo score della notizia \(i\) per l'emozione \(e\), \(M_i\) è l'insieme delle occorrenze lemma–POS della notizia riconosciute in ItEM, \(c(t,e)\) è il punteggio di associazione del termine \(t\) con l'emozione \(e\) e \(N_i\) è il numero complessivo dei termini eleggibili estratti da spaCy, compresi quelli senza corrispondenza nel lessico. In questo modo ogni notizia viene rappresentata da una sola riga con otto valori emotivi, indipendentemente dal numero di termini che contiene.</p>
+      <div class="callout-box"><strong>In sintesi:</strong> molti termini × otto score ItEM → somma separata per ciascuna emozione → divisione per la lunghezza eleggibile della notizia → un unico vettore di otto emozioni per news.</div>
       <h4>Dalle emozioni alla polarità</h4>
       <p>Abbiamo riunito <strong>gioia, fiducia, attese e sorpresa</strong> nella componente positiva e <strong>tristezza, rabbia, paura e disgusto</strong> nella componente negativa.</p>
       <div class="formula-box">$$P_i = \frac{S_i^{+} - S_i^{-}}{S_i^{+} + S_i^{-}}$$</div>
@@ -148,3 +227,249 @@ details.tech .tech-body code { font-family: var(--mono); font-size: .85em; backg
     </div>
   </details>
 </section>
+
+<!-- STEP 05 -->
+<section class="chapter" id="tfidf">
+  <div class="step-kicker"><span class="num">05</span> Parole distintive</div>
+  <h2 class="section-title">Leggere le polarità attraverso il TF-IDF</h2>
+  <div class="prose">
+    <p>Per osservare quali parole caratterizzano maggiormente le notizie classificate come negative o positive, abbiamo affiancato alla polarità lessicale un bubble chart basato sul TF-IDF.</p>
+  </div>
+
+  <figure id="polarity-tfidf-no-neutral-viz" class="polarity-bubble-viz" aria-label="Parole più distintive nelle notizie negative e positive secondo il TF-IDF">
+    <div class="polarity-grid">
+      <section class="polarity-panel polarity-negative" aria-labelledby="tfidf-negative-heading">
+        <div class="polarity-heading">
+          <h3 id="tfidf-negative-heading">Negativa</h3>
+          <span>57.620 notizie</span>
+        </div>
+        <svg class="bubble-chart" data-polarity="Negative" viewBox="0 0 350 290" role="img"></svg>
+        <p class="sr-only">Le parole più distintive sono arrestato, ferito, polizia, auto, denunciato, paura, incendio, rapina, fuoco e fiamme.</p>
+      </section>
+      <section class="polarity-panel polarity-positive" aria-labelledby="tfidf-positive-heading">
+        <div class="polarity-heading">
+          <h3 id="tfidf-positive-heading">Positiva</h3>
+          <span>151.760 notizie</span>
+        </div>
+        <svg class="bubble-chart" data-polarity="Positive" viewBox="0 0 350 290" role="img"></svg>
+        <p class="sr-only">Le parole più distintive sono evento, concerto, musica, edizione, teatro, progetto, appuntamento, mostra, festival e arte.</p>
+      </section>
+    </div>
+    <figcaption class="method-note">L'area della bolla combina il TF-IDF medio della parola e la sua distintività rispetto alla polarità opposta.</figcaption>
+  </figure>
+
+  <details class="tech">
+    <summary>Dettagli tecnici · che cosa misura il TF-IDF</summary>
+    <div class="tech-body">
+      <h4>L'idea fondamentale</h4>
+      <p>Il TF-IDF non risponde semplicemente alla domanda “quali parole compaiono più spesso?”. Cerca invece parole <strong>importanti nei singoli articoli ma non diffuse indistintamente in tutto il corpus</strong>. Nel nostro confronto serve quindi a far emergere il vocabolario che caratterizza maggiormente una polarità rispetto all'altra.</p>
+      <div class="callout-box"><strong>Regola da ricordare:</strong> la TF guarda dentro una notizia; l'IDF guarda tutte le notizie.</div>
+
+      <h4>1. TF: quanto conta la parola nella notizia</h4>
+      <p>Ogni documento è formato da titolo e trafiletto. Se \(f_{t,d}\) è il numero di volte in cui il termine \(t\) compare nella notizia \(d\), abbiamo usato una frequenza sublineare:</p>
+      <div class="formula-box">$$\operatorname{TF}_{t,d}=1+\ln(f_{t,d})$$</div>
+      <p>Il logaritmo evita che la ripetizione della stessa parola domini il risultato: passare da una a due occorrenze aumenta il peso, ma ripeterla dieci volte non la rende dieci volte più informativa.</p>
+
+      <h4>2. IDF: quanto la parola è rara nel corpus</h4>
+      <div class="formula-box">$$\operatorname{IDF}_{t}=\ln\!\left(\frac{1+N}{1+\operatorname{df}_{t}}\right)+1$$</div>
+      <p>\(N\) è il numero totale di notizie positive e negative, mentre \(\operatorname{df}_{t}\) è il numero di notizie che contengono il termine. Una parola presente quasi ovunque riceve un IDF basso; una parola concentrata in un numero più limitato di articoli riceve un IDF più alto. Gli \(1\) della formula sono lo <em>smoothing</em> usato da scikit-learn e rendono il calcolo stabile.</p>
+
+      <h4>3. Il peso TF-IDF</h4>
+      <div class="formula-box">$$\operatorname{TFIDF}_{t,d}=\operatorname{TF}_{t,d}\cdot\operatorname{IDF}_{t}$$</div>
+      <p>Dopo il prodotto, ciascun vettore-documento è normalizzato con norma L2. In questo modo un trafiletto più lungo non ottiene automaticamente valori maggiori soltanto perché contiene più parole. Sono stati mantenuti i termini presenti in almeno 40 notizie.</p>
+
+      <h4>4. Dal TF-IDF alla dimensione della bolla</h4>
+      <p>Il TF-IDF viene prima calcolato per ogni notizia. Poi, per ciascuna parola, ne calcoliamo la media nelle notizie di una polarità e la confrontiamo con la media nella polarità opposta:</p>
+      <div class="formula-box">$$B_g(t)=\overline{\operatorname{TFIDF}}_g(t)\,\max\!\left[\log_2\!\left(\frac{\overline{\operatorname{TFIDF}}_g(t)+\varepsilon}{\overline{\operatorname{TFIDF}}_{\mathrm{altro}}(t)+\varepsilon}\right),0\right]$$</div>
+      <p>La prima parte premia una parola importante nel gruppo; il rapporto logaritmico premia una parola molto più forte in quel gruppo che nell'altro. Se le due medie sono uguali, il logaritmo vale circa zero e la parola non produce una bolla grande, anche se è frequente. \(\varepsilon\) è un numero piccolissimo che evita divisioni per zero.</p>
+
+      <h4>Come leggere il grafico</h4>
+      <p>Una bolla grande identifica quindi una parola che è contemporaneamente <strong>rilevante</strong> nelle notizie di una polarità e <strong>distintiva</strong> rispetto all'altra. Per esempio, nel corpus termini di cronaca ed emergenza distinguono maggiormente il gruppo negativo, mentre eventi e cultura distinguono il gruppo positivo. Questo non significa che una parola sia positiva o negativa in assoluto: il grafico descrive il suo uso nel nostro corpus e nelle classi prodotte da ItEM.</p>
+    </div>
+  </details>
+</section>
+
+<footer class="method-footer" aria-label="Librerie e risorse utilizzate">
+  <h2>Librerie e risorse utilizzate</h2>
+  <p>
+    <span class="tool">Python 3</span> ·
+    <span class="tool">pandas</span> ·
+    <span class="tool">NumPy</span> ·
+    <span class="tool">Requests</span> ·
+    <span class="tool">Beautiful Soup 4</span> ·
+    <span class="tool">python-dateutil</span> ·
+    <span class="tool">spaCy (<code>it_core_news_sm</code>)</span> ·
+    <span class="tool">scikit-learn</span> ·
+    <span class="tool">tqdm</span> ·
+    <span class="tool">GeoPandas</span> ·
+    <span class="tool">Altair</span> ·
+    <span class="tool">Matplotlib</span> ·
+    <span class="tool">Seaborn</span> 
+    Risorsa lessicale: <span class="tool">ItEM – Italian Emotive Lexicon</span>.
+  </p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  if (typeof d3 === 'undefined') return;
+
+  var tfidfData = [{"polarity":"Negative","label":"negativa","cssClass":"bubble-negativa","items":[{"term":"arrestato","docs":7742,"share":0.134363,"score":0.087517003,"mean":0.026113904,"otherMean":0.0025586622,"lift":3.3514},{"term":"ferito","docs":4006,"share":0.069524,"score":0.0602975594,"mean":0.015531265,"otherMean":0.0010531927,"lift":3.8823},{"term":"polizia","docs":7863,"share":0.136463,"score":0.0595496089,"mean":0.0243153664,"otherMean":0.004452896,"lift":2.4491},{"term":"auto","docs":6101,"share":0.105883,"score":0.0558005994,"mean":0.0208490826,"otherMean":0.0032614341,"lift":2.6764},{"term":"denunciato","docs":2825,"share":0.049028,"score":0.0511078558,"mean":0.0117469754,"otherMean":0.0005757413,"lift":4.3507},{"term":"paura","docs":1965,"share":0.034103,"score":0.0441709379,"mean":0.0080887479,"otherMean":0.0001836624,"lift":5.4608},{"term":"incendio","docs":3069,"share":0.053263,"score":0.0439148668,"mean":0.012781633,"otherMean":0.0011811738,"lift":3.4358},{"term":"rapina","docs":2704,"share":0.046928,"score":0.0436204777,"mean":0.0112551824,"otherMean":0.0007668026,"lift":3.8756},{"term":"fuoco","docs":3216,"share":0.055814,"score":0.0435044248,"mean":0.0129078244,"otherMean":0.0012481421,"lift":3.3704},{"term":"fiamme","docs":2241,"share":0.038893,"score":0.0420927015,"mean":0.0098038867,"otherMean":0.0004999595,"lift":4.2935}]},{"polarity":"Positive","label":"positiva","cssClass":"bubble-positiva","items":[{"term":"evento","docs":10445,"share":0.068826,"score":0.0599259785,"mean":0.0097859024,"otherMean":0.0001403402,"lift":6.1237},{"term":"concerto","docs":9588,"share":0.063179,"score":0.055390742,"mean":0.0104205868,"otherMean":0.0002616761,"lift":5.3155},{"term":"musica","docs":10302,"share":0.067884,"score":0.0517451254,"mean":0.0104206037,"otherMean":0.0003334891,"lift":4.9657},{"term":"edizione","docs":7546,"share":0.049723,"score":0.0516760934,"mean":0.007626219,"otherMean":0.000069582,"lift":6.7761},{"term":"teatro","docs":12718,"share":0.083803,"score":0.044938481,"mean":0.013539501,"otherMean":0.0013566399,"lift":3.3191},{"term":"progetto","docs":8091,"share":0.053314,"score":0.0444126856,"mean":0.0082948305,"otherMean":0.000202775,"lift":5.3543},{"term":"appuntamento","docs":9975,"share":0.065729,"score":0.0418413476,"mean":0.0091656161,"otherMean":0.0003872127,"lift":4.565},{"term":"mostra","docs":8347,"share":0.055001,"score":0.0418123088,"mean":0.0099689471,"otherMean":0.0005445687,"lift":4.1943},{"term":"festival","docs":5239,"share":0.034522,"score":0.04112878,"mean":0.0071230263,"otherMean":0.0001301665,"lift":5.7741},{"term":"arte","docs":6047,"share":0.039846,"score":0.0361237715,"mean":0.0070506201,"otherMean":0.000202257,"lift":5.1235}]}];
+  var formatInteger = new Intl.NumberFormat('it-IT');
+  var formatPercent = new Intl.NumberFormat('it-IT', {
+    style: 'percent',
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1
+  });
+
+  function renderChart(config) {
+    var root = document.getElementById(config.rootId);
+    if (!root) return;
+
+    root.querySelectorAll('.bubble-chart').forEach(function (svgElement) {
+      var group = config.data.find(function (entry) {
+        return entry.polarity === svgElement.dataset.polarity;
+      });
+      if (!group) return;
+
+      var svg = d3.select(svgElement);
+      svg.selectAll('*').remove();
+      svg.append('title').text(config.titlePrefix + ' nella polarità ' + group.label);
+      svg.append('desc').text(config.description + ' Polarità ' + group.label + '.');
+
+      var hierarchy = d3.hierarchy({ children: group.items })
+        .sum(function (item) { return item[config.valueKey]; })
+        .sort(function (a, b) { return b.value - a.value; });
+
+      var packed = d3.pack()
+        .size([346, 284])
+        .padding(5)(hierarchy);
+
+      var bubbles = svg.append('g')
+        .attr('transform', 'translate(2,3)')
+        .selectAll('g')
+        .data(packed.leaves())
+        .join('g')
+        .attr('class', 'bubble ' + group.cssClass)
+        .attr('transform', function (item) {
+          return 'translate(' + item.x + ',' + item.y + ')';
+        });
+
+      bubbles.append('circle').attr('r', function (item) { return item.r; });
+
+      bubbles.append('title').text(function (item) {
+        var d = item.data;
+        var common = d.term + ': ' + formatInteger.format(d.docs) +
+          ' notizie (' + formatPercent.format(d.share) + ' del gruppo).';
+        if (config.valueKey === 'score') {
+          return common + ' TF-IDF medio ' + d.mean.toFixed(4) +
+            '; nell’altra polarità ' + d.otherMean.toFixed(4) +
+            '; distintività log₂ ' + d.lift.toFixed(2) + '.';
+        }
+        return common;
+      });
+
+      bubbles.append('text')
+        .attr('font-size', function (item) {
+          var size = Math.max(12, Math.min(18, item.r * 0.39));
+          var length = item.data.term.length;
+          if (length >= 11) size *= 0.74;
+          else if (length >= 9) size *= 0.86;
+          return size;
+        })
+        .text(function (item) { return item.data.term; });
+    });
+  }
+
+  renderChart({
+    rootId: 'polarity-tfidf-no-neutral-viz',
+    data: tfidfData,
+    valueKey: 'score',
+    titlePrefix: 'Parole più distintive',
+    description: 'Parole con il maggiore TF-IDF contrastivo.'
+  });
+
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var progress = document.getElementById('datinews-reading-progress');
+  var bar = document.getElementById('datinews-reading-progress-bar');
+  var ticking = false;
+
+  if (!progress || !bar) return;
+
+  function getNavbarBottom() {
+    var selectors = [
+      '.navbar-chulapa',
+      '.navbar-chulapa-fab',
+      '.ed-nav',
+      'nav.navbar'
+    ];
+    var navbars = document.querySelectorAll(selectors.join(','));
+    var bottom = 0;
+
+    Array.prototype.forEach.call(navbars, function (navbar) {
+      var style = window.getComputedStyle(navbar);
+      var rect = navbar.getBoundingClientRect();
+      var visible =
+        style.display !== 'none' &&
+        style.visibility !== 'hidden' &&
+        rect.width > 0 &&
+        rect.height > 0;
+
+      if (visible && rect.bottom > 0 && rect.top <= 1) {
+        bottom = Math.max(bottom, rect.bottom);
+      }
+    });
+
+    return Math.max(0, Math.round(bottom));
+  }
+
+  function update() {
+    var root = document.documentElement;
+    var body = document.body;
+    var scrollTop = window.pageYOffset || root.scrollTop || body.scrollTop || 0;
+    var fullHeight = Math.max(
+      root.scrollHeight,
+      body.scrollHeight,
+      root.offsetHeight,
+      body.offsetHeight
+    );
+    var scrollable = Math.max(0, fullHeight - window.innerHeight);
+    var ratio = scrollable > 0
+      ? Math.min(1, Math.max(0, scrollTop / scrollable))
+      : 0;
+
+    root.style.setProperty(
+      '--datinews-progress-top',
+      getNavbarBottom() + 'px'
+    );
+    bar.style.transform = 'scaleX(' + ratio + ')';
+    progress.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
+    ticking = false;
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }
+
+  document.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  window.addEventListener('load', requestUpdate);
+  document.addEventListener('toggle', requestUpdate, true);
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(requestUpdate);
+  }
+
+  requestUpdate();
+})();
+</script>
