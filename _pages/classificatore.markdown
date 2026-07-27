@@ -9,13 +9,38 @@ header_title: "Analisi"
 vega: true
 #plotly: true
 ---
+<style>
+  .asc-winners-chart {
+    width: 100%;
+    max-width: 200%;
+    margin: 1.5rem 0 2rem;
+    overflow: hidden;
+  }
+
+  .asc-winners-chart vegachart,
+  .asc-winners-chart .vega-embed {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .asc-winners-chart .vega-embed > svg,
+  .asc-winners-chart .vega-embed > canvas {
+    display: block;
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  .asc-winners-chart form.vega-bindings {
+    margin-top: 0.5rem;
+  }
+</style>
+
 
 Questo lavoro esplora le relazioni tra le caratteristiche socioeconomiche, demografiche, immobiliari e territoriali dei quartieri e la loro instabilità politica, definita come il cambiamento del vincitore rispetto all’elezione precedente. I modelli di machine learning sono utilizzati principalmente come strumenti esplorativi per individuare le condizioni associate a una maggiore contendibilità politica.
 {: .lead }
 
 ---
-
-![](https://placehold.co/800x200/png)
 
 ## Data cleaning e feature selection
 
@@ -38,7 +63,7 @@ Sono state utilizzate due strategie di validazione:
 La validazione temporale misura la capacità delle relazioni apprese nel 2018 di generalizzare all’elezione del 2022. Il dataset comprende 322 osservazioni di training e 321 di test.
 
 <div class="asc-winners-chart">
-  <vegachart schema-url="{{ site.baseurl }}/assets/charts/e_bar_winrchangd_cnt_year.json" style="width: 100%; height: 100%"></vegachart>
+  <vegachart schema-url="{{ site.baseurl }}/assets/charts/e_bar_winrchangd_cnt_year.json" style="width: container; height: 100%"></vegachart>
 </div>
 
 Data la distribuzione sbilanciata della variabile target, la valutazione si è concentrata su **balanced accuracy**, precision, recall e F1-score della classe `1`.
@@ -69,7 +94,7 @@ Sono stati confrontati tre modelli:
 Gli iperparametri sono stati selezionati mediante grid search e cross-validation stratificata. L’oversampling è stato applicato esclusivamente all’interno dei fold di training.
 
 <div class="asc-winners-chart">
-  <vegachart schema-url="{{ site.baseurl }}/assets/charts/clf_year_results.json" style="width: 100%; height: 100%"></vegachart>
+  <vegachart schema-url="{{ site.baseurl }}/assets/charts/clf_year_results_v2.json" style="width: container; height: 100%"></vegachart>
 </div>
 
 | Modello                        | Balanced accuracy | Precision classe `1` | Recall classe `1` | F1 classe `1` |
@@ -85,6 +110,12 @@ La Random Forest con pesi bilanciati è stata selezionata per le analisi interpr
 ### Ruolo del margine di vittoria
 
 `e_prev_winner_margin` rappresenta il margine percentuale tra la prima e la seconda corrente politica nell’elezione precedente. Un valore ridotto indica una maggiore contendibilità elettorale.
+
+<div class="asc-winners-chart">
+
+<vegachart schema-url="{{ site.baseurl }}/assets/charts/e_prev_winner_margin_chart.json" style="width: 100%; height: 50%"></vegachart>
+
+</div>
 
 La variabile emerge come il principale predittore sia nella feature importance sia nella permutation importance calcolata sul test del 2022.
 

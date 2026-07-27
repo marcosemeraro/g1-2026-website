@@ -50,8 +50,6 @@ L’aspetto che ci ha maggiormente interessato di questa ampia raccolta di dati 
 
 ---
 
-![](https://placehold.co/800x200/png)
-
 # Dati elettorali
 
 Il portale Eligendo del Ministero dell’Interno raccoglie i risultati delle elezioni svoltesi in Italia dall’Assemblea Costituente a oggi. Il principale limite di questa fonte rispetto agli obiettivi del nostro lavoro è rappresentato dal livello di aggregazione, poiché i risultati vengono generalmente forniti a livello comunale.
@@ -135,6 +133,8 @@ Sulla base delle informazioni disponibili è stata quindi ricostruita una corris
 
 ## Coordinate
 
+<iframe src="{{site.baseurl}}/assets/charts/e_firenze_pins_map.html" width="100%" height="300px" ></iframe>
+
 Gli indirizzi raccolti sono stati sottoposti a una fase di pulizia e standardizzazione. Abbreviazioni e varianti, come “V.le” e “Viale” oppure “A. Manzoni” e “Alessandro Manzoni”, sono state ricondotte a una forma comune. A ogni indirizzo sono stati inoltre aggiunti il CAP e il nome della città.
 
 Questa operazione è stata necessaria per procedere con il **geocoding**, ossia la conversione degli indirizzi in coordinate geografiche.
@@ -143,19 +143,12 @@ Le coordinate sono state ottenute tramite l’API di [Nominatim](https://nominat
 
 Le coordinate ottenute, insieme all’anno di validità della sezione e al relativo indirizzo, sono state quindi utilizzate per costruire un nuovo dataset geografico.
 
-<div class="asc-winners-chart">
-
-  <vegachart schema-url="{{ site.baseurl }}/assets/charts/e_firenze_pins_map.json" style="width: 100%; height: 100%"></vegachart>
-
-</div>
 
 ## Aree subcomunali
 
-<div class="asc-winners-chart">
 
-  <vegachart schema-url="{{ site.baseurl }}/assets/charts/chart_asc_zones.json" style="width: 100%; height: 100%"></vegachart>
+<iframe src="{{site.baseurl}}/assets/charts/chart_asc_zones.html" width="100%" height="300px" ></iframe>
 
-</div>
 
 L’Istat mette a disposizione i [dati](https://www.istat.it/notizia/basi-territoriali-e-variabili-censuarie/) geografici relativi alle partizioni del territorio italiano e, in particolare, alle Aree subcomunali di secondo livello, indicate come ASC2, delle principali città.
 
@@ -165,7 +158,7 @@ Una volta acquisiti gli *shapefile* delle aree, le coordinate delle sezioni elet
 
 <div class="asc-winners-chart">
 
-<vegachart schema-url="{{ site.baseurl }}/assets/charts/chart_asc_winners.json" style="width: 100%; height: 100%"></vegachart>
+<vegachart schema-url="{{ site.baseurl }}/assets/charts/chart_asc_winners.json" style="width: 100%; height: 50%"></vegachart>
 
 </div>
 
@@ -260,14 +253,15 @@ dove:
 * $S_{0,c,t} = \sum_i \sum_j w_{ij,c,t}$ rappresenta la somma complessiva dei pesi spaziali;
 * $n_{c,t}$ rappresenta il numero di aree considerate nella città $c$ e nell’anno $t$.
 
-|             Moran’s I | Interpretazione                                                     |
-| --------------------: | ------------------------------------------------------------------- |
+|        I di Moran | Interpretazione                                                     |
+|----------------------:| ------------------------------------------------------------------- |
 |              Positivo | Le aree con valori simili tendono a essere spazialmente raggruppate |
 |           Intorno a 0 | Non emerge un chiaro pattern di autocorrelazione spaziale           |
 |              Negativo | Le aree confinanti tendono a presentare valori differenti           |
 | p-value significativo | Il pattern osservato è difficilmente attribuibile al caso           |
 
-![](assets/images/elezioni_emptyASC.webp)
+
+<iframe src="{{site.baseurl}}/assets/charts/e_chart_empty_asc.html" width="100%" height="300px" ></iframe>
 
 I pesi spaziali $w_{ij,c,t}$ definiscono quali aree debbano essere considerate vicine. Riprendendo l’analogia con gli scacchi, la contiguità di tipo **Rook** considera vicine le aree che condividono un lato, come i movimenti della torre, mentre la contiguità di tipo **Queen** considera anche quelle che condividono soltanto un vertice, analogamente ai movimenti della regina.
 
