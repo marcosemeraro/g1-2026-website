@@ -1039,7 +1039,7 @@ permalink: /urbangraph.html
     const prev = hover;
     hover = (found && visible(found)) ? found : null;
     if (hover) {
-      const den = (DATA.den && DATA.den[hover.com]) || ('zona ' + hover.com);
+      const den = (DATA.nm && DATA.nm[hover.i]) || ('zona ' + hover.com);
       tip.innerHTML = `<div class="h">${den}</div>` +
         `${DATA.cities[hover.city]} · <span class="v">${hover.com}</span><br>` +
         `Periodo <span class="v">${perLab[hover.per]}</span><br>` +
