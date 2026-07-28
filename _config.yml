@@ -54,19 +54,19 @@ navbar:
     - title: Approfondimenti
       child:
         - title: Immobili
-          url: /datiomi.html
+          url: /immobili.html
         - title: Elezioni
-          url: /datielezioni.html
+          url: /elezioni.html
         - title: Cronaca
-          url: /datinews.html
+          url: /cronaca.html
         - title: Vulnerabilità
-          url: /isvm_editorial_v2.html
+          url: /vulnerabilita.html
         - title: Ricchezza
-          url: /datistefania2.html
+          url: /ricchezza.html
         - title: Classificatore
           url: /classificatore.html
         - title: SNA
-          url: /urbangraph.html
+          url: /sna.html
 
     - title: SBD Master # deve essere sempre l'ultimo elemento della navbar, non modificarlo
       url: https://masterbigdata.it/

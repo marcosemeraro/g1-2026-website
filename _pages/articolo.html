@@ -89,7 +89,7 @@ title: "Come si vincono le elezioni?"
     <p>L'indice di dinamicità da noi adottato quantifica l'<strong>intensità</strong> del movimento dei prezzi. Un quartiere caratterizzato da elevata dinamicità può pertanto trovarsi in forte espansione o in forte contrazione.</p>
   </div>
 
-  <a class="deep" href="{{ '/datiomi.html' | relative_url }}"><b>Approfondimento →</b> <span>La pipeline completa di preparazione dei dati OMI.</span></a>
+  <a class="deep" href="{{ '/immobili.html' | relative_url }}"><b>Approfondimento →</b> <span>La pipeline completa di preparazione dei dati OMI.</span></a>
 </section>
 
 <section class="chapter">
@@ -119,7 +119,7 @@ title: "Come si vincono le elezioni?"
     <p>In termini quantitativi, nel 2018 il vincitore muta nel 93% dei quartieri di Napoli e nel 50% di quelli di Milano, mentre a Bologna e Firenze l'incidenza è nulla. Nel 2022 il fenomeno si concentra su Roma, che passa dal 28% al 46%, e a Napoli scende al 14%.</p>
   </div>
 
-  <a class="deep" href="{{ '/datielezioni.html' | relative_url }}"><b>Approfondimento →</b> <span>Scraping, geocoding, Gini elettorale, I di Moran e cluster LISA.</span></a>
+  <a class="deep" href="{{ '/elezioni.html' | relative_url }}"><b>Approfondimento →</b> <span>Scraping, geocoding, Gini elettorale, I di Moran e cluster LISA.</span></a>
 </section>
 
 <section class="chapter">
@@ -168,7 +168,7 @@ title: "Come si vincono le elezioni?"
     <p>La copertura presenta una concentrazione marcata: il 10% delle zone assorbe il 45% delle occorrenze, e corrisponde ai nuclei centrali e ai principali poli funzionali. La polarità misura una dimensione distinta, ossia l'orientamento valutativo del racconto, e restituisce una distribuzione territoriale differente.</p>
   </div>
 
-  <a class="deep" href="{{ '/datinews.html' | relative_url }}"><b>Approfondimento →</b> <span>Scraping, territorializzazione dei testi, TF-IDF e costruzione della polarità.</span></a>
+  <a class="deep" href="{{ '/cronaca.html' | relative_url }}"><b>Approfondimento →</b> <span>Scraping, territorializzazione dei testi, TF-IDF e costruzione della polarità.</span></a>
 </section>
 
 <section class="chapter">
@@ -190,7 +190,7 @@ title: "Come si vincono le elezioni?"
     <p>Il caso di <strong>Milano</strong> richiede una lettura articolata, poiché i due indicatori divergono. Lo scarto interquartile permane invariato, a indicare una metà centrale compatta quanto un decennio prima. La distanza fra il quartiere meno vulnerabile e quello più vulnerabile passa però da 28,7 a 48,5 punti: il movimento interessa le code della distribuzione.</p>
   </div>
 
-  <a class="deep" href="{{ '/isvm_editorial_v2.html' | relative_url }}"><b>Approfondimento →</b> <span>I sette indicatori e le loro proxy, la metodologia AMPI, mappe per città.</span></a>
+  <a class="deep" href="{{ '/vulnerabilita.html' | relative_url }}"><b>Approfondimento →</b> <span>I sette indicatori e le loro proxy, la metodologia AMPI, mappe per città.</span></a>
 </section>
 
 <section class="chapter">
@@ -219,7 +219,29 @@ title: "Come si vincono le elezioni?"
     </blockquote>
   </div>
 
-  <a class="deep" href="{{ '/datistefania2.html' | relative_url }}"><b>Approfondimento →</b> <span>Gini per quartile, aliquota reale, mappe del reddito e mobilità economico-spaziale.</span></a>
+  <a class="deep" href="{{ '/ricchezza.html' | relative_url }}"><b>Approfondimento →</b> <span>Gini per quartile, aliquota reale, mappe del reddito e mobilità economico-spaziale.</span></a>
+</section>
+
+<section class="chapter">
+  <h2 class="section-title">La città come <em>rete</em></h2>
+
+  <div class="prose">
+    <p>Nella classificazione, le caratteristiche del territorio precedono il voto e ne costituiscono la spiegazione. In questa sede la sequenza si inverte. La motivazione è di ordine pratico: disponiamo di tre periodi di dati immobiliari a fronte di due sole transizioni elettorali utilizzabili in chiave predittiva, e l'inversione rende disponibile il terzo periodo.</p>
+    <p>L'oggetto è un <strong>grafo multilayer</strong> composto da 1.257 nodi, ciascuno corrispondente a un quartiere in un dato periodo. Gli archi congiungono zone con dinamiche immobiliari affini e collegano ciascuna zona a se stessa nel periodo successivo. Su tale struttura l'algoritmo di Louvain individua comunità di quartieri, la cui evoluzione può essere seguita nei processi di consolidamento e di frammentazione.</p>
+  </div>
+
+  <div class="viz-block">
+    <div class="viz-lab">Il grafo multilayer · 1.257 nodi, 22.494 archi, comunità Louvain</div>
+    <div class="net-panel"><canvas id="a-net"></canvas></div>
+    <div class="viz-legend" id="a-net-leg"></div>
+    <p class="net-hint">Trascina per spostarti · rotella per lo zoom · passa sopra un nodo per isolarne i vicini</p>
+  </div>
+
+  <div class="prose">
+    <p>L'ipotesi sottoposta a verifica postulava che l'instabilità di una comunità segnalasse un territorio in rapida trasformazione, e che tale trasformazione risultasse favorita da un contesto politico scarsamente pluralistico, nel quale un'amministrazione dotata di ampio consenso disponga di margini d'azione più estesi.</p>
+  </div>
+
+  <a class="deep" href="{{ '/sna.html' | relative_url }}"><b>Approfondimento →</b> <span>Architettura della pipeline, layer, evoluzione delle comunità, rete esplorabile.</span></a>
 </section>
 
 <section class="chapter">
@@ -294,28 +316,6 @@ title: "Come si vincono le elezioni?"
   </div>
 
   <a class="deep" href="{{ '/classificatore.html' | relative_url }}"><b>Approfondimento →</b> <span>Validazione, confronto tra classificatori, ablazione del margine, sette letture SHAP.</span></a>
-</section>
-
-<section class="chapter">
-  <h2 class="section-title">La città come <em>rete</em></h2>
-
-  <div class="prose">
-    <p>Nella classificazione, le caratteristiche del territorio precedono il voto e ne costituiscono la spiegazione. In questa sede la sequenza si inverte. La motivazione è di ordine pratico: disponiamo di tre periodi di dati immobiliari a fronte di due sole transizioni elettorali utilizzabili in chiave predittiva, e l'inversione rende disponibile il terzo periodo.</p>
-    <p>L'oggetto è un <strong>grafo multilayer</strong> composto da 1.257 nodi, ciascuno corrispondente a un quartiere in un dato periodo. Gli archi congiungono zone con dinamiche immobiliari affini e collegano ciascuna zona a se stessa nel periodo successivo. Su tale struttura l'algoritmo di Louvain individua comunità di quartieri, la cui evoluzione può essere seguita nei processi di consolidamento e di frammentazione.</p>
-  </div>
-
-  <div class="viz-block">
-    <div class="viz-lab">Il grafo multilayer · 1.257 nodi, 22.494 archi, comunità Louvain</div>
-    <div class="net-panel"><canvas id="a-net"></canvas></div>
-    <div class="viz-legend" id="a-net-leg"></div>
-    <p class="net-hint">Trascina per spostarti · rotella per lo zoom · passa sopra un nodo per isolarne i vicini</p>
-  </div>
-
-  <div class="prose">
-    <p>L'ipotesi sottoposta a verifica postulava che l'instabilità di una comunità segnalasse un territorio in rapida trasformazione, e che tale trasformazione risultasse favorita da un contesto politico scarsamente pluralistico, nel quale un'amministrazione dotata di ampio consenso disponga di margini d'azione più estesi.</p>
-  </div>
-
-  <a class="deep" href="{{ '/urbangraph.html' | relative_url }}"><b>Approfondimento →</b> <span>Architettura della pipeline, layer, evoluzione delle comunità, rete esplorabile.</span></a>
 </section>
 
 <section class="chapter">

@@ -1,7 +1,7 @@
 ---
 layout: editorial
 title: "UrbanGraph — Analisi Multigrafo delle Reti Urbane"
-permalink: /urbangraph.html
+permalink: /sna.html
 ---
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
@@ -703,7 +703,7 @@ permalink: /urbangraph.html
   <div class="wide-wrap">
     <div class="insight-box blue">
       <div class="ins-label">Domanda di ricerca</div>
-      <p><b>Le comunità caratterizzate da maggiore pluralismo politico presentano anche un tasso di permanenza più alto nel periodo successivo?</b></p>
+      <p><b>Le comunità caratterizzate da maggiore pluralismo politico presentano anche un tasso di permanenza più basso nel periodo successivo?</b></p>
     </div>
   </div>
 
@@ -887,8 +887,8 @@ permalink: /urbangraph.html
 
   let DATA = null, nodes = [], quad = null, hover = null;
   let adj = [], deg = [];
-  let comColor = [];          // colIdx gephi -> colore palette
-  let comLabel = [];          // colIdx gephi -> "Comunità n"
+  let comColor = [];
+  let comLabel = [];
   let transform = d3.zoomIdentity;
   let colorBy = 'com', perFilter = -1, thr = 0, showTemporal = true;
 
@@ -967,7 +967,7 @@ permalink: /urbangraph.html
     for (let ei = 0; ei < DATA.e.length; ei++) {
       const e = DATA.e[ei], s = nodes[e[0]], t = nodes[e[1]];
       if (!edgeOK(e, s, t)) continue;
-      if (hv && inc.has(ei)) continue;                     // gli incidenti dopo, sopra
+      if (hv && inc.has(ei)) continue;
       const style = e[2] === 1
         ? rgba('#A0402E', hv ? 0.03 : 0.16)
         : rgba(nodeColor(s), baseA);
@@ -1242,9 +1242,9 @@ permalink: /urbangraph.html
 
     (function () {
       const S = D.stability.slice().sort(function (a, b) { return b.r - a.r; });
-      const M = 250, W = 820, H = 44 + S.length * 30;
+      const M = 250, W = 860, H = 44 + S.length * 36;
       const svg = svgIn('#ug-stab', W, H);
-      const x = d3.scaleLinear().domain([-1, 1]).range([M, W - 60]);
+      const x = d3.scaleLinear().domain([-1, 1]).range([M, W - 104]);
       const y = d3.scaleBand().domain(S.map(function (d) { return d.f; })).range([16, H - 28]).padding(0.28);
       svg.append('g').selectAll('rect').data(S).join('rect')
         .attr('x', function (d) { return d.r < 0 ? x(d.r) : x(0); }).attr('y', function (d) { return y(d.f); })
@@ -1256,10 +1256,17 @@ permalink: /urbangraph.html
       svg.append('g').selectAll('text').data(S).join('text')
         .attr('x', M - 10).attr('y', function (d) { return y(d.f) + y.bandwidth() / 2 + 4; })
         .attr('text-anchor', 'end').attr('font-size', 11.5).attr('fill', 'var(--ink-2)').text(function (d) { return d.f; });
-      svg.append('g').selectAll('text').data(S).join('text').attr('class', 'val')
-        .attr('x', function (d) { return d.r >= 0 ? x(d.r) + 6 : x(d.r) - 6; })
+      const lab = svg.append('g').selectAll('text').data(S).join('text').attr('class', 'val')
+        .attr('x', function (d) { return d.r >= 0 ? x(d.r) + 7 : x(d.r) - 7; })
         .attr('text-anchor', function (d) { return d.r >= 0 ? 'start' : 'end'; })
-        .attr('y', function (d) { return y(d.f) + y.bandwidth() / 2 + 3.5; }).text(function (d) { return d.r.toFixed(2); });
+        .attr('y', function (d) { return y(d.f) + y.bandwidth() / 2 - 1; });
+      lab.append('tspan').text(function (d) { return 'r = ' + d.r.toFixed(2); });
+      lab.append('tspan')
+        .attr('x', function (d) { return d.r >= 0 ? x(d.r) + 7 : x(d.r) - 7; })
+        .attr('dy', '1.15em')
+        .attr('fill', function (d) { return d.sig ? 'var(--ink)' : 'var(--muted-2)'; })
+        .attr('font-weight', function (d) { return d.sig ? 700 : 400; })
+        .text(function (d) { return 'p = ' + d.p.toFixed(3); });
       svg.append('line').attr('class', 'zero').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 12).attr('y2', H - 28);
       svg.append('g').attr('class', 'ax').attr('transform', 'translate(0,' + (H - 28) + ')').call(d3.axisBottom(x).ticks(5));
     })();

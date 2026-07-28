@@ -252,12 +252,6 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   </div>
 
   <div class="viz-block">
-    <div class="viz-lab">True positive · validazione per città, senza e_prev_winner_margin</div>
-    <div class="viz-single"><svg id="bs-c--tp"></svg></div>
-    <p class="viz-cap">In assenza del margine, i cambiamenti correttamente individuati si fondano soprattutto sul reddito medio e sulla volatilità della disuguaglianza.</p>
-  </div>
-
-  <div class="viz-block">
     <div class="viz-lab">False negative · validazione per città, senza e_prev_winner_margin</div>
     <div class="viz-single"><svg id="bs-c--fn"></svg></div>
   </div>
@@ -445,7 +439,7 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   })();
 
   const IDS = { y_m_tp: '#bs-y-m-tp', y__tp: '#bs-y--tp', y_m_fn: '#bs-y-m-fn', y__fn: '#bs-y--fn',
-                c_m_fn: '#bs-c-m-fn', c__tp: '#bs-c--tp', c__fn: '#bs-c--fn' };
+                c_m_fn: '#bs-c-m-fn', c__fn: '#bs-c--fn' };
   const cLow = '#1F3A5F', cHigh = '#A0402E', cNA = '#A39B8E';
   const ramp = d3.interpolateRgb(cLow, cHigh);
 
