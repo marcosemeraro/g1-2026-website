@@ -1,7 +1,7 @@
 ---
 layout: editorial
 permalink: /articolo.html
-title: "Come si vincono le elezioni locali?"
+title: "Come si vincono le elezioni?"
 ---
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
@@ -47,7 +47,7 @@ title: "Come si vincono le elezioni locali?"
 </style>
 
 <header class="cover">
-  <h1>Come si vincono le <em>elezioni locali?</em></h1>
+  <h1>Come si vincono le <em>elezioni?</em></h1>
   <p class="dek">Reddito, vulnerabilità sociale, mercato immobiliare, rappresentazione mediatica e comportamento elettorale, osservati per stabilire quali condizioni rendono un territorio politicamente contendibile.</p>
   <p class="byline">Bologna · Firenze · Milano · Napoli · Roma · Torino</p>
 </header>
@@ -132,7 +132,7 @@ title: "Come si vincono le elezioni locali?"
   <div class="pullq">
     <blockquote>
       <p>L'esito finale si gioca sulla mobilitazione di segmenti di elettorato meno caratterizzati politicamente, quindi più sensibili al trend del momento.
-        <span class="src">Leonardi Piccini · ricercatore IRPET</span></p>
+        <span class="src">Leonardo Piccini · ricercatore IRPET</span></p>
     </blockquote>
   </div>
 
@@ -215,7 +215,7 @@ title: "Come si vincono le elezioni locali?"
   <div class="pullq">
     <blockquote>
       <p>Firenze ha accanto a sé Fiesole che è un quartiere molto ricco diciamo con un reddito medio molto elevato in cui se guardi da un punto di vista di opportunità di lavoro, servizi eccetera, non c'è niente, quindi se uno guarda Fiesole come comune non si spiega perché ci sia un reddito medio così elevato, in realtà è il quartiere dove vivono tutte le persone professionisti eccetera eccetera, che gravitano su Firenze e dintorni
-        <span class="src">Leonardi Piccini · ricercatore IRPET</span></p>
+        <span class="src">Leonardo Piccini · ricercatore IRPET</span></p>
     </blockquote>
   </div>
 
@@ -279,17 +279,18 @@ title: "Come si vincono le elezioni locali?"
     <p>Bologna e Firenze rimangono escluse dalla tabella: in entrambe il vincitore permane invariato in ogni quartiere e in ogni tornata, e come insiemi di test risulterebbero privi di significato. Il loro apporto all'addestramento è tuttavia rilevante, poiché la loro rimozione riduce l'accuratezza media a 0,522.</p>
   </div>
 
-  <div class="expert">
+  
+  <div class="pullq">
+    <blockquote>
+      <p>Quei luoghi un pochino più lasciati indietro che nelle ultime elezioni hanno spesso manifestato un voto diciamo di protesta quindi contrario a chi era in quel momento al potere spesso magari anche diciamo accodandosi a partiti con una prospettiva un po' antisistemica i Cinque Stelle in passato la Lega prima ancora eccetera eccetera che intercettano un po' un malumore in alcune fasce della popolazione che è molto concentrata geograficamente
+        <span class="src">Leonardo Piccini · ricercatore IRPET</span></p>
+    </blockquote>
+  </div>
+
+<div class="expert">
     <div class="who">L'inquadramento teorico</div>
     <p>Il risultato relativo al margine si mostra coerente con la letteratura, nella quale l'<b>inerzia politica</b> figura fra i predittori più stabili del comportamento elettorale su base territoriale.</p>
     <p>Il peso più contenuto di reddito basso e disagio si iscrive invece nella <b>geografia del discontento</b> elaborata da Andrés Rodríguez-Pose, che interpreta il voto di protesta come risposta geograficamente concentrata dei territori che si vedono marginalizzati.</p>
-  </div>
-
-  <div class="pullq">
-    <blockquote>
-      <p>quei luoghi un pochino più lasciati indietro che nelle ultime elezioni hanno spesso manifestato un voto diciamo di protesta quindi contrario a chi era in quel momento al potere spesso magari anche diciamo accodandosi a partiti con una prospettiva un po' antisistemica i Cinque Stelle in passato la Lega prima ancora eccetera eccetera che intercettano un po' un malumore in alcune fasce della popolazione che è molto concentrata geograficamente
-        <span class="src">Leonardi Piccini · ricercatore IRPET</span></p>
-    </blockquote>
   </div>
 
   <a class="deep" href="{{ '/classificatore.html' | relative_url }}"><b>Approfondimento →</b> <span>Validazione, confronto tra classificatori, ablazione del margine, sette letture SHAP.</span></a>
@@ -332,16 +333,20 @@ title: "Come si vincono le elezioni locali?"
       <p>Separare i territori interessati da incremento dei prezzi da quelli in contrazione. Gentrificazione e svuotamento funzionale costituiscono fenomeni opposti che l'indice attuale aggrega in un unico valore.</p>
     </div>
     <div class="next-card">
-      <div class="t">Integrazione dell'accessibilità</div>
-      <p>Quantificare il tempo necessario, da ciascun quartiere, per raggiungere presidi ospedalieri, istituti scolastici e servizi collocati oltre i suoi confini.</p>
+      <div class="t">Accessibilità e dotazione di servizi</div>
+      <p>Quantificare il tempo necessario, da ciascun quartiere, per raggiungere presidi ospedalieri e istituti scolastici, ricavando da OpenStreetMap esercizi, presidi e spazi pubblici a una granularità inferiore all'area sub-comunale. I dati di spostamento, non disponibili nel presente lavoro, aggiungerebbero la varietà delle relazioni quotidiane.</p>
     </div>
     <div class="next-card">
-      <div class="t">Profili di mobilità quotidiana</div>
-      <p>Impiegare i dati di spostamento come proxy della varietà delle relazioni sociali. L'operazione richiede fonti non disponibili nel presente lavoro, e resta replicabile su singola città.</p>
+      <div class="t">Granularità e raffinamento delle proxy</div>
+      <p>Superare il vincolo decennale del censimento disaggregando i dati comunali mediante variabili correlate a granularità maggiore, e sostituire le proxy attuali con le matrici di incrocio ISTAT, affiancate da quotazioni OMI, anagrafi comunali e servizi di vicinato.</p>
     </div>
     <div class="next-card">
-      <div class="t">Stima per piccole aree</div>
-      <p>Superare il vincolo decennale del censimento disaggregando dati comunali mediante variabili correlate disponibili a granularità maggiore, secondo la tecnica adottata dall'ISTAT per il censimento permanente.</p>
+      <div class="t">Demografia, reddito equivalente e lavoro</div>
+      <p>Affiancare alle variabili economiche l'età media di quartiere e il tasso di dipendenza, applicare le scale di equivalenza OCSE al reddito familiare e incrociarle con la tipologia di impiego, per distinguere l'invecchiamento urbano dalle condizioni di <em>working poor</em>.</p>
+    </div>
+    <div class="next-card">
+      <div class="t">Modelli linguistici sensibili al contesto</div>
+      <p>Affiancare all'approccio lessicale modelli Transformer addestrati su un corpus annotato e LLM interrogati con pochi esempi già classificati. Negazioni e ambiguità verrebbero trattate meglio, con ItEM mantenuto come riferimento trasparente.</p>
     </div>
   </div>
 </section>

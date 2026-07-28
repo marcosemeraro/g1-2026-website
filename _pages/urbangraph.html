@@ -1,10 +1,19 @@
 ---
 layout: editorial
-title: "UrbanGraph — Analisi Multilayer delle Reti Urbane"
+title: "UrbanGraph — Analisi Multigrafo delle Reti Urbane"
 permalink: /urbangraph.html
 ---
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
 <style>
+#progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 1000; transition: width 60ms linear; }
+
 .insight-box { background: var(--panel-2); border-left: 3px solid var(--accent-2); border-radius: 0 6px 6px 0; padding: 18px 22px; margin-bottom: 20px; }
 .insight-box .ins-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 8px; }
 .insight-box p { font-family: var(--serif); font-size: 17px; line-height: 1.5; color: var(--ink-2); margin: 0; }
@@ -74,6 +83,28 @@ permalink: /urbangraph.html
 
 .sankey-wrap { max-width: 800px; margin: 30px auto; padding: 0 32px; }
 
+@media (max-width: 800px) {
+  .layer-grid, .onboard-grid, .site-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .pipeline { flex-direction: column; }
+  .pipe-step { border-left: 1px solid var(--rule) !important; border-top: none; }
+  .pipe-step:first-child { border-radius: 6px 6px 0 0; }
+  .pipe-step:last-child { border-radius: 0 0 6px 6px; }
+  .pipe-arrow { display: none; }
+}
+
+.data-viz { position: relative; width: 100%; min-height: 360px; background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.data-viz__canvas { width: 100%; min-height: 360px; }
+.data-viz--map .data-viz__canvas { height: 520px; min-height: 520px; }
+.data-viz__status { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 28px; background: var(--panel); font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--muted); text-align: center; }
+.data-viz.is-ready .data-viz__status { display: none; }
+.data-viz.is-error .data-viz__status { position: static; min-height: 180px; }
+.data-viz + figcaption { margin-top: 10px; }
+@media (max-width: 800px) {
+  .data-viz, .data-viz__canvas { min-height: 300px; }
+  .data-viz--map .data-viz__canvas { height: 420px; min-height: 420px; }
+}
+
 .net-wrap { max-width: 1180px; margin: 10px auto 0; padding: 0 32px; }
 .viz-title2 { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 auto 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
 .net-panel { position: relative; background: #FBFAF6; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
@@ -92,40 +123,33 @@ permalink: /urbangraph.html
 .net-tip .h { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: #fff; margin-bottom: 3px; }
 .net-tip .v { font-family: var(--mono); color: var(--accent-2); }
 .net-hint { font-family: var(--sans); font-size: 11.5px; color: var(--muted-2); text-align: center; margin-top: 12px; }
-
-@media (max-width: 800px) {
-  .layer-grid, .onboard-grid, .site-grid { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
-  .pipeline { flex-direction: column; }
-  .pipe-step { border-left: 1px solid var(--rule) !important; border-top: none; }
-  .pipe-step:first-child { border-radius: 6px 6px 0 0; }
-  .pipe-step:last-child { border-radius: 0 0 6px 6px; }
-  .pipe-arrow { display: none; }
-}
 </style>
+
+<div id="progress-bar"></div>
 
 <header class="cover">
   <h1>Urban<em>Graph</em></h1>
-  <p class="dek">Una pipeline Python per trasformare dati urbani in grafi multilayer temporali: strutture, comunità ed evoluzioni dei territori italiani.</p>
+  <p class="dek">Una pipeline Python per trasformare dati urbani in multigrafi temporali: strutture, comunità ed evoluzioni dei territori italiani.</p>
 </header>
 
 <section class="chapter">
-<h2 class="section-title">Che cosa è <em>UrbanGraph</em></h2>
-<div class="prose">
-    <p>UrbanGraph trasforma osservazioni urbane riferite a <strong>CITY</strong>, <strong>COM_ASC2</strong> e <strong>Periodo</strong> in un grafo multilayer. Il nodo rappresenta una specifica zona in uno specifico intervallo temporale; gli archi descrivono adiacenza geografica, continuità temporale o somiglianza tra profili urbani.</p>
+  <h2 class="section-title">Che cosa è <em>UrbanGraph</em></h2>
+
+  <div class="prose">
+    <p>UrbanGraph trasforma osservazioni urbane riferite a <strong>CITY</strong>, <strong>COM_ASC2</strong> e <strong>Periodo</strong> in un multigrafo. Il nodo rappresenta una specifica zona in uno specifico intervallo temporale; gli archi descrivono adiacenza geografica, continuità temporale o somiglianza tra profili urbani.</p>
     <p>Il progetto usa <strong>pandas</strong> per il modello tabellare, <strong>NumPy</strong> e <strong>scikit-learn</strong> per distanze e standardizzazione, <strong>GeoPandas/Shapely</strong> per la componente geografica e <strong>NetworkX</strong> per le analisi topologiche.</p>
   </div>
 
-  <h3 class="subsection-title">Perché un grafo multilayer?</h3>
+  <h3 class="subsection-title">Perché un multigrafo?</h3>
   <div class="prose">
-    <p>Analizzare tre reti indipendenti — una per ciascun periodo — non consente di seguire la stessa entità territoriale nel tempo. Il grafo multilayer risolve questo limite: ogni periodo è un livello della rete e ciascun comune è presente con una copia distinta in ogni layer temporale, collegata alle copie degli altri periodi da archi temporali espliciti.</p>
+    <p>Analizzare tre reti indipendenti — una per ciascun periodo — non consente di seguire la stessa entità territoriale nel tempo. Il multigrafo risolve questo limite: ogni periodo è un livello della rete e ciascun comune è presente con una copia distinta in ogni grafo temporale, collegata alle copie degli altri periodi da archi temporali espliciti.</p>
   </div>
 
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-val">1.257</div>
-      <div class="stat-label">Nodi nel grafo multilayer finale</div>
-      <div class="stat-sub">Coppie comune–periodo distribuite sui tre layer temporali</div>
+      <div class="stat-label">Nodi nel multigrafo finale</div>
+      <div class="stat-sub">Coppie comune–periodo distribuite sui tre grafi temporali</div>
     </div>
     <div class="stat-card">
       <div class="stat-val">22.494</div>
@@ -139,17 +163,12 @@ permalink: /urbangraph.html
     </div>
   </div>
 
-  <div class="wide-wrap">
-    <div class="insight-box blue">
-      <div class="ins-label">Messaggio chiave per il board</div>
-      <p>La base tecnica della pipeline è ormai sufficientemente strutturata per essere trasformata in un prodotto di comunicazione. Il sito dovrà mostrare, in modo progressivo, quali dati sono analizzati, come vengono costruiti i grafi, quali indicatori vengono calcolati e quali evidenze emergono nel tempo.</p>
-    </div>
-  </div>
 </section>
 
 <section class="chapter">
-<h2 class="section-title">Architettura <em>modulare</em></h2>
-<div class="pipeline">
+  <h2 class="section-title">Architettura <em>modulare</em></h2>
+
+  <div class="pipeline">
     <div class="pipe-step">
       <div class="pipe-num">01</div>
       <div class="pipe-label">Preprocessing</div>
@@ -159,13 +178,13 @@ permalink: /urbangraph.html
     <div class="pipe-step">
       <div class="pipe-num">02</div>
       <div class="pipe-label">Core config</div>
-      <div class="pipe-sub">Colonne, layer, metriche e feature groups</div>
+      <div class="pipe-sub">Colonne, grafi, metriche e feature groups</div>
       <div class="pipe-arrow">→</div>
     </div>
     <div class="pipe-step">
       <div class="pipe-num">03</div>
       <div class="pipe-label">Builders</div>
-      <div class="pipe-sub">Costruzione dei layer e assemblaggio archi</div>
+      <div class="pipe-sub">Costruzione dei grafi e assemblaggio archi</div>
       <div class="pipe-arrow">→</div>
     </div>
     <div class="pipe-step">
@@ -190,18 +209,19 @@ permalink: /urbangraph.html
   <div class="wide-wrap">
     <div class="insight-box blue">
       <div class="ins-label">Principio di progettazione</div>
-      <p>La separazione riduce le duplicazioni e rende verificabile ogni passaggio: il preprocessing definisce identità e metadati; il core costruisce i layer; builders valida e assembla; analytics produce report <b>immutabili</b>; visualization rappresenta risultati già calcolati.</p>
+      <p>La separazione riduce le duplicazioni e rende verificabile ogni passaggio: il preprocessing definisce identità e metadati; il core costruisce i grafi; builders valida e assembla; analytics produce report <b>immutabili</b>; visualization rappresenta risultati già calcolati.</p>
     </div>
   </div>
 </section>
 
 <section class="chapter">
-<h2 class="section-title">I <em>layer</em> del grafo multilayer</h2>
-<div class="layer-grid">
+  <h2 class="section-title">I <em>grafi</em> del multigrafo</h2>
+
+  <div class="layer-grid">
     <div class="layer-card">
       <div class="layer-tag">Similarità · Non diretto</div>
       <div class="layer-name">SimilarityGraphBuilder</div>
-      <div class="layer-desc">Per ogni dominio seleziona vicini nella stessa città e in città diverse, applica mutual k-nearest-neighbors e converte la distanza in Similarity/Weight. Produce grafi non orientati e statistiche per layer.</div>
+      <div class="layer-desc">Per ogni dominio seleziona vicini nella stessa città e in città diverse, applica mutual k-nearest-neighbors e converte la distanza in Similarity/Weight. Produce grafi non orientati e statistiche per grafo.</div>
       <div class="layer-detail">mutual k-NN · same_city / other_city</div>
     </div>
     <div class="layer-card">
@@ -219,22 +239,23 @@ permalink: /urbangraph.html
     <div class="layer-card">
       <div class="layer-tag">Temporale · Diretto</div>
       <div class="layer-name">TemporalGraphBuilder</div>
-      <div class="layer-desc">Ordina i periodi e collega la stessa coppia CITY+COM_ASC2 al periodo immediatamente successivo. Il risultato è un layer diretto next_period che abilita il confronto longitudinale.</div>
-      <div class="layer-detail">838 archi temporali · Layer next_period</div>
+      <div class="layer-desc">Ordina i periodi e collega la stessa coppia CITY+COM_ASC2 al periodo immediatamente successivo. Il risultato è un grafo diretto next_period che abilita il confronto longitudinale.</div>
+      <div class="layer-detail">838 archi temporali · Grafo next_period</div>
     </div>
   </div>
 
   <div class="wide-wrap">
     <div class="insight-box">
       <div class="ins-label">Logica scientifica implicita</div>
-      <p>La scelta più importante non è NetworkX, ma la regola con cui una distanza multidimensionale diventa un arco. Nei layer non diretti il <b>mutual k-NN</b> privilegia relazioni confermate da entrambi i nodi. Nei layer diretti ogni zona può indicare i propri riferimenti senza reciprocità. La distinzione <b>same_city/other_city</b> consente di confrontare somiglianza interna e analogie tra città diverse.</p>
+      <p>La scelta più importante non è NetworkX, ma la regola con cui una distanza multidimensionale diventa un arco. Nei grafi non diretti il <b>mutual k-NN</b> privilegia relazioni confermate da entrambi i nodi. Nei grafi diretti ogni zona può indicare i propri riferimenti senza reciprocità. La distinzione <b>same_city/other_city</b> consente di confrontare somiglianza interna e analogie tra città diverse.</p>
     </div>
   </div>
 </section>
 
 <section class="chapter">
-<h2 class="section-title">I moduli <em>analitici</em></h2>
-<div class="wide-wrap">
+  <h2 class="section-title">I moduli <em>analitici</em></h2>
+
+  <div class="wide-wrap">
     <table class="mod-table">
       <thead>
         <tr><th>Modulo</th><th>Funzione</th><th>Output principale</th></tr>
@@ -243,11 +264,11 @@ permalink: /urbangraph.html
         <tr>
           <td class="mono">GraphStatistics</td>
           <td>Statistiche descrittive sui DataFrame: città, periodi, flussi, pesi, distanze e gradi</td>
-          <td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Descrizioni complessive, per layer, relazione, città e periodo</td>
+          <td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Descrizioni complessive, per grafo, relazione, città e periodo</td>
         </tr>
         <tr>
           <td class="mono">GraphMetrics</td>
-          <td>Costruisce un grafo NetworkX per ogni coppia Layer+Relation: densità, componenti, clustering, cammini, diametro, reciprocità</td>
+          <td>Costruisce un grafo NetworkX per ogni coppia Grafo+Relation: densità, componenti, clustering, cammini, diametro, reciprocità</td>
           <td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Proprietà topologiche per grafo</td>
         </tr>
         <tr>
@@ -257,7 +278,7 @@ permalink: /urbangraph.html
         </tr>
         <tr>
           <td class="mono">GraphCommunities</td>
-          <td>Louvain, greedy modularity e label propagation sui layer proiettati (sum, mean, max, min)</td>
+          <td>Louvain, greedy modularity e label propagation sui grafi proiettati (sum, mean, max, min)</td>
           <td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Assegnazioni, dimensioni, densità, conduttanza, modularità</td>
         </tr>
         <tr>
@@ -281,44 +302,9 @@ permalink: /urbangraph.html
 </section>
 
 <section class="chapter">
-<h2 class="section-title">Evoluzione delle <em>comunità</em></h2>
-<div class="prose">
-    <p>Per ogni periodo è stato applicato l'algoritmo <strong>Louvain</strong> per individuare gruppi di comuni maggiormente connessi. Un aspetto critico: gli identificativi delle comunità prodotti da Louvain <strong>non sono persistenti nel tempo</strong>. Una community etichettata come <em>Community 5</em> nel primo periodo potrebbe ricevere il numero <em>17</em> nel periodo successivo, pur rappresentando sostanzialmente lo stesso insieme di comuni.</p>
-  </div>
+  <h2 class="section-title">I dati: <em>attributi</em> dei nodi</h2>
 
-  <h3 class="subsection-title">L'allineamento delle comunità</h3>
-  <div class="prose">
-    <p>Per risolvere questo problema è stata sviluppata una procedura di <strong>allineamento</strong> che confronta le comunità di due periodi consecutivi misurando la sovrapposizione dei comuni che le compongono. Viene così creato <strong>CommunityAligned</strong>: un identificativo persistente che rappresenta l'identità evolutiva della comunità lungo l'intero intervallo temporale.</p>
-  </div>
-
-  <div class="wide-wrap">
-    <div class="insight-box blue">
-      <div class="ins-label">Passaggio metodologico prioritario</div>
-      <p>Gli identificativi delle comunità sono locali al singolo grafo. La corrispondenza deve essere calcolata sulla <b>sovrapposizione effettiva dei nodi</b>. Il report di evoluzione deve includere: comunità sorgente e destinazione, nodi condivisi, quota trattenuta, quota proveniente dalla sorgente, similarità di Jaccard e tipo di evento.</p>
-    </div>
-  </div>
-
-  <div class="sankey-wrap">
-    <div style="font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Schema Sankey — evoluzione tra periodi (esempio stilizzato)</div>
-    <svg id="sankey-svg" width="100%" viewBox="0 0 700 220" style="display:block"></svg>
-    <div style="font-family:var(--sans);font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Ogni banda rappresenta il flusso di comuni tra comunità di periodi consecutivi · larghezza ∝ numero di nodi condivisi</div>
-  </div>
-
-  <div class="prose">
-    <h3 class="subsection-title" style="margin-top:6px">Fenomeni evolutivi rilevati</h3>
-    <ul>
-      <li><b>Continuità:</b> la comunità mantiene la propria composizione nel periodo successivo.</li>
-      <li><b>Fusioni:</b> due o più comunità convergono in un unico gruppo.</li>
-      <li><b>Scissioni:</b> una comunità si divide in sottogruppi distinti.</li>
-      <li><b>Cambiamenti di appartenenza:</b> comuni che migrano tra comunità durante il periodo osservato.</li>
-    </ul>
-    <p>Queste informazioni permettono di distinguere aree territoriali caratterizzate da <strong>elevata stabilità</strong> da territori maggiormente soggetti a processi di trasformazione economica e relazionale.</p>
-  </div>
-</section>
-
-<section class="chapter">
-<h2 class="section-title">I dati: <em>attributi</em> dei nodi</h2>
-<div class="layer-grid">
+  <div class="layer-grid">
     <div class="layer-card" style="border-top-color:var(--accent-2)">
       <div class="layer-tag" style="color:var(--accent-2)">Mercato immobiliare</div>
       <div class="layer-name">Indicatori OMI</div>
@@ -348,157 +334,83 @@ permalink: /urbangraph.html
     </div>
   </div>
 </section>
-
 <section class="chapter">
-<h2 class="section-title">I 10 <em>output</em> della pipeline</h2>
-<div class="wide-wrap">
-    <table class="out-table">
-      <thead>
-        <tr><th style="width:36px">N.</th><th>Output</th><th>Valore comunicativo</th><th>Stato</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="n">01</td><td class="name">Numero di nodi per grafo</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Dimensione delle reti analizzate e confronto tra periodi o tipologie</td><td><span class="status-pill s-done">Disponibile</span></td></tr>
-        <tr><td class="n">02</td><td class="name">Numero di archi per grafo</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Intensità relazionale e complessità delle reti</td><td><span class="status-pill s-done">Disponibile</span></td></tr>
-        <tr><td class="n">03</td><td class="name">Distribuzione del grado</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Quanto i legami sono concentrati o diffusi tra i nodi</td><td><span class="status-pill s-wip">In corso</span></td></tr>
-        <tr><td class="n">04</td><td class="name">Ranking di centralità</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Quali nodi occupano posizioni strutturalmente rilevanti</td><td><span class="status-pill s-wip">In corso</span></td></tr>
-        <tr><td class="n">05</td><td class="name">Dimensione delle comunità</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Quanto le reti sono frammentate e come si distribuiscono i gruppi</td><td><span class="status-pill s-done">Disponibile</span></td></tr>
-        <tr><td class="n">06</td><td class="name">Rete colorata per comunità</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Struttura spaziale e relazionale delle comunità nel grafo originale</td><td><span class="status-pill s-done">Completato</span></td></tr>
-        <tr><td class="n">07</td><td class="name">Evoluzione delle comunità</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Continuità, crescita, contrazione, fusione, separazione, nascita e scomparsa</td><td><span class="status-pill s-next">Priorità</span></td></tr>
-        <tr><td class="n">08</td><td class="name">Evoluzione temporale di una metrica</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Cambiamenti quantitativi lungo i periodi osservati</td><td><span class="status-pill s-next">Pianificato</span></td></tr>
-        <tr><td class="n">09</td><td class="name">Distribuzione delle classi di traiettoria</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Quante entità risultano stabili, crescenti, decrescenti o volatili</td><td><span class="status-pill s-next">Pianificato</span></td></tr>
-        <tr><td class="n">10</td><td class="name">Ranking delle traiettorie</td><td style="font-family:var(--sans);font-size:13px;color:var(--muted)">Quali nodi o comunità mostrano i cambiamenti più rilevanti</td><td><span class="status-pill s-next">Pianificato</span></td></tr>
-      </tbody>
-    </table>
+  <h2 class="section-title">Costruzione del <em>grafo</em> e analisi delle comunità</h2>
+
+  <div class="prose">
+    <p>L'obiettivo di questa fase del progetto è stata costruire una rappresentazione della città capace di descrivere non soltanto le singole zone urbane, ma soprattutto le relazioni che esse instaurano <em>nel tempo</em>. L'approccio adottato è quello delle reti multigrafo, in cui ogni zona viene rappresentata come un nodo e le relazioni tra i nodi vengono modellate attraverso archi appartenenti a grafi temporali differenti.</p>
+    <p>La domanda di fondo è se le dinamiche immobiliari consentono di individuare comunità territoriali riconoscibili e se tali comunità presentano un'identità coerente anche rispetto a caratteristiche che non sono state utilizzate per costruire il grafo.</p>
   </div>
-</section>
 
-<section class="chapter">
-<h2 class="section-title">Struttura del <em>sito web</em></h2>
-<div class="site-grid">
-    <div class="site-card"><div class="site-icon">01</div><div><div class="site-name">Home · Il progetto</div><div class="site-desc">Domanda di ricerca, obiettivi, ambito, gruppo di lavoro e messaggio principale.</div></div></div>
-    <div class="site-card"><div class="site-icon">02</div><div><div class="site-name">I dati</div><div class="site-desc">Fonti, unità di analisi, copertura temporale, variabili, qualità e limiti.</div></div></div>
-    <div class="site-card"><div class="site-icon">03</div><div><div class="site-name">Come costruiamo i grafi</div><div class="site-desc">Nodi, archi, layer, relazioni, pesi, periodi e GraphKey.</div></div></div>
-    <div class="site-card"><div class="site-icon">04</div><div><div class="site-name">Esplora le reti</div><div class="site-desc">Numero di nodi e archi, distribuzione del grado, rete interattiva e filtri.</div></div></div>
-    <div class="site-card"><div class="site-icon">05</div><div><div class="site-name">Nodi centrali</div><div class="site-desc">Ranking e spiegazione delle diverse misure di centralità.</div></div></div>
-    <div class="site-card"><div class="site-icon">06</div><div><div class="site-name">Comunità</div><div class="site-desc">Dimensioni, qualità, rete colorata e meta-network delle comunità.</div></div></div>
-    <div class="site-card"><div class="site-icon">07</div><div><div class="site-name">Evoluzione nel tempo</div><div class="site-desc">Sankey delle comunità, serie temporali e confronto tra periodi.</div></div></div>
-    <div class="site-card"><div class="site-icon">08</div><div><div class="site-name">Traiettorie</div><div class="site-desc">Classi, ranking e casi di studio dei territori più dinamici.</div></div></div>
-    <div class="site-card"><div class="site-icon">09</div><div><div class="site-name">Metodologia</div><div class="site-desc">Pipeline, algoritmi, parametri, criteri di validazione e riproducibilità.</div></div></div>
-    <div class="site-card"><div class="site-icon">10</div><div><div class="site-name">Download e documentazione</div><div class="site-desc">Figure, tabelle, glossario e materiali di supporto approvati.</div></div></div>
+  <h3 class="subsection-title">Due direzioni analitiche complementari</h3>
+  <div class="prose">
+    <p>Il nostro progetto utilizza i dati elettorali in due modi distinti. Nel classificatore supervisionato, le caratteristiche immobiliari, socio-economiche, demografiche e mediatiche sono impiegate per spiegare la probabilità di cambiamento della coalizione vincitrice nelle elezioni del 2018 e del 2022.</p>
+    <p>Nell'analisi delle comunità la direzione interpretativa è diversa. Le comunità vengono costruite senza utilizzare variabili politiche, esclusivamente sulla base delle dinamiche immobiliari. I risultati delle elezioni del 2013, 2018 e 2022 vengono associati successivamente alle comunità per descriverne il profilo politico e verificare se il pluralismo osservato all'inizio di ciascun periodo sia associato alla loro successiva stabilità.</p>
+    <p>Le due analisi rispondono pertanto a domande complementari: il classificatore studia quali caratteristiche territoriali siano informative rispetto al cambiamento elettorale; il grafo studia come le configurazioni immobiliari evolvano nel tempo e in quale contesto politico siano inserite.</p>
+  </div>
+
+  <h3 class="subsection-title">Com'è costruito il grafo</h3>
+  <div class="prose">
+    <p>Ogni nodo rappresenta una zona territoriale in uno specifico intervallo temporale. Le stesse zone sono osservate in tre snapshot successivi e collegate tramite archi temporali tra periodi consecutivi. Il multigrafo finale integra quindi struttura intra-periodo ed evoluzione inter-periodo.</p>
   </div>
 
   <div class="wide-wrap">
-    <div class="insight-box">
-      <div class="ins-label">Modello per ogni pagina o grafico</div>
-      <p>Ogni contenuto visivo dovrebbe essere accompagnato da cinque elementi: <b>Domanda</b> (quale fenomeno?), <b>Dati</b> (quali nodi, archi, periodi?), <b>Metodo</b> (quale metrica o algoritmo?), <b>Lettura</b> (che cosa mostra?) e <b>Limiti</b> (che cosa non si può dedurre?). Distinguere sempre dati originali, trasformazioni, metriche calcolate e interpretazioni.</p>
-    </div>
-  </div>
-</section>
-
-<section class="chapter">
-<h2 class="section-title">Ordine di <em>onboarding</em> consigliato</h2>
-<div class="onboard-grid">
-    <div class="ob-card">
-      <div class="ob-num">01</div>
-      <div class="ob-focus">Contratti e schema</div>
-      <div class="ob-desc">Leggere <span class="k">config.py</span>, <span class="k">prepare_nodes.py</span> e <span class="k">graph.py</span>; fissare il significato di NodeId, COM_ASC2, Periodo, Layer, Relation e Weight.</div>
-    </div>
-    <div class="ob-card">
-      <div class="ob-num">02</div>
-      <div class="ob-focus">Costruzione scientifica</div>
-      <div class="ob-desc">Studiare <span class="k">feature_groups.py</span>, <span class="k">distance.py</span>, <span class="k">similarity.py</span>; ricostruire con un esempio numerico come nasce un arco.</div>
-    </div>
-    <div class="ob-card">
-      <div class="ob-num">03</div>
-      <div class="ob-focus">Geografia e tempo</div>
-      <div class="ob-desc">Verificare CRS, regole di adiacenza e ordinamento dei periodi in <span class="k">spatial.py</span> e <span class="k">temporal.py</span>.</div>
-    </div>
-    <div class="ob-card">
-      <div class="ob-num">04</div>
-      <div class="ob-focus">Qualità e assemblaggio</div>
-      <div class="ob-desc">Eseguire <span class="k">GraphValidator</span> e <span class="k">UrbanGraphBuilder</span> su un dataset minimo, controllando errori e statistiche.</div>
-    </div>
-    <div class="ob-card">
-      <div class="ob-num">05</div>
-      <div class="ob-focus">Analytics</div>
-      <div class="ob-desc">Seguire GraphMetrics → Centrality / Communities → TemporalAnalysis → TrajectoryAnalysis / CommunityEvolution nell'ordine indicato.</div>
-    </div>
-    <div class="ob-card">
-      <div class="ob-num">06</div>
-      <div class="ob-focus">Output visivi</div>
-      <div class="ob-desc">Usare <span class="k">visualization.py</span> soltanto dopo aver compreso le tabelle di input; chiarire dove siano report.py ed eventuali exporter.</div>
-    </div>
-  </div>
-</section>
-
-<section class="chapter">
-<h2 class="section-title">Roadmap di <em>consegna</em></h2>
-<div class="roadmap">
-    <div class="rm-row">
-      <div class="rm-phase">Fase A</div>
-      <div class="rm-body">
-        <div class="rm-title">Stabilizzazione</div>
-        <div class="rm-del">Test sistematici delle visualizzazioni e definizione dello standard grafico comune per titoli, legende, colori e nomi dei file esportati.</div>
-      </div>
-    </div>
-    <div class="rm-row">
-      <div class="rm-phase">Fase B</div>
-      <div class="rm-body">
-        <div class="rm-title">Figure descrittive (Output 1–5)</div>
-        <div class="rm-del">Completare nell'ordine: nodi, archi, distribuzione del grado, ranking di centralità, dimensione delle comunità.</div>
-      </div>
-    </div>
-    <div class="rm-row">
-      <div class="rm-phase">Fase C</div>
-      <div class="rm-body">
-        <div class="rm-title">Evoluzione delle comunità</div>
-        <div class="rm-del">Matching temporale con CommunityAligned, classificazione degli eventi (birth, persistence, split, merge, dissolution) e Sankey interattivo.</div>
-      </div>
-    </div>
-    <div class="rm-row">
-      <div class="rm-phase">Fase D</div>
-      <div class="rm-body">
-        <div class="rm-title">Serie temporali</div>
-        <div class="rm-del">TemporalAnalysis consolidato in tabella long-format; grafici di evoluzione delle metriche per periodo.</div>
-      </div>
-    </div>
-    <div class="rm-row">
-      <div class="rm-phase">Fase E</div>
-      <div class="rm-body">
-        <div class="rm-title">Traiettorie</div>
-        <div class="rm-del">Calcolo delle feature, classificazione (stabile / crescente / decrescente / volatile / inversione), distribuzione e ranking.</div>
-      </div>
-    </div>
-    <div class="rm-row">
-      <div class="rm-phase">Fase F</div>
-      <div class="rm-body">
-        <div class="rm-title">Sito e pubblicazione</div>
-        <div class="rm-del">Integrazione dei contenuti, revisione scientifica, accessibilità, standard per la presentazione al board docente ed esportazione finale.</div>
-      </div>
-    </div>
+    <table class="mod-table">
+      <tbody>
+        <tr><td class="mono">T1</td><td>2015–2018</td><td>Indicatori successivi alle elezioni 2013</td></tr>
+        <tr><td class="mono">T2</td><td>2019–2022</td><td>Indicatori successivi alle elezioni 2018</td></tr>
+        <tr><td class="mono">T3</td><td>2023–2025</td><td>Indicatori successivi alle elezioni 2022</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="wide-wrap" style="margin-top:24px">
-    <div class="insight-box blue">
-      <div class="ins-label">Priorità immediata</div>
-      <p>Chiudere i test dei grafici delle comunità e completare rapidamente le figure descrittive già alimentate dai report. Il successivo intervento metodologico prioritario è la <b>revisione di CommunityEvolution</b>, perché abilita sia il racconto dell'evoluzione delle comunità sia l'intero blocco di analisi delle traiettorie.</p>
-    </div>
+  <div class="wide-wrap">
+    <figure>
+      <img src="{{ '/assets/charts/figura_01_architettura_multigrafo_temporale.png' | relative_url }}"
+           alt="Architettura concettuale del multigrafo temporale"
+           data-filename="figura_01_architettura_multigrafo_temporale.png"
+           width="100%"
+           onerror="this.hidden=true;this.nextElementSibling.hidden=false;">
+      <div class="insight-box blue" data-placeholder-for="figura_01_architettura_multigrafo_temporale.png" hidden>
+        <div class="ins-label">Immagine non disponibile</div>
+        <p>File atteso: <code>assets/charts/figura_01_architettura_multigrafo_temporale.png</code></p>
+      </div>
+      <figcaption class="layer-desc">Figura 1 — Architettura concettuale del multigrafo temporale.</figcaption>
+    </figure>
   </div>
 
-  <div class="prose" style="margin-top:36px">
-    <h3 class="subsection-title" style="margin-top:0">Note tecniche</h3>
-    <p>Stack: Python · pandas · NumPy · scikit-learn · GeoPandas · Shapely · NetworkX · Matplotlib. Algoritmi di community detection: Louvain, greedy modularity, label propagation. Layout: Spring, ForceAtlas2, Kamada-Kawai, Circular, Shell. Documento di lavoro — versione luglio 2026.</p>
-    <p style="color:var(--muted-2);font-size:16px">I moduli <code style="font-family:var(--mono);font-size:0.85em;background:var(--panel-2);color:var(--ink);padding:2px 6px;border-radius:2px;">analytics/report.py</code> e <code style="font-family:var(--mono);font-size:0.85em;background:var(--panel-2);color:var(--ink);padding:2px 6px;border-radius:2px;">core/validation.py</code> non risultano presenti nella libreria studiata; <code style="font-family:var(--mono);font-size:0.85em;background:var(--panel-2);color:var(--ink);padding:2px 6px;border-radius:2px;">builders/graph_validator.py</code> svolge attualmente la funzione di validazione.</p>
-  </div>
-</section>
-
-<section class="chapter">
-<h2 class="section-title">La rete, <em>per intero</em></h2>
-<div class="prose">
-    <p>Ogni punto è una zona ASC2 in uno specifico periodo; ogni filo è un legame di <b>similarità economica</b> tra zone con profili affini, oppure un <b>arco temporale</b> che collega la stessa zona al periodo successivo. Il layout non è decorativo: è il risultato di un algoritmo a forze che avvicina i nodi densamente connessi, per cui i grumi che si vedono <i>sono</i> le comunità.</p>
+  <h3 class="subsection-title">Costruzione del grafo economico</h3>
+  <div class="prose">
+    <p>La similarità economica tra due zone è stata calcolata esclusivamente attraverso gli <strong>Indici di Dinamismo Immobiliare</strong> sviluppati nel progetto. Gli indicatori sintetizzano l'evoluzione del mercato nelle sei macro-categorie immobiliari — logistica, pertinenze, produttivo, residenziale ordinario, residenziale di pregio e terziario — e descrivono il comportamento del mercato durante ciascun periodo.</p>
   </div>
 
-  <div class="net-controls">
+  <div class="wide-wrap">
+    <table class="mod-table">
+      <tbody>
+        <tr>
+          <td>Delta del prezzo tra inizio e fine periodo</td>
+          <td>Trend del prezzo</td>
+          <td>Variabilità del prezzo</td>
+        </tr>
+        <tr>
+          <td>Delta dell'eterogeneità tra inizio e fine periodo</td>
+          <td>Trend dell'eterogeneità</td>
+          <td>Variabilità dell'eterogeneità</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p>Gli indici sono usati per calcolare le distanze tra nodi, costruire gli archi di similarità economica e rilevare le comunità.</p>
+  </div>
+
+  <h3 class="subsection-title">Visualizzazione in Gephi</h3>
+  <div class="prose">
+    <p>Il multigrafo è stato importato in <strong>Gephi 0.11.2</strong>. I nodi sono colorati in base alle comunità allineate nel tempo e il layout è stato calcolato con ForceAtlas2. Per garantire confrontabilità visiva, i tre snapshot sono stati esportati mantenendo palette cromatica, orientamento e impostazioni grafiche coerenti.</p>
+  </div>
+
+    <div class="net-controls">
     <span class="ctl"><span class="lab">Colore</span>
       <select id="net-color">
         <option value="com">Comunità Louvain</option>
@@ -529,7 +441,545 @@ permalink: /urbangraph.html
   </div>
 
   <div id="net-tt" class="net-tip"></div>
+
+  <p class="layer-desc" style="max-width:960px;margin:14px auto 0;padding:0 32px">Figura 4 — Visualizzazione complessiva del multigrafo temporale.</p>
 </section>
+
+<section class="chapter">
+  <h2 class="section-title">Dal grafo alle <em>comunità</em></h2>
+
+  <div class="prose">
+    <p>Una volta costruito il grafo economico, questo viene analizzato mediante algoritmi di community detection. Le comunità sono rilevate separatamente nei tre snapshot mediante <strong>Louvain</strong> e rappresentano gruppi di aree che condividono dinamiche immobiliari simili e che risultano maggiormente connesse tra loro rispetto al resto della rete.</p>
+    <p>Poiché l'algoritmo assegna identificativi indipendenti a ogni esecuzione, è stato sviluppato un processo di <strong>allineamento</strong> che consente di riconoscere la stessa comunità nei diversi periodi. Questo passaggio permette di osservare fenomeni di crescita, contrazione, fusione e frammentazione delle comunità lungo l'intero orizzonte temporale.</p>
+  </div>
+
+  
+  <h3 class="subsection-title">Variabili esterne per la caratterizzazione</h3>
+  <div class="prose">
+    <p>Le comunità, costruite esclusivamente sugli Indici di Dinamismo, sono interpretate attraverso cinque dimensioni esterne. Questa architettura consente di verificare se i cluster rappresentino configurazioni territoriali riconoscibili e non semplici artefatti della procedura di clustering.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <table class="mod-table">
+      <thead>
+        <tr><th>Dimensione</th><th>Variabili</th><th>Domanda interpretativa</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Struttura urbanistica</td>
+          <td>Quota_Pertinenze<br>Quota_Residenziale_Pregio<br>Quota_Residenziale_Ordinario<br>Quota_Produttivo<br>Quota_Terziario<br>Quota_Logistica</td>
+          <td>Come è composta la comunità?</td>
+        </tr>
+        <tr>
+          <td>Posizionamento immobiliare</td>
+          <td>PrezzoRel_* per le sei macro-categorie</td>
+          <td>Qual è il prezzo relativo dei valori immobiliari?</td>
+        </tr>
+        <tr>
+          <td>Profilo socio-economico</td>
+          <td>Reddito medio; Gini; Aliquota media</td>
+          <td>Qual è la condizione economica e distributiva?</td>
+        </tr>
+        <tr>
+          <td>Profilo politico</td>
+          <td>Quote MCS, CDX, CSX e CEN</td>
+          <td>Come si distribuisce il consenso politico nelle aree che compongono la comunità all'inizio del periodo osservato?</td>
+        </tr>
+        <tr>
+          <td>Contesto mediatico</td>
+          <td>Delta_polarity_standardizzata</td>
+          <td>Come cambia il sentiment associato ai territori?</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title">Riduzione e verifica delle feature</h3>
+  <div class="prose">
+    <p>La riduzione delle feature è stata condotta separatamente per famiglia mediante analisi descrittiva, controllo della varianza, correlazione interna e Mutual Information rispetto alla Community.</p>
+    <p>È emerso che gli Indici di Dinamismo risultano fortemente discriminanti, ma tale risultato è in parte atteso perché sono le variabili impiegate nella costruzione del grafo economico. Più rilevante è l'elevato potere informativo delle quote funzionali, che non sono state usate per costruire il grafo. La <strong>Quota_Residenziale_Pregio</strong> risulta tra le variabili più informative, seguita da quote produttive, terziarie e logistiche. Reddito e politica mostrano un potere discriminante più contenuto; il delta del sentiment è il fattore meno discriminante in senso statico.</p>
+    <p>Una Mutual Information bassa non implica irrilevanza causale. Indica soltanto che la variabile distingue meno le comunità già osservate.</p>
+  </div>
+
+  <h3 class="subsection-title">Caratterizzazione delle comunità</h3>
+  <div class="prose">
+    <p>L'unità di analisi viene portata dal nodo alla coppia <strong>Community × Periodo</strong>.</p>
+    <p>Per ogni comunità e periodo sono calcolate la media delle variabili esterne e la deviazione standard interna.</p>
+    <p>Lo scostamento standardizzato rispetto al periodo consente di leggere ogni comunità nel proprio contesto temporale. Valori positivi indicano caratteristiche sopra la media contemporanea; valori negativi indicano caratteristiche sotto la media. Lo score non è una nuova normalizzazione della variabile originale, ma una misura comparativa della comunità.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz" data-viz="json" data-source="{{ '/assets/charts/figura_05_heatmap_scostamenti_community.json' | relative_url }}">
+        <div id="viz-figura-05" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">Figura 5 — Heatmap degli scostamenti standardizzati delle comunità rispetto al proprio periodo. Le righe rappresentano Community × Periodo; le colonne rappresentano le variabili esterne.</figcaption>
+    </figure>
+  </div>
+
+  <h3 class="subsection-title">Distribuzione territoriale delle comunità</h3>
+  <div class="prose">
+    <p>Per ogni comunità e periodo viene calcolata la quota di nodi appartenenti a ciascuna città. Questa informazione permette di distinguere comunità locali, dominate da una singola città, da archetipi urbani trasversali, composti da aree di città differenti che condividono dinamiche immobiliari e caratteristiche esterne simili.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz" data-viz="json" data-source="{{ '/assets/charts/figura_06_composizione_geografica_community.json' | relative_url }}">
+        <div id="viz-figura-06" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">Figura 6 — Composizione geografica percentuale delle comunità principali.</figcaption>
+    </figure>
+  </div>
+
+  <div class="prose">
+    <p>Le Community 1 e 5 mostrano una progressiva localizzazione, rispettivamente verso Milano e Bologna. Le Community 3 e 4 seguono il percorso opposto: diventano multicittà senza perdere una configurazione funzionale riconoscibile. La Community 2 mantiene una struttura intermedia, dominata da Roma ma condivisa con altri contesti.</p>
+  </div>
+
+  <h3 class="subsection-title">Selezione delle comunità principali</h3>
+  <div class="prose">
+    <p>L'analisi dettagliata si concentra sulle comunità dalla C1 a C5. Il criterio è guidato dal Sankey: sono le comunità persistenti e numericamente rilevanti che strutturano i principali flussi del sistema. Le comunità minori o effimere rimangono nel quadro complessivo, ma non sono descritte singolarmente.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <table class="mod-table">
+      <thead>
+        <tr><th>Community</th><th>Evoluzione nodi</th><th>Flussi 15–18 → 19–22</th><th>Flussi 19–22 → 23–25</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">C1</td><td><strong>81 → 42 → 9</strong></td><td>C1: 40 (49%) | C4: 36 (44%) | C6: 5 (6%)</td><td>C4: 34 (81%) | C1: 8 (19%)</td></tr>
+        <tr><td class="mono">C2</td><td><strong>79 → 96 → 91</strong></td><td>C2: 67 (85%) | C3: 11 (14%) | C4: 1 (1%)</td><td>C2: 90 (94%) | C8: 6 (6%)</td></tr>
+        <tr><td class="mono">C3</td><td><strong>67 → 115 → 115</strong></td><td>C3: 59 (88%) | C4: 7 (10%) | C6: 1 (1%)</td><td>C3: 112 (97%) | C2: 1 (1%) | C5: 1 (1%)</td></tr>
+        <tr><td class="mono">C4</td><td><strong>62 → 108 → 139</strong></td><td>C4: 62 (100%)</td><td>C4: 105 (97%) | C3: 2 (2%) | C1: 1 (1%)</td></tr>
+        <tr><td class="mono">C5</td><td><strong>53 → 3 → 4</strong></td><td>C3: 42 (79%) | C2: 7 (13%) | C5: 3 (6%)</td><td>C5: 3 (100%)</td></tr>
+      </tbody>
+    </table>
+    <p class="layer-desc">L'evoluzione indica il numero di zone appartenenti alla comunità nei tre periodi. I flussi mostrano le principali comunità di destinazione delle stesse zone nel periodo successivo.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz" data-viz="json" data-source="{{ '/assets/charts/figura_07_evoluzione_numerosita_community.json' | relative_url }}">
+        <div id="viz-figura-07" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">Figura 7 — Evoluzione della numerosità delle comunità nei tre periodi.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="chapter">
+  <h2 class="section-title">Impronta digitale delle <em>comunità</em></h2>
+
+  <div class="prose">
+    <p>A questo punto non ci interessa soltanto sapere quanti nodi/aree appartengono a ciascuna comunità, ma capire cosa le caratterizza.</p>
+    <p>A partire dalle feature risultate più informative abbiamo costruito, per ogni community, una <strong>fingerprint</strong>. Prima standardizziamo ciascuna variabile all'interno del periodo mediante z-score; successivamente calcoliamo, per ogni comunità, la media degli z-score dei nodi che la compongono. Otteniamo quindi un profilo che mostra quali caratteristiche sono superiori o inferiori alla media del sistema in quel momento.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <table class="mod-table">
+      <thead>
+        <tr><th>Community</th><th>Produttivo</th><th>Terziario</th><th>Res. ordinario</th><th>Res. pregio</th><th>Logistica</th><th>Prezzo produttivo</th><th>Prezzo pregio</th><th>Reddito</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">C1</td><td>▲▲</td><td>▲</td><td>=</td><td>ASSENTE</td><td>▲</td><td>▲</td><td>ASSENTE</td><td>=</td></tr>
+        <tr><td class="mono">C2</td><td>▼▼</td><td>=</td><td>=</td><td>▲</td><td>▼</td><td>▼▼</td><td>▲</td><td>▲</td></tr>
+        <tr><td class="mono">C3</td><td>=</td><td>=</td><td>=</td><td>=</td><td>=</td><td>▲</td><td>▲</td><td>=</td></tr>
+        <tr><td class="mono">C4</td><td>▲</td><td>=</td><td>=</td><td>ASSENTE</td><td>=</td><td>=</td><td>ASSENTE</td><td>=</td></tr>
+        <tr><td class="mono">C5</td><td>=</td><td>=</td><td>=</td><td>=</td><td>ASSENTE</td><td>=</td><td>=</td><td>▼</td></tr>
+      </tbody>
+    </table>
+    <p class="layer-desc">▲▲ molto sopra la media &nbsp;|&nbsp; ▲ sopra la media &nbsp;|&nbsp; = vicino alla media &nbsp;|&nbsp; ▼ sotto la media &nbsp;|&nbsp; ▼▼ molto sotto la media &nbsp;|&nbsp; ASSENTE = categoria immobiliare non presente.</p>
+    <p class="layer-desc">Il fingerprint descrive esclusivamente le aree che appartengono alle comunità nel periodo finale. Non rappresenta la media storica dei nodi transitati nella comunità durante l'intero periodo di studio.</p>
+  </div>
+
+  <div class="prose">
+    <p>Lo zero rappresenta il comportamento medio. Una spinta verso valori positivi identifica una caratteristica sovrarappresentata nella community; valori negativi identificano invece caratteristiche relativamente deboli.</p>
+    <p>Abbiamo infine riportato questa classificazione <strong><em>sul territorio</em></strong>. Per ogni community mostriamo soltanto le città che ne fanno parte nel periodo finale 2023–2025. Le aree colorate sono le ASC2 della comunità, mentre tutte le altre ASC2 non afferenti a quella comunità restano in grigio. In questo modo possiamo verificare se “quartieri” appartenenti a città diverse, e quindi molto lontani geograficamente, vengono avvicinati dal modello perché condividono caratteristiche immobiliari ed anche economiche, socio-demografiche e politiche.</p>
+  </div>
+
+  <h3 class="subsection-title">C1 — specializzazione produttivo-logistica milanese</h3>
+  <div class="prose">
+    <p><strong>La famiglia si contrae drasticamente ma conserva un'identità funzionale netta.</strong></p>
+    <ul>
+      <li><strong>Traiettoria:</strong> 81 → 42 → 9 aree. Geografia 2023–2025: Milano 100%.</li>
+      <li><strong>Fingerprint 2023–2025:</strong> quota produttivo +1.23σ; quota logistica +0.94σ; quota res. pregio -1.03σ.</li>
+    </ul>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_08_c1_produttivo_logistica_milano.geojson' | relative_url }}">
+        <div id="viz-figura-08" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">C1 — Fingerprint 2023–2025 e distribuzione territoriale delle ASC2 appartenenti alla comunità, concentrata a Milano.</figcaption>
+    </figure>
+  </div>
+
+  <h3 class="subsection-title">C2 — configurazione metropolitana residenziale di pregio</h3>
+  <div class="prose">
+    <p><strong>È una famiglia numerosa e persistente, con forte presenza romana e profilo di mercato alto.</strong></p>
+    <ul>
+      <li><strong>Traiettoria:</strong> 79 → 96 → 91 aree. Geografia 2023–2025: Roma 59%; Torino 25%; Firenze 11%; Bologna 3%; Napoli 1%.</li>
+      <li><strong>Fingerprint 2023–2025:</strong> quota res. pregio +0.89σ; prezzo rel. res. pregio +0.89σ; quota produttivo -1.03σ.</li>
+    </ul>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_09_c2_residenziale_pregio.geojson' | relative_url }}">
+        <div id="viz-figura-09" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">C2 — Fingerprint 2023–2025 e distribuzione territoriale delle ASC2 della configurazione metropolitana residenziale di pregio.</figcaption>
+    </figure>
+  </div>
+
+  <h3 class="subsection-title">C3 — archetipo urbano stabile e trasversale</h3>
+  <div class="prose">
+    <p><strong>Mantiene 115 aree negli ultimi due periodi e presenta la continuità più alta.</strong></p>
+    <ul>
+      <li><strong>Traiettoria:</strong> 67 → 115 → 115 aree. Geografia 2023–2025: Firenze 37%; Roma 23%; Torino 20%; Napoli 16%; Bologna 4%.</li>
+      <li><strong>Fingerprint 2023–2025:</strong> quota logistica +0.29σ; prezzo rel. produttivo +0.57σ; reddito medio -0.29σ.</li>
+    </ul>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_10_c3_archetipo_trasversale.geojson' | relative_url }}">
+        <div id="viz-figura-10" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">C3 — Fingerprint 2023–2025 e distribuzione territoriale dell'archetipo urbano stabile e trasversale.</figcaption>
+    </figure>
+  </div>
+
+  <h3 class="subsection-title">C4 — archetipo urbano esteso e assorbente</h3>
+  <div class="prose">
+    <p><strong>È la famiglia che cresce di più e nel 2023–2025 include tutte e sei le città.</strong></p>
+    <ul>
+      <li><strong>Traiettoria:</strong> 62 → 108 → 139 aree. Geografia 2023–2025: Milano 30%; Torino 26%; Roma 18%; Firenze 15%; Napoli 8%; Bologna 3%.</li>
+      <li><strong>Fingerprint 2023–2025:</strong> quota produttivo +0.51σ; quota res. pregio -1.03σ; reddito medio -0.43σ.</li>
+    </ul>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_11_c4_archetipo_esteso.geojson' | relative_url }}">
+        <div id="viz-figura-11" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">C4 — Fingerprint 2023–2025 e distribuzione territoriale dell'archetipo urbano esteso e assorbente.</figcaption>
+    </figure>
+  </div>
+
+  <h3 class="subsection-title">C5 — nicchia locale bolognese</h3>
+  <div class="prose">
+    <p><strong>Il grande gruppo iniziale quasi scompare e resta un piccolo nucleo esclusivamente bolognese.</strong></p>
+    <ul>
+      <li><strong>Traiettoria:</strong> 53 → 3 → 4 aree. Geografia 2023–2025: Bologna 100%.</li>
+      <li><strong>Fingerprint 2023–2025:</strong> quota CSX +1.22σ; Gini -0.99σ; quota logistica -0.83σ.</li>
+    </ul>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_12_c5_nicchia_bologna.geojson' | relative_url }}">
+        <div id="viz-figura-12" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">C5 — Fingerprint 2023–2025 e distribuzione territoriale della nicchia locale bolognese.</figcaption>
+    </figure>
+  </div>
+
+  <div class="prose">
+    <p>Il punto, quindi, non è stato solo trovare quartieri geograficamente vicini, ma individuare <strong>geografie urbane funzionalmente simili</strong>.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <h2 class="section-title">Pluralismo politico e <em>retention</em></h2>
+ 
+
+  <h3 class="subsection-title">Composizione politica delle comunità</h3>
+
+  <div class="prose">
+    <p>Prima di sintetizzare il pluralismo attraverso l'indice di Shannon, osserviamo direttamente come si distribuisce il consenso politico medio all'interno delle comunità. Il grafico confronta, per ciascuna community, la quota percentuale associata alle quattro aree politiche considerate — <strong>MCS</strong>, <strong>CDX</strong>, <strong>CSX</strong> e <strong>CEN</strong> — rendendo visibili sia le comunità più polarizzate sia quelle caratterizzate da una composizione più equilibrata.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div
+        class="data-viz"
+        data-viz="json"
+        data-source="{{ '/assets/charts/barplot_share_partiti_comunita.json' | relative_url }}"
+      >
+        <div id="viz-share-partiti-comunita" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Grafico da inserire · file atteso: assets/charts/barplot_share_partiti_comunita.json</div>
+      </div>
+
+      <figcaption class="layer-desc">
+        Figura 12. Composizione politica delle comunità — quota percentuale media del consenso attribuita a MCS, CDX, CSX e CEN per ciascuna community.
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="wide-wrap">
+    <div class="insight-box blue">
+      <div class="ins-label">Domanda di ricerca</div>
+      <p><b>Le comunità caratterizzate da maggiore pluralismo politico presentano anche un tasso di permanenza più alto nel periodo successivo?</b></p>
+    </div>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div class="data-viz" data-viz="json" data-source="{{ '/assets/charts/figura_13_shannon_retention.json' | relative_url }}">
+        <div id="viz-figura-13" class="data-viz__canvas"></div>
+        <div class="data-viz__status">Caricamento visualizzazione…</div>
+      </div>
+      <figcaption class="layer-desc">Figura 13 — Relazione tra pluralismo politico, misurato tramite indice di Shannon normalizzato, e retention delle comunità nel periodo successivo.</figcaption>
+    </figure>
+  </div>
+
+  <div class="prose">
+    <p>Volevamo verificare se, oltre alle differenze immobiliari, esistessero caratteristiche extra-immobiliari associate all'evoluzione delle comunità. Per questo abbiamo iniziato a esplorare la dimensione politica e la possibile relazione tra preferenze di voto e andamento immobiliare.</p>
+    <p>Le abitudini di voto possono descrivere chi abita nelle comunità e permettere di esplorare eventuali relazioni con l'evoluzione del mercato immobiliare</p>
+
+  </div>
+
+  <h3 class="subsection-title">Analisi di Shannon e Retention</h3>
+
+  <div class="prose">
+    <p>Per verificare se il pluralismo politico fosse associato alla stabilità delle comunità, abbiamo confrontato l'<strong>indice di Shannon normalizzato</strong> — che misura quanto il consenso medio della comunità sia distribuito tra le diverse coalizioni — con il <strong>tasso di permanenza dei nodi</strong> tra due periodi consecutivi.</p>
+    <p>Nel complesso, <strong>non emerge una relazione statisticamente significativa</strong> tra pluralismo politico e stabilità. La correlazione di Pearson è pari a <strong>r = -0.235</strong> con <strong>p = 0.513</strong>, mentre la correlazione di Spearman è <strong>ρ = -0.419</strong> con <strong>p = 0.228</strong>. Entrambi i p-value sono superiori alla soglia convenzionale di 0.05.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val">−0.235</div>
+      <div class="stat-label">Correlazione di Pearson</div>
+      <div class="stat-sub">p = 0.513 · relazione lineare non significativa</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">−0.419</div>
+      <div class="stat-label">Correlazione di Spearman</div>
+      <div class="stat-sub">p = 0.228 · tendenza monotona non significativa</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">5.5%</div>
+      <div class="stat-label">Variabilità spiegata</div>
+      <div class="stat-sub">R² = 0.055 · capacità esplicativa molto limitata</div>
+    </div>
+  </div>
+
+  <div class="wide-wrap">
+    <div class="insight-box blue">
+      <div class="ins-label">Lettura del risultato</div>
+      <p>La lieve pendenza negativa suggerisce che comunità con maggiore pluralismo politico tendano, in media, a mostrare una stabilità leggermente inferiore. Tuttavia, la relazione è debole e non significativa: <b>il pluralismo politico non emerge come fattore determinante della permanenza delle comunità immobiliari</b>.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>Questa evidenza va interpretata con cautela. L'analisi si basa su un numero limitato di osservazioni, corrispondenti alle principali comunità nelle due transizioni temporali considerate. Il risultato ha quindi un valore <strong>esplorativo</strong>: può orientare analisi successive, ma non consente di formulare conclusioni causali o definitive.</p>
+  </div>
+
+  <h3 class="subsection-title">Quali caratteristiche sono associate alla stabilità?</h3>
+
+  <div class="prose">
+    <p>Abbiamo quindi esteso la verifica alle caratteristiche non politiche delle comunità. Il quadro che emerge indica che la stabilità della rete sembra essere associata soprattutto alla <strong>composizione funzionale del territorio</strong>, mentre le altre variabili considerate mostrano relazioni più deboli e, nella maggior parte dei casi, prive di significatività statistica.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <figure>
+      <div
+        class="data-viz"
+        data-viz="json"
+        data-source="{{ '/assets/charts/figura_14_caratteristiche_stabilita.json' | relative_url }}"
+      >
+        <div id="viz-figura-14" class="data-viz__canvas"></div>
+        <div class="data-viz__status">
+          Grafico da inserire · file atteso: assets/charts/figura_14_caratteristiche_stabilita.json
+        </div>
+      </div>
+
+      <figcaption class="layer-desc">
+        Figura 14 — Correlazione tra le caratteristiche non politiche delle comunità e il tasso di permanenza nel periodo successivo. Valori positivi indicano un'associazione con maggiore stabilità; valori negativi un'associazione con minore stabilità.
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="prose">
+    <p>Le altre caratteristiche analizzate — quota di pertinenze, quota di residenziale di pregio, prezzo relativo del comparto produttivo, prezzo relativo del residenziale di pregio e sentiment della stampa locale — presentano coefficienti contenuti e p-value elevati. Non emergono quindi evidenze di una loro associazione sistematica con la stabilità delle comunità.</p>
+  </div>
+
+  <h3 class="subsection-title">Conclusioni</h3>
+
+  <div class="prose">
+    <p>Il contributo di questo lavoro non consiste semplicemente nell'applicazione di tecniche di community detection a un grafo urbano. Le comunità sono state costruite esclusivamente a partire dalle <strong>dinamiche del mercato immobiliare</strong>, ma risultano riconoscibili anche rispetto a caratteristiche strutturali, economiche e geografiche che non sono state utilizzate nel processo di clustering. Le dinamiche immobiliari sembrano quindi restituire una rappresentazione sintetica della struttura funzionale della città e della sua evoluzione nel tempo.</p>
+
+    <p>La verifica esplorativa sul pluralismo politico non mostra invece una relazione significativa con la permanenza delle comunità. Pur osservando una lieve tendenza negativa, il pluralismo spiega soltanto una quota molto limitata della variabilità della retention. In questo quadro, la distribuzione del consenso politico appare meno informativa della <strong>natura funzionale delle aree urbane</strong> per descrivere la stabilità della rete.</p>
+
+    <p>Tra le caratteristiche analizzate, il risultato più netto riguarda la <strong>quota di residenziale ordinario</strong>, unica variabile associata positivamente e in modo statisticamente significativo alla retention (<strong>r = 0.68; p = 0.032</strong>). Al contrario, una maggiore specializzazione produttiva mostra una tendenza verso una minore stabilità, anche se l'associazione non raggiunge la significatività statistica.</p>
+  </div>
+
+  <div class="wide-wrap">
+    <div class="insight-box">
+      <div class="ins-label">Interpretazione complessiva</div>
+      <p>Nel complesso, i risultati suggeriscono che <b>la composizione funzionale del territorio sia più strettamente associata alla stabilità delle comunità rispetto al pluralismo politico o alle altre variabili considerate</b>. Il tessuto residenziale ordinario emerge come il segnale più robusto di continuità, mentre le aree a maggiore vocazione produttiva sembrano potenzialmente più esposte a processi di trasformazione.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>Queste conclusioni devono comunque essere lette come <strong>evidenze esplorative</strong>. Il numero di osservazioni disponibili è limitato e l'obiettivo non è dimostrare relazioni causali, ma individuare quali caratteristiche meritino ulteriori approfondimenti attraverso campioni più ampi, serie temporali più estese e nuove verifiche statistiche.</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  var bar = document.getElementById('progress-bar');
+  function updateBar(){
+    var d = document.documentElement;
+    var st = d.scrollTop || document.body.scrollTop;
+    var sh = d.scrollHeight - d.clientHeight;
+    bar.style.width = (sh > 0 ? (st/sh)*100 : 0).toFixed(2)+'%';
+  }
+  document.addEventListener('scroll', updateBar, {passive:true});
+  window.addEventListener('scroll', updateBar, {passive:true});
+  updateBar();
+
+  function setReady(el){
+    el.classList.remove('is-error');
+    el.classList.add('is-ready');
+  }
+
+  function setError(el, message){
+    el.classList.remove('is-ready');
+    el.classList.add('is-error');
+    var status = el.querySelector('.data-viz__status');
+    if (status) status.textContent = message || 'Visualizzazione non disponibile.';
+  }
+
+  function renderJsonFigure(el, payload){
+    var canvas = el.querySelector('.data-viz__canvas');
+
+    if (payload && Array.isArray(payload.data) && window.Plotly) {
+      var layout = payload.layout || {};
+      var config = Object.assign({
+        responsive: true,
+        displaylogo: false
+      }, payload.config || {});
+
+      return Plotly.newPlot(canvas, payload.data, layout, config).then(function(){
+        setReady(el);
+      });
+    }
+
+    var schema = payload && typeof payload.$schema === 'string' ? payload.$schema : '';
+    var isVegaLite = payload && (
+      schema.indexOf('vega-lite') !== -1 ||
+      (payload.mark && payload.encoding)
+    );
+    var isVega = payload && (
+      schema.indexOf('/vega/') !== -1 ||
+      (payload.marks && payload.scales)
+    );
+
+    if ((isVegaLite || isVega) && window.vegaEmbed) {
+      canvas.innerHTML = '';
+
+      return vegaEmbed(canvas, payload, {
+        actions: false,
+        renderer: 'svg'
+      }).then(function(){
+        setReady(el);
+      });
+    }
+
+    if (payload && (payload.type === 'FeatureCollection' || payload.type === 'Feature')) {
+      return renderGeoJson(el, payload);
+    }
+
+    throw new Error('Formato JSON non riconosciuto dal renderer automatico.');
+  }
+
+  function renderGeoJson(el, payload){
+    if (!window.L) throw new Error('Leaflet non disponibile.');
+
+    var canvas = el.querySelector('.data-viz__canvas');
+    canvas.innerHTML = '';
+
+    var map = L.map(canvas, {
+      scrollWheelZoom: false,
+      attributionControl: true
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    function featureStyle(feature){
+      var p = (feature && feature.properties) || {};
+      return {
+        color: p.stroke || p.color || '#1F3A5F',
+        weight: Number(p['stroke-width'] || p.weight || 1.5),
+        opacity: Number(p['stroke-opacity'] || p.opacity || 0.9),
+        fillColor: p.fill || p.fillColor || p.color || '#1F3A5F',
+        fillOpacity: Number(p['fill-opacity'] ?? p.fillOpacity ?? 0.55)
+      };
+    }
+
+    var layer = L.geoJSON(payload, {
+      style: featureStyle,
+      pointToLayer: function(feature, latlng){
+        var p = (feature && feature.properties) || {};
+        return L.circleMarker(latlng, {
+          radius: Number(p.radius || 5),
+          color: p.stroke || p.color || '#1F3A5F',
+          weight: Number(p['stroke-width'] || p.weight || 1.5),
+          fillColor: p.fill || p.fillColor || p.color || '#1F3A5F',
+          fillOpacity: Number(p['fill-opacity'] ?? p.fillOpacity ?? 0.65)
+        });
+      }
+    }).addTo(map);
+
+    var bounds = layer.getBounds();
+    if (bounds && bounds.isValid()) {
+      map.fitBounds(bounds, {padding: [24, 24], maxZoom: 13});
+    } else {
+      map.setView([42.5, 12.5], 5);
+    }
+
+    setReady(el);
+    setTimeout(function(){ map.invalidateSize(); }, 0);
+    return Promise.resolve();
+  }
+
+  async function loadVisualization(el){
+    var source = el.getAttribute('data-source');
+    var type = el.getAttribute('data-viz');
+
+    try {
+      var response = await fetch(source, {cache: 'no-store'});
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      var payload = await response.json();
+
+      if (type === 'geojson') {
+        await renderGeoJson(el, payload);
+      } else {
+        await renderJsonFigure(el, payload);
+      }
+    } catch (err) {
+      console.error('UrbanGraph visualization error:', source, err);
+      setError(el, 'Visualizzazione non disponibile. Controllare che il file sia presente in assets/charts/ e nel formato previsto.');
+    }
+  }
+
+  document.querySelectorAll('[data-viz][data-source]').forEach(loadVisualization);
+})();
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script>
