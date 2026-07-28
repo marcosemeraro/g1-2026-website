@@ -184,6 +184,9 @@ section.chapter:first-of-type { border-top: none; }
 .viz-single svg { width: 100%; height: auto; display: block; }
 .viz-single .axis text { font-family: var(--mono); font-size: 10px; fill: var(--muted-2); }
 .viz-single .gridline { stroke: var(--rule); stroke-dasharray: 2 3; }
+.ramp-legend { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.ramp-legend .rl-bar { width: 190px; height: 11px; border-radius: 2px; display: inline-block; border: 1px solid var(--rule-2); }
+.ramp-legend .rl-note { font-family: var(--sans); font-size: 11px; color: var(--muted-2); }
 .viz-tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--panel); padding: 9px 12px; border-radius: 3px; font-family: var(--sans); font-size: 12px; line-height: 1.45; max-width: 270px; z-index: 9999; opacity: 0; transition: opacity 90ms; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
 .viz-tip .h { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: #fff; margin-bottom: 3px; }
 .viz-tip .v { font-family: var(--mono); color: var(--accent-2); }

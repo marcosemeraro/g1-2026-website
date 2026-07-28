@@ -53,19 +53,19 @@ navbar:
       url: /articolo.html
     - title: Approfondimenti
       child:
-        - title: Dati Omi
+        - title: Immobili
           url: /datiomi.html
-        - title: Dati Elezioni 2
+        - title: Elezioni
           url: /datielezioni.html
-        - title: Dati news
+        - title: Cronaca
           url: /datinews.html
-        - title: Dati Stefania 1
+        - title: Vulnerabilità
           url: /isvm_editorial_v2.html
-        - title: Dati Stefania 2
+        - title: Ricchezza
           url: /datistefania2.html
         - title: Classificatore
           url: /classificatore.html
-        - title: UrbanGraph
+        - title: SNA
           url: /urbangraph.html
 
     - title: SBD Master # deve essere sempre l'ultimo elemento della navbar, non modificarlo

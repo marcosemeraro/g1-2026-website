@@ -89,7 +89,7 @@ sitemap: false
   <div class="viz-block">
     <div class="viz-lab">Le sezioni elettorali geolocalizzate di Firenze</div>
     <div class="viz-single"><svg id="el-seggi"></svg></div>
-    <p class="viz-cap">Ogni punto è un seggio, ottenuto convertendo l'indirizzo in coordinate geografiche. La densità segue la distribuzione della popolazione: fitta nel centro, più rada verso le colline.</p>
+    <p class="viz-cap">Le <b>360 sezioni elettorali</b> di Firenze, distribuite in <b>85 edifici</b>: ogni punto è un seggio e il raggio è proporzionale al numero di sezioni ospitate (fino a 12 nello stesso edificio). Passa sopra un punto per i numeri di sezione.</p>
   </div>
 </section>
 
@@ -226,7 +226,7 @@ sitemap: false
     <div class="viz-lab">Aree senza sezioni elettorali · il caso di Milano</div>
     <div class="viz-single"><svg id="el-empty"></svg></div>
     <div class="viz-legend" id="empty-legend"></div>
-    <p class="viz-cap">I punti sono le sezioni elettorali; le aree in ocra non ne contengono nessuna. Sono queste discontinuità a rendere necessario il criterio di vicinato KNN.</p>
+    <p class="viz-cap">Le <b>1.248 sezioni elettorali</b> di Milano, ospitate in <b>203 seggi</b> (il raggio conta le sezioni per edificio). Le <b>20 aree in ocra</b> non ne contengono nessuna: sono queste discontinuità a rendere necessario il criterio di vicinato KNN.</p>
   </div>
 
   <div class="prose">
@@ -372,21 +372,40 @@ sitemap: false
     this.textContent = b.classList.contains('open') ? 'Nascondi le correnti' : 'Esplora le correnti';
   });
 
-  // ═══ Seggi di Firenze ═══
-  d3.json("{% endraw %}{{ '/assets/charts/el_seggi_firenze.json' | relative_url }}{% raw %}").then(pts => {
-    const W = 880, H = 430, m = 22;
+  // ═══ Seggi di Firenze sopra i confini delle zone ASC2 ═══
+  Promise.all([
+    d3.json("{% endraw %}{{ '/assets/charts/el_seggi_firenze.json' | relative_url }}{% raw %}"),
+    d3.json("{% endraw %}{{ '/assets/charts/ivsm_maps.json' | relative_url }}{% raw %}")
+  ]).then(([pts, IV]) => {
+    const W = 880, H = 520, m = 18;
     const svg = d3.select('#el-seggi').attr('viewBox', `0 0 ${W} ${H}`);
-    const fc = { type: 'FeatureCollection', features: pts.map(p => ({ type: 'Feature', geometry: { type: 'Point', coordinates: p } })) };
-    const proj = d3.geoMercator().fitExtent([[m, m], [W - m, H - m]], fc);
-    svg.append('g').selectAll('circle').data(pts).join('circle')
-      .attr('cx', d => proj(d)[0]).attr('cy', d => proj(d)[1]).attr('r', 3.4)
-      .attr('fill', '#A0402E').attr('fill-opacity', 0.5)
-      .attr('stroke', '#FBFAF6').attr('stroke-width', 0.7)
+    const fcZone = IV['Firenze']['2021'];
+    // la proiezione si adatta ai confini della città, i punti ci cadono dentro
+    const proj = d3.geoMercator().fitExtent([[m, m], [W - m, H - m]], fcZone);
+    const path = d3.geoPath(proj);
+    svg.append('g').selectAll('path').data(fcZone.features).join('path')
+      .attr('d', path)
+      .attr('fill', '#FBFAF6').attr('stroke', '#A39B8E').attr('stroke-width', 0.6)
       .on('mousemove', function (ev, d) {
-        d3.select(this).attr('r', 5.5).attr('fill-opacity', 1);
-        show(`<div class="h">Sezione elettorale</div>Firenze<br><span class="v">${d[1].toFixed(4)}, ${d[0].toFixed(4)}</span>`, ev);
+        d3.select(this).attr('fill', '#EFE9DC').attr('stroke', 'var(--ink)').raise();
+        show(`<div class="h">${d.properties.n}</div>Firenze · zona ASC2`, ev);
       })
-      .on('mouseleave', function () { d3.select(this).attr('r', 3.4).attr('fill-opacity', 0.5); hide(); });
+      .on('mouseleave', function () { d3.select(this).attr('fill', '#FBFAF6').attr('stroke', '#A39B8E'); hide(); });
+    const rr = d3.scaleSqrt().domain([1, d3.max(pts, p => p[2])]).range([3, 9.5]);
+    const g = svg.append('g');
+    pts.forEach(p => {
+      const xy = proj([p[0], p[1]]); if (!xy) return;
+      const n = p[3].join(', ');
+      const lab = p[2] === 1 ? `Sezione n. ${n}` : `${p[2]} sezioni: n. ${n}`;
+      g.append('circle').attr('cx', xy[0]).attr('cy', xy[1]).attr('r', rr(p[2]))
+        .attr('fill', '#A0402E').attr('fill-opacity', 0.7)
+        .attr('stroke', '#FBFAF6').attr('stroke-width', 0.8)
+        .on('mousemove', function (ev) {
+          d3.select(this).attr('fill-opacity', 1).raise();
+          show(`<div class="h">Seggio elettorale · Firenze</div>${lab}`, ev);
+        })
+        .on('mouseleave', function () { d3.select(this).attr('fill-opacity', 0.7); hide(); });
+    });
   }).catch(() => {});
 
   // ═══ Vincitori + LISA (geometria condivisa) ═══
@@ -400,7 +419,7 @@ sitemap: false
       const panel = cont.append('div').attr('class', 'viz-panel');
       panel.append('div').attr('class', 'panel-title').text(c);
       const svg = panel.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-      const proj = d3.geoIdentity().reflectY(true).fitSize([W - 10, H - 10], { type: 'FeatureCollection', features: feats[c] });
+      const proj = d3.geoMercator().fitSize([W - 10, H - 10], { type: 'FeatureCollection', features: feats[c] });
       return svg.append('g').attr('transform', 'translate(5,5)')
         .selectAll('path').data(feats[c]).join('path')
         .attr('d', d3.geoPath(proj)).attr('stroke', '#FBFAF6').attr('stroke-width', 0.4)
@@ -575,31 +594,43 @@ sitemap: false
     });
 
     // ── Milano: aree senza sezioni elettorali ──
+    // geometrie e seggi provengono entrambi dallo stesso file sorgente,
+    // così i punti cadono esattamente dentro le zone che li contengono
     d3.json("{% endraw %}{{ '/assets/charts/el_empty_milano.json' | relative_url }}{% raw %}").then(EM => {
-      const fc = IV['Milano']['2021'];
-      const noPin = new Set(EM.zones.filter(z => !z[1]).map(z => z[0]));
+      const feats = EM.zones.map(z => ({ type: 'Feature', geometry: z.g, properties: { n: z.n, p: z.p } }));
+      const fc = { type: 'FeatureCollection', features: feats };
       const W2 = 880, H2 = 560;
       const svg = d3.select('#el-empty').attr('viewBox', `0 0 ${W2} ${H2}`);
       const proj = d3.geoMercator().fitSize([W2 - 16, H2 - 16], fc);
       const path = d3.geoPath(proj);
       svg.append('g').attr('transform', 'translate(8,8)')
-        .selectAll('path').data(fc.features).join('path')
+        .selectAll('path').data(feats).join('path')
         .attr('d', path)
-        .attr('fill', (d, i) => noPin.has(i) ? '#D9B36A' : '#FBFAF6')
+        .attr('fill', d => d.properties.p ? '#FBFAF6' : '#D9B36A')
         .attr('stroke', '#8A8070').attr('stroke-width', 0.6)
         .on('mousemove', function (ev, d) {
-          const i = fc.features.indexOf(d);
           d3.select(this).attr('stroke', 'var(--ink)').attr('stroke-width', 1.3).raise();
           show(`<div class="h">${d.properties.n}</div>Milano · ` +
-            (noPin.has(i) ? '<b>nessuna sezione elettorale</b>' : 'contiene sezioni elettorali'), ev);
+            (d.properties.p ? 'contiene sezioni elettorali' : '<b>nessuna sezione elettorale</b>'), ev);
         })
         .on('mouseleave', function () { d3.select(this).attr('stroke', '#8A8070').attr('stroke-width', 0.6); hide(); });
-      const g2 = svg.append('g').attr('transform', 'translate(8,8)').attr('pointer-events', 'none');
+      const g2 = svg.append('g').attr('transform', 'translate(8,8)');
+      const rr = d3.scaleSqrt().domain([1, d3.max(EM.pins, p => p[2])]).range([2, 7.5]);
       EM.pins.forEach(p => {
-        const xy = proj(p);
-        if (xy) g2.append('circle').attr('cx', xy[0]).attr('cy', xy[1]).attr('r', 2)
-          .attr('fill', '#1F3A5F').attr('fill-opacity', 0.75)
-          .attr('stroke', '#FBFAF6').attr('stroke-width', 0.5);
+        const xy = proj([p[0], p[1]]);
+        if (!xy) return;
+        const n = p[3].filter(x => x !== '?');
+        const lab = p[2] === 1
+          ? (n.length ? `Sezione n. ${n[0]}` : '1 sezione')
+          : `${p[2]} sezioni` + (n.length ? `: n. ${n.join(', ')}` : '');
+        g2.append('circle').attr('cx', xy[0]).attr('cy', xy[1]).attr('r', rr(p[2]))
+          .attr('fill', '#1F3A5F').attr('fill-opacity', 0.7)
+          .attr('stroke', '#FBFAF6').attr('stroke-width', 0.5)
+          .on('mousemove', function (ev) {
+            d3.select(this).attr('fill-opacity', 1);
+            show(`<div class="h">Seggio elettorale · Milano</div>${lab}`, ev);
+          })
+          .on('mouseleave', function () { d3.select(this).attr('fill-opacity', 0.7); hide(); });
       });
       const leg = d3.select('#empty-legend'); leg.selectAll('*').remove();
       [['area con sezioni', '#FBFAF6'], ['area senza sezioni', '#D9B36A']].forEach(([t, c]) => {
