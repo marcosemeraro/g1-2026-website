@@ -432,7 +432,7 @@ sitemap: false
 
     d3.json("{% endraw %}{{ '/assets/charts/el_lisa.json' | relative_url }}{% raw %}").then(L => {
       const vs = document.getElementById('lisa-var');
-      const NICE = { pol_gini: 'Gini politico', winner_share: 'Quota del vincitore', winner_changed: 'Cambio del vincitore', _CSX_share: 'Quota CSX', _CDX_share: 'Quota CDX', _MCS_share: 'Quota M5S', _CEN_share: 'Quota Centro', delta_pol_gini: 'Variazione Gini politico', delta_CSX_share: 'Variazione quota CSX', delta_CDX_share: 'Variazione quota CDX', delta_MCS_share: 'Variazione quota M5S', delta_CEN_share: 'Variazione quota Centro' };
+      const NICE = { pol_gini: 'Gini politico', winner_share: 'Quota del vincitore', winner_changed: 'Cambio del vincitore', _CSX_share: 'Quota CSX', _CDX_share: 'Quota CDX', _MCS_share: 'Quota M5S', _CEN_share: 'Quota Centro', delta_pol_gini: 'Variazione Gini politico', delta_CSX_share: 'Variazione quota CSX', delta_CDX_share: 'Variazione quota CDX', delta_MCS_share: 'Variazione quota M5S', delta_CEN_share: 'Variazione quota Centro', prev_winner_margin: 'Margine del vincitore precedente' };
       L.vars.forEach(v => vs.append(new Option(NICE[v] || v, v)));
       vs.value = 'pol_gini';
       legend('#lisa-legend', [1, 3, 4, 2, 0].map(k => [LISA[k][0], LISA[k][1]]));

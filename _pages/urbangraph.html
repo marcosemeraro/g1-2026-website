@@ -4,12 +4,7 @@ title: "UrbanGraph — Analisi Multigrafo delle Reti Urbane"
 permalink: /urbangraph.html
 ---
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
 <style>
 #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 1000; transition: width 60ms linear; }
@@ -93,16 +88,7 @@ permalink: /urbangraph.html
   .pipe-arrow { display: none; }
 }
 
-.data-viz { position: relative; width: 100%; min-height: 360px; background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
-.data-viz__canvas { width: 100%; min-height: 360px; }
-.data-viz--map .data-viz__canvas { height: 520px; min-height: 520px; }
-.data-viz__status { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 28px; background: var(--panel); font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--muted); text-align: center; }
-.data-viz.is-ready .data-viz__status { display: none; }
-.data-viz.is-error .data-viz__status { position: static; min-height: 180px; }
-.data-viz + figcaption { margin-top: 10px; }
 @media (max-width: 800px) {
-  .data-viz, .data-viz__canvas { min-height: 300px; }
-  .data-viz--map .data-viz__canvas { height: 420px; min-height: 420px; }
 }
 
 .net-wrap { max-width: 1180px; margin: 10px auto 0; padding: 0 32px; }
@@ -123,6 +109,18 @@ permalink: /urbangraph.html
 .net-tip .h { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: #fff; margin-bottom: 3px; }
 .net-tip .v { font-family: var(--mono); color: var(--accent-2); }
 .net-hint { font-family: var(--sans); font-size: 11.5px; color: var(--muted-2); text-align: center; margin-top: 12px; }
+.d3fig { width: 100%; background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px 12px; overflow-x: auto; }
+.d3fig svg { display: block; margin: 0 auto; max-width: 100%; height: auto; font-family: var(--sans); }
+.d3fig .ax text { font-size: 11px; fill: var(--muted); }
+.d3fig .ax line, .d3fig .ax path { stroke: var(--rule-2); shape-rendering: crispEdges; }
+.d3fig .ttl { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; fill: var(--muted); }
+.d3fig .lgd { font-size: 11.5px; fill: var(--ink-2); }
+.d3fig .zero { stroke: var(--ink); stroke-width: 1; }
+.d3fig .grid line { stroke: var(--rule); shape-rendering: crispEdges; }
+.d3fig .val { font-family: var(--mono); font-size: 10px; fill: var(--ink-2); }
+.d3-legend { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: center; margin-top: 12px; font-family: var(--sans); font-size: 12px; color: var(--ink-2); }
+.d3-legend .it { display: inline-flex; align-items: center; gap: 7px; }
+.d3-legend .sw { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
 </style>
 
 <div id="progress-bar"></div>
@@ -442,7 +440,7 @@ permalink: /urbangraph.html
 
   <div id="net-tt" class="net-tip"></div>
 
-  <p class="layer-desc" style="max-width:960px;margin:14px auto 0;padding:0 32px">Figura 4 — Visualizzazione complessiva del multigrafo temporale.</p>
+  <p class="layer-desc" style="max-width:960px;margin:14px auto 0;padding:0 32px">Figura 2 — Visualizzazione complessiva del multigrafo temporale.</p>
 </section>
 
 <section class="chapter">
@@ -453,7 +451,13 @@ permalink: /urbangraph.html
     <p>Poiché l'algoritmo assegna identificativi indipendenti a ogni esecuzione, è stato sviluppato un processo di <strong>allineamento</strong> che consente di riconoscere la stessa comunità nei diversi periodi. Questo passaggio permette di osservare fenomeni di crescita, contrazione, fusione e frammentazione delle comunità lungo l'intero orizzonte temporale.</p>
   </div>
 
-  
+  <div class="wide-wrap">
+    <figure>
+      <div id="ug-sankey" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 3 — Diagramma di Sankey dell'evoluzione temporale delle comunità economiche fra i tre periodi. Lo spessore dei flussi corrisponde al numero di zone trasferite o mantenute.</figcaption>
+    </figure>
+  </div>
+
   <h3 class="subsection-title">Variabili esterne per la caratterizzazione</h3>
   <div class="prose">
     <p>Le comunità, costruite esclusivamente sugli Indici di Dinamismo, sono interpretate attraverso cinque dimensioni esterne. Questa architettura consente di verificare se i cluster rappresentino configurazioni territoriali riconoscibili e non semplici artefatti della procedura di clustering.</p>
@@ -510,11 +514,8 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz" data-viz="json" data-source="{{ '/assets/charts/figura_05_heatmap_scostamenti_community.json' | relative_url }}">
-        <div id="viz-figura-05" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
-      <figcaption class="layer-desc">Figura 5 — Heatmap degli scostamenti standardizzati delle comunità rispetto al proprio periodo. Le righe rappresentano Community × Periodo; le colonne rappresentano le variabili esterne.</figcaption>
+      <div id="ug-heat" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 4 — Heatmap degli scostamenti standardizzati delle comunità rispetto al proprio periodo. Le righe rappresentano Community × Periodo; le colonne rappresentano le variabili esterne.</figcaption>
     </figure>
   </div>
 
@@ -525,11 +526,8 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz" data-viz="json" data-source="{{ '/assets/charts/figura_06_composizione_geografica_community.json' | relative_url }}">
-        <div id="viz-figura-06" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
-      <figcaption class="layer-desc">Figura 6 — Composizione geografica percentuale delle comunità principali.</figcaption>
+      <div id="ug-geo" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 5 — Composizione geografica percentuale delle comunità principali.</figcaption>
     </figure>
   </div>
 
@@ -560,13 +558,11 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz" data-viz="json" data-source="{{ '/assets/charts/figura_07_evoluzione_numerosita_community.json' | relative_url }}">
-        <div id="viz-figura-07" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
-      <figcaption class="layer-desc">Figura 7 — Evoluzione della numerosità delle comunità nei tre periodi.</figcaption>
+      <div id="ug-size" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 6 — Evoluzione della numerosità delle comunità nei tre periodi.</figcaption>
     </figure>
   </div>
+
 </section>
 
 <section class="chapter">
@@ -610,11 +606,8 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_08_c1_produttivo_logistica_milano.geojson' | relative_url }}">
-        <div id="viz-figura-08" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
-      <figcaption class="layer-desc">C1 — Fingerprint 2023–2025 e distribuzione territoriale delle ASC2 appartenenti alla comunità, concentrata a Milano.</figcaption>
+      <div id="ug-map-c1" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 7 — C1, fingerprint 2023–2025 e distribuzione territoriale delle ASC2 appartenenti alla comunità, concentrata a Milano.</figcaption>
     </figure>
   </div>
 
@@ -629,11 +622,8 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_09_c2_residenziale_pregio.geojson' | relative_url }}">
-        <div id="viz-figura-09" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
-      <figcaption class="layer-desc">C2 — Fingerprint 2023–2025 e distribuzione territoriale delle ASC2 della configurazione metropolitana residenziale di pregio.</figcaption>
+      <div id="ug-map-c2" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 8 — C2, fingerprint 2023–2025 e distribuzione territoriale delle ASC2 della configurazione metropolitana residenziale di pregio.</figcaption>
     </figure>
   </div>
 
@@ -648,11 +638,8 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_10_c3_archetipo_trasversale.geojson' | relative_url }}">
-        <div id="viz-figura-10" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
-      <figcaption class="layer-desc">C3 — Fingerprint 2023–2025 e distribuzione territoriale dell'archetipo urbano stabile e trasversale.</figcaption>
+      <div id="ug-map-c3" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 9 — C3, fingerprint 2023–2025 e distribuzione territoriale dell'archetipo urbano stabile e trasversale.</figcaption>
     </figure>
   </div>
 
@@ -667,11 +654,8 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_11_c4_archetipo_esteso.geojson' | relative_url }}">
-        <div id="viz-figura-11" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
-      <figcaption class="layer-desc">C4 — Fingerprint 2023–2025 e distribuzione territoriale dell'archetipo urbano esteso e assorbente.</figcaption>
+      <div id="ug-map-c4" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 10 — C4, fingerprint 2023–2025 e distribuzione territoriale dell'archetipo urbano esteso e assorbente.</figcaption>
     </figure>
   </div>
 
@@ -686,11 +670,8 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz data-viz--map" data-viz="geojson" data-source="{{ '/assets/charts/figura_12_c5_nicchia_bologna.geojson' | relative_url }}">
-        <div id="viz-figura-12" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
-      <figcaption class="layer-desc">C5 — Fingerprint 2023–2025 e distribuzione territoriale della nicchia locale bolognese.</figcaption>
+      <div id="ug-map-c5" class="d3fig"></div>
+      <figcaption class="layer-desc">Figura 11 — C5, fingerprint 2023–2025 e distribuzione territoriale della nicchia locale bolognese.</figcaption>
     </figure>
   </div>
 
@@ -711,17 +692,10 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div
-        class="data-viz"
-        data-viz="json"
-        data-source="{{ '/assets/charts/barplot_share_partiti_comunita.json' | relative_url }}"
-      >
-        <div id="viz-share-partiti-comunita" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Grafico da inserire · file atteso: assets/charts/barplot_share_partiti_comunita.json</div>
-      </div>
+      <div id="ug-parties" class="d3fig"></div>
 
       <figcaption class="layer-desc">
-        Figura 12. Composizione politica delle comunità — quota percentuale media del consenso attribuita a MCS, CDX, CSX e CEN per ciascuna community.
+        Figura 12 — Composizione politica delle comunità — quota percentuale media del consenso attribuita a MCS, CDX, CSX e CEN per ciascuna community.
       </figcaption>
     </figure>
   </div>
@@ -735,10 +709,7 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div class="data-viz" data-viz="json" data-source="{{ '/assets/charts/figura_13_shannon_retention.json' | relative_url }}">
-        <div id="viz-figura-13" class="data-viz__canvas"></div>
-        <div class="data-viz__status">Caricamento visualizzazione…</div>
-      </div>
+      <div id="ug-shannon" class="d3fig"></div>
       <figcaption class="layer-desc">Figura 13 — Relazione tra pluralismo politico, misurato tramite indice di Shannon normalizzato, e retention delle comunità nel periodo successivo.</figcaption>
     </figure>
   </div>
@@ -793,16 +764,7 @@ permalink: /urbangraph.html
 
   <div class="wide-wrap">
     <figure>
-      <div
-        class="data-viz"
-        data-viz="json"
-        data-source="{{ '/assets/charts/figura_14_caratteristiche_stabilita.json' | relative_url }}"
-      >
-        <div id="viz-figura-14" class="data-viz__canvas"></div>
-        <div class="data-viz__status">
-          Grafico da inserire · file atteso: assets/charts/figura_14_caratteristiche_stabilita.json
-        </div>
-      </div>
+      <div id="ug-stab" class="d3fig"></div>
 
       <figcaption class="layer-desc">
         Figura 14 — Correlazione tra le caratteristiche non politiche delle comunità e il tasso di permanenza nel periodo successivo. Valori positivi indicano un'associazione con maggiore stabilità; valori negativi un'associazione con minore stabilità.
@@ -836,152 +798,6 @@ permalink: /urbangraph.html
   </div>
 </section>
 
-<script>
-(function(){
-  var bar = document.getElementById('progress-bar');
-  function updateBar(){
-    var d = document.documentElement;
-    var st = d.scrollTop || document.body.scrollTop;
-    var sh = d.scrollHeight - d.clientHeight;
-    bar.style.width = (sh > 0 ? (st/sh)*100 : 0).toFixed(2)+'%';
-  }
-  document.addEventListener('scroll', updateBar, {passive:true});
-  window.addEventListener('scroll', updateBar, {passive:true});
-  updateBar();
-
-  function setReady(el){
-    el.classList.remove('is-error');
-    el.classList.add('is-ready');
-  }
-
-  function setError(el, message){
-    el.classList.remove('is-ready');
-    el.classList.add('is-error');
-    var status = el.querySelector('.data-viz__status');
-    if (status) status.textContent = message || 'Visualizzazione non disponibile.';
-  }
-
-  function renderJsonFigure(el, payload){
-    var canvas = el.querySelector('.data-viz__canvas');
-
-    if (payload && Array.isArray(payload.data) && window.Plotly) {
-      var layout = payload.layout || {};
-      var config = Object.assign({
-        responsive: true,
-        displaylogo: false
-      }, payload.config || {});
-
-      return Plotly.newPlot(canvas, payload.data, layout, config).then(function(){
-        setReady(el);
-      });
-    }
-
-    var schema = payload && typeof payload.$schema === 'string' ? payload.$schema : '';
-    var isVegaLite = payload && (
-      schema.indexOf('vega-lite') !== -1 ||
-      (payload.mark && payload.encoding)
-    );
-    var isVega = payload && (
-      schema.indexOf('/vega/') !== -1 ||
-      (payload.marks && payload.scales)
-    );
-
-    if ((isVegaLite || isVega) && window.vegaEmbed) {
-      canvas.innerHTML = '';
-
-      return vegaEmbed(canvas, payload, {
-        actions: false,
-        renderer: 'svg'
-      }).then(function(){
-        setReady(el);
-      });
-    }
-
-    if (payload && (payload.type === 'FeatureCollection' || payload.type === 'Feature')) {
-      return renderGeoJson(el, payload);
-    }
-
-    throw new Error('Formato JSON non riconosciuto dal renderer automatico.');
-  }
-
-  function renderGeoJson(el, payload){
-    if (!window.L) throw new Error('Leaflet non disponibile.');
-
-    var canvas = el.querySelector('.data-viz__canvas');
-    canvas.innerHTML = '';
-
-    var map = L.map(canvas, {
-      scrollWheelZoom: false,
-      attributionControl: true
-    });
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    function featureStyle(feature){
-      var p = (feature && feature.properties) || {};
-      return {
-        color: p.stroke || p.color || '#1F3A5F',
-        weight: Number(p['stroke-width'] || p.weight || 1.5),
-        opacity: Number(p['stroke-opacity'] || p.opacity || 0.9),
-        fillColor: p.fill || p.fillColor || p.color || '#1F3A5F',
-        fillOpacity: Number(p['fill-opacity'] ?? p.fillOpacity ?? 0.55)
-      };
-    }
-
-    var layer = L.geoJSON(payload, {
-      style: featureStyle,
-      pointToLayer: function(feature, latlng){
-        var p = (feature && feature.properties) || {};
-        return L.circleMarker(latlng, {
-          radius: Number(p.radius || 5),
-          color: p.stroke || p.color || '#1F3A5F',
-          weight: Number(p['stroke-width'] || p.weight || 1.5),
-          fillColor: p.fill || p.fillColor || p.color || '#1F3A5F',
-          fillOpacity: Number(p['fill-opacity'] ?? p.fillOpacity ?? 0.65)
-        });
-      }
-    }).addTo(map);
-
-    var bounds = layer.getBounds();
-    if (bounds && bounds.isValid()) {
-      map.fitBounds(bounds, {padding: [24, 24], maxZoom: 13});
-    } else {
-      map.setView([42.5, 12.5], 5);
-    }
-
-    setReady(el);
-    setTimeout(function(){ map.invalidateSize(); }, 0);
-    return Promise.resolve();
-  }
-
-  async function loadVisualization(el){
-    var source = el.getAttribute('data-source');
-    var type = el.getAttribute('data-viz');
-
-    try {
-      var response = await fetch(source, {cache: 'no-store'});
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      var payload = await response.json();
-
-      if (type === 'geojson') {
-        await renderGeoJson(el, payload);
-      } else {
-        await renderJsonFigure(el, payload);
-      }
-    } catch (err) {
-      console.error('UrbanGraph visualization error:', source, err);
-      setError(el, 'Visualizzazione non disponibile. Controllare che il file sia presente in assets/charts/ e nel formato previsto.');
-    }
-  }
-
-  document.querySelectorAll('[data-viz][data-source]').forEach(loadVisualization);
-})();
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script>
 (function(){
   var ns = 'http://www.w3.org/2000/svg';
@@ -1223,7 +1039,9 @@ permalink: /urbangraph.html
     const prev = hover;
     hover = (found && visible(found)) ? found : null;
     if (hover) {
-      tip.innerHTML = `<div class="h">${DATA.cities[hover.city]} · zona ${hover.com}</div>` +
+      const den = (DATA.den && DATA.den[hover.com]) || ('zona ' + hover.com);
+      tip.innerHTML = `<div class="h">${den}</div>` +
+        `${DATA.cities[hover.city]} · <span class="v">${hover.com}</span><br>` +
         `Periodo <span class="v">${perLab[hover.per]}</span><br>` +
         `${comLabel[hover.col]} · <span class="v">${deg[hover.i]} collegamenti</span>`;
       tip.style.opacity = 1;
@@ -1244,6 +1062,308 @@ permalink: /urbangraph.html
     draw();
   });
   document.getElementById('net-temporal').addEventListener('change', ev => { showTemporal = ev.target.checked; draw(); });
+})();
+</script>
+{% endraw %}
+
+{% raw %}
+<script>
+(function () {
+  const SERIF = "'Fraunces', Georgia, serif";
+  const CPAL  = { C1:'#A0402E', C2:'#1F3A5F', C3:'#C58B31', C4:'#6E8B7A', C5:'#7A2E6E' };
+  const CITYC = { Bologna:'#6E8B7A', Firenze:'#A0402E', Milano:'#1F3A5F', Napoli:'#C58B31', Roma:'#7A2E6E', Torino:'#3E7C8C' };
+  const PERC  = ['#C58B31', '#A0402E', '#1F3A5F'];
+  const PARTY = { _CDX:'#1F3A5F', _CSX:'#A02222', _MCS:'#EDBF2E', _CEN:'#A6A2CD' };
+
+  let TIP = document.getElementById('ug-tip');
+  if (!TIP) { TIP = document.createElement('div'); TIP.id = 'ug-tip'; TIP.className = 'net-tip'; document.body.appendChild(TIP); }
+  function tipOn(html, ev) {
+    TIP.innerHTML = html; TIP.style.opacity = 1;
+    let x = ev.clientX + 14, y = ev.clientY + 14;
+    if (x + TIP.offsetWidth > window.innerWidth) x = ev.clientX - TIP.offsetWidth - 14;
+    if (y + TIP.offsetHeight > window.innerHeight) y = ev.clientY - TIP.offsetHeight - 14;
+    TIP.style.left = x + 'px'; TIP.style.top = y + 'px';
+  }
+  function tipOff() { TIP.style.opacity = 0; }
+
+  function svgIn(sel, w, h) {
+    return d3.select(sel).append('svg')
+      .attr('viewBox', '0 0 ' + w + ' ' + h)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
+      .style('width', '100%').style('max-width', w + 'px');
+  }
+  function legend(sel, items) {
+    const l = d3.select(sel).append('div').attr('class', 'd3-legend');
+    items.forEach(function (p) {
+      const it = l.append('span').attr('class', 'it');
+      it.append('span').attr('class', 'sw').style('background', p[1]);
+      it.append('span').text(p[0]);
+    });
+  }
+
+  d3.json("{% endraw %}{{ '/assets/charts/ug_charts.json' | relative_url }}{% raw %}").then(function (D) {
+
+    (function () {
+      const rows = Array.from(new Set(D.heatmap.map(function (d) { return 'C' + d.c + ' · ' + d.p; })));
+      const cols = Array.from(new Set(D.heatmap.map(function (d) { return d.f; })));
+      const M = 96, T = 160, W = M + cols.length * 30 + 30, H = T + rows.length * 17 + 40;
+      const svg = svgIn('#ug-heat', W, H);
+      const x = d3.scaleBand().domain(cols).range([M, W - 30]).padding(0.06);
+      const y = d3.scaleBand().domain(rows).range([T, H - 40]).padding(0.06);
+      const ext = d3.max(D.heatmap, function (d) { return Math.abs(d.v); });
+      const col = d3.scaleDiverging(function (t) { return d3.interpolateRdBu(1 - t); }).domain([-ext, 0, ext]);
+      svg.append('g').selectAll('rect').data(D.heatmap).join('rect')
+        .attr('x', function (d) { return x(d.f); })
+        .attr('y', function (d) { return y('C' + d.c + ' · ' + d.p); })
+        .attr('width', x.bandwidth()).attr('height', y.bandwidth())
+        .attr('fill', function (d) { return col(d.v); })
+        .on('mousemove', function (ev, d) { tipOn('<div class="h">C' + d.c + ' · ' + d.p + '</div>' + d.f + '<br><span class="v">' + (d.v > 0 ? '+' : '') + d.v.toFixed(2) + ' σ</span>', ev); })
+        .on('mouseleave', tipOff);
+      svg.append('g').selectAll('text').data(cols).join('text')
+        .attr('transform', function (d) { return 'translate(' + (x(d) + x.bandwidth() / 2) + ',' + (T - 6) + ') rotate(-45)'; })
+        .attr('text-anchor', 'start').attr('font-size', 10).attr('fill', 'var(--muted)').text(function (d) { return d; });
+      svg.append('g').selectAll('text').data(rows).join('text')
+        .attr('x', M - 8).attr('y', function (d) { return y(d) + y.bandwidth() / 2 + 3; })
+        .attr('text-anchor', 'end').attr('font-size', 10).attr('fill', 'var(--muted)').text(function (d) { return d; });
+      const grad = svg.append('defs').append('linearGradient').attr('id', 'ug-heat-g');
+      d3.range(0, 1.01, 0.1).forEach(function (t) { grad.append('stop').attr('offset', (t * 100) + '%').attr('stop-color', col(-ext + t * 2 * ext)); });
+      const g = svg.append('g').attr('transform', 'translate(' + M + ',' + (H - 22) + ')');
+      g.append('rect').attr('width', 180).attr('height', 8).attr('fill', 'url(#ug-heat-g)');
+      g.append('text').attr('x', -6).attr('y', 8).attr('text-anchor', 'end').attr('font-size', 10).attr('fill', 'var(--muted)').text('−' + ext.toFixed(1) + 'σ');
+      g.append('text').attr('x', 186).attr('y', 8).attr('font-size', 10).attr('fill', 'var(--muted)').text('+' + ext.toFixed(1) + 'σ');
+    })();
+
+    (function () {
+      const coms = Array.from(new Set(D.geo.map(function (d) { return d.c; }))).sort();
+      const M = 46, W = 900, H = 70 + coms.length * 46;
+      const svg = svgIn('#ug-geo', W, H);
+      const x = d3.scaleLinear().domain([0, 100]).range([M, W - 20]);
+      const y = d3.scaleBand().domain(coms).range([26, H - 34]).padding(0.34);
+      coms.forEach(function (c) {
+        const rows = D.geo.filter(function (d) { return d.c === c; }).sort(function (a, b) { return b.pct - a.pct; });
+        let acc = 0;
+        svg.append('g').selectAll('rect').data(rows).join('rect')
+          .attr('x', function (d) { const v = x(acc); acc += d.pct; return v; })
+          .attr('y', y(c)).attr('height', y.bandwidth())
+          .attr('width', function (d) { return x(d.pct) - x(0); })
+          .attr('fill', function (d) { return CITYC[d.city]; })
+          .on('mousemove', function (ev, d) { tipOn('<div class="h">' + c + ' · ' + d.city + '</div><span class="v">' + d.pct.toFixed(1) + '%</span> · ' + d.n + ' zone', ev); })
+          .on('mouseleave', tipOff);
+      });
+      svg.append('g').selectAll('text').data(coms).join('text')
+        .attr('x', M - 8).attr('y', function (d) { return y(d) + y.bandwidth() / 2 + 4; })
+        .attr('text-anchor', 'end').attr('font-family', SERIF).attr('font-size', 14).attr('fill', 'var(--ink)').text(function (d) { return d; });
+      svg.append('g').attr('class', 'ax').attr('transform', 'translate(0,' + (H - 34) + ')')
+        .call(d3.axisBottom(x).ticks(5).tickFormat(function (d) { return d + '%'; }));
+      legend('#ug-geo', Object.keys(CITYC).map(function (c) { return [c, CITYC[c]]; }));
+    })();
+
+    (function () {
+      const ord = D.size.slice().sort(function (a, b) { return a.o - b.o; });
+      const per = Array.from(new Set(ord.map(function (d) { return d.p; })));
+      const coms = Array.from(new Set(D.size.map(function (d) { return d.c; }))).sort();
+      const M = 52, W = 760, H = 380;
+      const svg = svgIn('#ug-size', W, H);
+      const x = d3.scalePoint().domain(per).range([M + 30, W - 70]).padding(0.2);
+      const y = d3.scaleLinear().domain([0, d3.max(D.size, function (d) { return d.n; }) * 1.12]).range([H - 44, 24]);
+      svg.append('g').attr('class', 'grid').selectAll('line').data(y.ticks(5)).join('line')
+        .attr('x1', M).attr('x2', W - 20).attr('y1', y).attr('y2', y);
+      const line = d3.line().x(function (d) { return x(d.p); }).y(function (d) { return y(d.n); });
+      coms.forEach(function (c) {
+        const s = D.size.filter(function (d) { return d.c === c; }).sort(function (a, b) { return a.o - b.o; });
+        svg.append('path').datum(s).attr('fill', 'none').attr('stroke', CPAL[c]).attr('stroke-width', 2.4).attr('d', line);
+        svg.append('g').selectAll('circle').data(s).join('circle')
+          .attr('cx', function (d) { return x(d.p); }).attr('cy', function (d) { return y(d.n); }).attr('r', 4.5)
+          .attr('fill', CPAL[c]).attr('stroke', 'var(--panel)').attr('stroke-width', 1.5)
+          .on('mousemove', function (ev, d) { tipOn('<div class="h">' + d.c + ' · ' + d.p + '</div><span class="v">' + d.n + '</span> zone', ev); })
+          .on('mouseleave', tipOff);
+        const last = s[s.length - 1];
+        svg.append('text').attr('x', x(last.p) + 10).attr('y', y(last.n) + 4)
+          .attr('font-family', SERIF).attr('font-size', 13).attr('fill', CPAL[c]).text(c);
+      });
+      svg.append('g').attr('class', 'ax').attr('transform', 'translate(0,' + (H - 44) + ')').call(d3.axisBottom(x));
+      svg.append('g').attr('class', 'ax').attr('transform', 'translate(' + M + ',0)').call(d3.axisLeft(y).ticks(5));
+    })();
+
+    (function () {
+      const coms = Array.from(new Set(D.parties.map(function (d) { return d.c; }))).sort(d3.ascending);
+      const keys = ['_CSX', '_CDX', '_MCS', '_CEN'];
+      const M = 60, W = 820, H = 60 + coms.length * 54;
+      const svg = svgIn('#ug-parties', W, H);
+      const x = d3.scaleLinear().domain([0, 1]).range([M, W - 20]);
+      const y = d3.scaleBand().domain(coms).range([20, H - 34]).padding(0.34);
+      coms.forEach(function (c) {
+        const rows = keys.map(function (k) { return D.parties.find(function (d) { return d.c === c && d.k === k; }); })
+          .filter(function (d) { return d; });
+        let acc = 0;
+        svg.append('g').selectAll('rect').data(rows).join('rect')
+          .attr('x', function (d) { const v = x(acc); acc += d.share; return v; })
+          .attr('y', y(c)).attr('height', y.bandwidth())
+          .attr('width', function (d) { return x(d.share) - x(0); })
+          .attr('fill', function (d) { return PARTY[d.k]; })
+          .on('mousemove', function (ev, d) { tipOn('<div class="h">C' + c + ' · ' + d.w + '</div><span class="v">' + (d.share * 100).toFixed(1) + '%</span> · ' + d.n + ' zone', ev); })
+          .on('mouseleave', tipOff);
+      });
+      svg.append('g').selectAll('text').data(coms).join('text')
+        .attr('x', M - 8).attr('y', function (d) { return y(d) + y.bandwidth() / 2 + 4; })
+        .attr('text-anchor', 'end').attr('font-family', SERIF).attr('font-size', 14).attr('fill', 'var(--ink)').text(function (d) { return 'C' + d; });
+      svg.append('g').attr('class', 'ax').attr('transform', 'translate(0,' + (H - 34) + ')')
+        .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format('.0%')));
+      legend('#ug-parties', [['Centro-sinistra', PARTY._CSX], ['Centro-destra', PARTY._CDX], ['Movimento 5 Stelle', PARTY._MCS], ['Centro', PARTY._CEN]]);
+    })();
+
+    (function () {
+      const P = D.shannon.points, M = 58, W = 720, H = 430;
+      const svg = svgIn('#ug-shannon', W, H);
+      const x = d3.scaleLinear().domain(d3.extent(P, function (d) { return d.x; })).nice().range([M, W - 26]);
+      const y = d3.scaleLinear().domain([0, 1]).range([H - 52, 24]);
+      const r = d3.scaleSqrt().domain([0, d3.max(P, function (d) { return d.src; })]).range([3, 15]);
+      svg.append('g').attr('class', 'grid').selectAll('line').data(y.ticks(5)).join('line')
+        .attr('x1', M).attr('x2', W - 26).attr('y1', y).attr('y2', y);
+      svg.append('path').datum(D.shannon.fit).attr('fill', 'none')
+        .attr('stroke', 'var(--muted-2)').attr('stroke-width', 1.6).attr('stroke-dasharray', '5 4')
+        .attr('d', d3.line().x(function (d) { return x(d[0]); }).y(function (d) { return y(d[1]); }));
+      svg.append('g').selectAll('circle').data(P).join('circle')
+        .attr('cx', function (d) { return x(d.x); }).attr('cy', function (d) { return y(d.y); })
+        .attr('r', function (d) { return r(d.src); })
+        .attr('fill', function (d) { return d.p === '15-18' ? PERC[0] : PERC[1]; }).attr('fill-opacity', 0.78)
+        .attr('stroke', 'var(--ink)').attr('stroke-width', 0.7)
+        .on('mousemove', function (ev, d) { tipOn('<div class="h">' + d.lab + '</div>Pluralismo <span class="v">' + d.x.toFixed(2) + '</span><br>Retention <span class="v">' + (d.y * 100).toFixed(1) + '%</span><br>' + d.ret + '/' + d.src + ' zone mantenute', ev); })
+        .on('mouseleave', tipOff);
+      svg.append('g').selectAll('text').data(P).join('text')
+        .attr('x', function (d) { return x(d.x) + r(d.src) + 5; }).attr('y', function (d) { return y(d.y) + 4; })
+        .attr('font-size', 10.5).attr('fill', 'var(--muted)').text(function (d) { return d.lab; });
+      svg.append('g').attr('class', 'ax').attr('transform', 'translate(0,' + (H - 52) + ')').call(d3.axisBottom(x).ticks(6));
+      svg.append('g').attr('class', 'ax').attr('transform', 'translate(' + M + ',0)').call(d3.axisLeft(y).ticks(5).tickFormat(d3.format('.0%')));
+      svg.append('text').attr('class', 'ttl').attr('x', W / 2).attr('y', H - 12).attr('text-anchor', 'middle').text('Indice di Shannon normalizzato');
+      svg.append('text').attr('class', 'ttl').attr('transform', 'translate(14,' + (H / 2) + ') rotate(-90)').attr('text-anchor', 'middle').text('Retention');
+      legend('#ug-shannon', [['transizione 15-18 → 19-22', PERC[0]], ['transizione 19-22 → 23-25', PERC[1]]]);
+    })();
+
+    (function () {
+      const S = D.stability.slice().sort(function (a, b) { return b.r - a.r; });
+      const M = 250, W = 820, H = 44 + S.length * 30;
+      const svg = svgIn('#ug-stab', W, H);
+      const x = d3.scaleLinear().domain([-1, 1]).range([M, W - 60]);
+      const y = d3.scaleBand().domain(S.map(function (d) { return d.f; })).range([16, H - 28]).padding(0.28);
+      svg.append('g').selectAll('rect').data(S).join('rect')
+        .attr('x', function (d) { return d.r < 0 ? x(d.r) : x(0); }).attr('y', function (d) { return y(d.f); })
+        .attr('width', function (d) { return Math.abs(x(d.r) - x(0)); }).attr('height', y.bandwidth())
+        .attr('fill', function (d) { return d.r >= 0 ? '#6E8B7A' : '#A0402E'; })
+        .attr('stroke', function (d) { return d.sig ? 'var(--ink)' : 'none'; }).attr('stroke-width', 1.4)
+        .on('mousemove', function (ev, d) { tipOn('<div class="h">' + d.f + '</div>Pearson r <span class="v">' + d.r.toFixed(3) + '</span><br>p <span class="v">' + d.p.toFixed(3) + '</span>' + (d.sig ? '<br>significativo (p &lt; 0,05)' : ''), ev); })
+        .on('mouseleave', tipOff);
+      svg.append('g').selectAll('text').data(S).join('text')
+        .attr('x', M - 10).attr('y', function (d) { return y(d.f) + y.bandwidth() / 2 + 4; })
+        .attr('text-anchor', 'end').attr('font-size', 11.5).attr('fill', 'var(--ink-2)').text(function (d) { return d.f; });
+      svg.append('g').selectAll('text').data(S).join('text').attr('class', 'val')
+        .attr('x', function (d) { return d.r >= 0 ? x(d.r) + 6 : x(d.r) - 6; })
+        .attr('text-anchor', function (d) { return d.r >= 0 ? 'start' : 'end'; })
+        .attr('y', function (d) { return y(d.f) + y.bandwidth() / 2 + 3.5; }).text(function (d) { return d.r.toFixed(2); });
+      svg.append('line').attr('class', 'zero').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 12).attr('y2', H - 28);
+      svg.append('g').attr('class', 'ax').attr('transform', 'translate(0,' + (H - 28) + ')').call(d3.axisBottom(x).ticks(5));
+    })();
+
+    (function () {
+      const el = document.getElementById('ug-sankey');
+      if (!el) return;
+      const N = D.sankey.nodes.slice(), L = D.sankey.links.slice();
+      const per = ['15-18', '19-22', '23-25'];
+      N.forEach(function (n) { const p = n.label.split('|'); n.per = p[0].trim(); n.com = p[1].trim(); });
+      const used = new Set();
+      L.forEach(function (l) { used.add(l.source); used.add(l.target); });
+      const byId = new Map(N.map(function (n) { return [n.id, n]; }));
+      const outSum = function (n) { return d3.sum(L.filter(function (l) { return l.source === n.id; }), function (l) { return l.value; }); };
+      const inSum  = function (n) { return d3.sum(L.filter(function (l) { return l.target === n.id; }), function (l) { return l.value; }); };
+      const cols = per.map(function (p) {
+        return N.filter(function (n) { return n.per === p && used.has(n.id); })
+                .sort(function (a, b) { return d3.ascending(a.com, b.com); });
+      });
+      if (!cols[0].length) return;
+      const M = 30, W = 900, H = 660, NW = 15, pad = 5;
+      const svg = svgIn('#ug-sankey', W, H);
+      const step = (W - 2 * M - 130) / (per.length - 1);
+      const xs = per.map(function (_, i) { return M + 60 + i * step; });
+      cols.forEach(function (c) { c.forEach(function (n) { n.val = Math.max(outSum(n), inSum(n)); }); });
+      const totMax = d3.max(cols, function (c) { return d3.sum(c, function (n) { return n.val; }); });
+      cols.forEach(function (c, ci) {
+        const k = (H - 84 - pad * (c.length - 1)) / totMax;
+        let yy = 50;
+        c.forEach(function (n) { n.x = xs[ci]; n.h = Math.max(2, n.val * k); n.y = yy; n.so = yy; n.ti = yy; yy += n.h + pad; });
+      });
+      const CSEQ = ['#A0402E', '#1F3A5F', '#C58B31', '#6E8B7A', '#7A2E6E', '#3E7C8C', '#7A7B32', '#8C6D4F', '#A39B8E'];
+      const cnum = function (c) { return parseInt(String(c).replace(/[^0-9]/g, ''), 10) || 0; };
+      const cc = function (c) { const n = cnum(c); return n <= 5 ? CPAL['C' + n] : CSEQ[(n - 1) % CSEQ.length]; };
+      const links = L.filter(function (l) { return byId.has(l.source) && byId.has(l.target) && byId.get(l.source).h && byId.get(l.target).h; })
+        .sort(function (a, b) { return d3.ascending(byId.get(a.source).y, byId.get(b.source).y) || d3.ascending(byId.get(a.target).y, byId.get(b.target).y); });
+      links.forEach(function (l) {
+        const s = byId.get(l.source), t = byId.get(l.target);
+        l.th = Math.max(1, l.value * (s.h / s.val));
+        const tth = Math.max(1, l.value * (t.h / t.val));
+        l.y0 = s.so + l.th / 2; s.so += l.th;
+        l.y1 = t.ti + tth / 2;  t.ti += tth;
+        l.x0 = s.x + NW; l.x1 = t.x;
+      });
+      svg.append('g').selectAll('path').data(links).join('path')
+        .attr('d', function (l) { const mx = (l.x0 + l.x1) / 2; return 'M' + l.x0 + ',' + l.y0 + 'C' + mx + ',' + l.y0 + ' ' + mx + ',' + l.y1 + ' ' + l.x1 + ',' + l.y1; })
+        .attr('fill', 'none').attr('stroke', function (l) { return cc(byId.get(l.source).com); })
+        .attr('stroke-opacity', 0.32).attr('stroke-width', function (l) { return l.th; })
+        .on('mousemove', function (ev, l) {
+          d3.select(this).attr('stroke-opacity', 0.68);
+          const s = byId.get(l.source), t = byId.get(l.target);
+          tipOn('<div class="h">' + s.com + ' → ' + t.com + '</div>' + s.per + ' → ' + t.per + '<br><span class="v">' + l.value + '</span> zone', ev);
+        })
+        .on('mouseleave', function () { d3.select(this).attr('stroke-opacity', 0.32); tipOff(); });
+      const flat = cols.reduce(function (a, c) { return a.concat(c); }, []);
+      svg.append('g').selectAll('rect').data(flat).join('rect')
+        .attr('x', function (d) { return d.x; }).attr('y', function (d) { return d.y; })
+        .attr('width', NW).attr('height', function (d) { return d.h; })
+        .attr('fill', function (d) { return cc(d.com); })
+        .on('mousemove', function (ev, d) { tipOn('<div class="h">' + d.com + ' · ' + d.per + '</div><span class="v">' + Math.round(d.val) + '</span> zone', ev); })
+        .on('mouseleave', tipOff);
+      svg.append('g').selectAll('text').data(flat.filter(function (d) { return d.h > 9; })).join('text')
+        .attr('x', function (d) { return d.x + NW + 5; }).attr('y', function (d) { return d.y + d.h / 2 + 3.5; })
+        .attr('font-size', 10.5).attr('fill', 'var(--ink-2)').text(function (d) { return d.com; });
+      svg.append('g').selectAll('text').data(per).join('text')
+        .attr('x', function (d, i) { return xs[i] + NW / 2; }).attr('y', 30).attr('text-anchor', 'middle')
+        .attr('class', 'ttl').text(function (d, i) { return ['2015–2018', '2019–2022', '2023–2025'][i]; });
+    })();
+  });
+
+  d3.json("{% endraw %}{{ '/assets/charts/ug_maps.json' | relative_url }}{% raw %}").then(function (M) {
+    ['C1', 'C2', 'C3', 'C4', 'C5'].forEach(function (com) {
+      const el = document.getElementById('ug-map-' + com.toLowerCase());
+      if (!el) return;
+      const mem = new Set(M.members[com]);
+      const cities = Array.from(new Set(M.members[com].map(function (k) { return k.split('|')[0]; }))).sort();
+      const CW = 300, CH = 300, ncol = Math.min(cities.length, 3);
+      const W = ncol * CW, H = Math.ceil(cities.length / ncol) * CH;
+      const svg = d3.select(el).append('svg')
+        .attr('viewBox', '0 0 ' + W + ' ' + H).attr('preserveAspectRatio', 'xMidYMid meet')
+        .style('width', '100%').style('max-width', W + 'px');
+      cities.forEach(function (city, i) {
+        const zs = M.zones.filter(function (z) { return z.city === city; });
+        const fc = { type: 'FeatureCollection', features: zs.map(function (z) {
+          return { type: 'Feature', properties: z, geometry: { type: z.t, coordinates: z.g } }; }) };
+        const g = svg.append('g').attr('transform', 'translate(' + ((i % ncol) * CW) + ',' + (Math.floor(i / ncol) * CH) + ')');
+        const proj = d3.geoMercator().fitSize([CW - 16, CH - 46], fc);
+        const path = d3.geoPath(proj);
+        g.append('g').attr('transform', 'translate(8,34)').selectAll('path').data(fc.features).join('path')
+          .attr('d', path)
+          .attr('fill', function (d) { return mem.has(d.properties.k) ? CPAL[com] : '#E4DED0'; })
+          .attr('stroke', 'var(--panel)').attr('stroke-width', 0.4)
+          .on('mousemove', function (ev, d) {
+            tipOn('<div class="h">' + (d.properties.den || 'zona ' + d.properties.code) + '</div>' + d.properties.city +
+              '<br><span class="v">' + (mem.has(d.properties.k) ? com : 'fuori comunità') + '</span>', ev);
+          })
+          .on('mouseleave', tipOff);
+        g.append('text').attr('x', 8).attr('y', 22).attr('class', 'ttl').text(city);
+        g.append('text').attr('x', CW - 10).attr('y', 22).attr('text-anchor', 'end')
+          .attr('font-family', 'var(--mono)').attr('font-size', 11).attr('fill', 'var(--muted-2)')
+          .text(zs.filter(function (z) { return mem.has(z.k); }).length + ' zone');
+      });
+    });
+  });
 })();
 </script>
 {% endraw %}
