@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elezioni</title>
+<meta name="description" content="Scrivi qui una descrizione accattivante per il tuo nuovo sito. Puoi modificare questa riga in _config.yml. Apparirà nei meta del documento head (per i risult...">
+
+<link rel="icon" href="/g1-2026-website/assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/g1-2026-website/assets/favicon/favicon-256.png" sizes="256x256">
+<link rel="apple-touch-icon" href="/g1-2026-website/assets/favicon/favicon-256.png">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="/g1-2026-website/assets/css/custom.css">
+
+
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #F5F1EA; --panel: #FBFAF6; --panel-2: #EFE9DC;
+  --ink: #1A1A1A; --ink-2: #333; --muted: #6B6157; --muted-2: #A39B8E;
+  --rule: #DDD4C4; --rule-2: #C7BEA9;
+  --accent: #A0402E; --accent-2: #C58B31;
+  --p-cdx: #1F3A5F; --p-csx: #A02222; --p-cen: #A6A2CD; --p-mcs: #EDBF2E;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono:  'IBM Plex Mono', 'Menlo', monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg) !important; color: var(--ink); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.navbar-chulapa { background: rgba(245,241,234,0.94) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); padding: .5rem 1.5rem; }
+.navbar-chulapa .navbar-brand { color: var(--ink) !important; font-weight: 300; letter-spacing: 0.05em; }
+.navbar-chulapa .navbar-brand:hover { color: var(--accent) !important; }
+.navbar-chulapa .nav-link { color: var(--muted) !important; letter-spacing: 0.08em; font-size: 13px; font-weight: 300; }
+.navbar-chulapa .nav-link:hover { color: var(--ink) !important; }
+.navbar-chulapa .nav-link.active, .navbar-chulapa .nav-item.active > .nav-link { color: var(--ink) !important; font-weight: 700; }
+.navbar-chulapa .dropdown-menu { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.navbar-chulapa .dropdown-item { color: var(--muted); font-size: 12px; letter-spacing: 0.06em; padding: .4rem 1.25rem; }
+.navbar-chulapa .dropdown-item:hover { background: rgba(0,0,0,0.04); color: var(--ink); }
+.navbar-chulapa .dropdown-item.active { background: transparent; color: var(--accent); font-weight: 700; }
+.navbar-chulapa-fab .navbar-toggler { background: var(--panel) !important; border: 1px solid var(--rule) !important; }
+.navbar-chulapa-fab-nav { background: var(--panel) !important; }
+.navbar-chulapa .nav-link:focus, .navbar-chulapa .dropdown-item:focus, .navbar-chulapa .dropdown-toggle:focus, .navbar-chulapa .navbar-brand:focus, .navbar-chulapa a:focus { outline: none !important; box-shadow: none !important; }
+@media (min-width: 768px) { .navbar-chulapa-fab, .navbar-chulapa-fab-background, .navbar-chulapa-fab-nav { display: none !important; } }
+.navbar-chulapa .nav-item:last-child { border: none !important; }
+
+#progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 20000; transition: width 60ms linear; pointer-events: none; }
+
+body > div.progress { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 3px !important; background: transparent !important; z-index: 9999 !important; padding: 0 !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; display: block !important; }
+body > div.progress > .progress-bar, body > div.progress > #progressBar { height: 100% !important; background: var(--accent) !important; width: 0; transition: width 60ms linear; border-radius: 0 !important; animation: none !important; }
+.navbar-chulapa, nav.sticky-top { z-index: 100 !important; }
+
+.ed-hero { position: relative; max-width: 1240px; margin: 0 auto 20px; }
+.ed-hero img { width: 100%; height: 320px; object-fit: cover; display: block; filter: saturate(0.85); }
+.ed-hero__text { max-width: 900px; margin: 0 auto; padding: 40px 32px 20px; text-align: center; }
+.ed-hero__text h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(38px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 14px; color: var(--ink); text-wrap: balance; }
+.ed-hero__sub { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 720px; margin: 0 auto; text-wrap: balance; }
+
+.cover { padding: 60px 32px 40px; max-width: 1240px; margin: 0 auto; }
+.cover .kicker { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); text-align: center; margin-bottom: 22px; }
+.cover h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(48px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.03em; margin: 0 auto 26px; max-width: 900px; text-align: center; text-wrap: balance; }
+.cover h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.cover .dek { font-family: var(--serif); font-size: 22px; line-height: 1.45; color: var(--ink-2); max-width: 780px; margin: 0 auto 34px; text-align: center; text-wrap: balance; }
+.cover .byline { font-family: var(--sans); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); max-width: 720px; margin: 0 auto; }
+.cover .byline b { color: var(--ink); font-weight: 600; }
+
+section.chapter { padding: 40px 0 20px; border-top: 1px solid var(--rule); }
+section.chapter:first-of-type { border-top: none; }
+.section-marker, .chapter-marker { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 14px; color: var(--accent); text-align: center; margin-bottom: 18px; }
+.section-marker::before, .section-marker::after, .chapter-marker::before, .chapter-marker::after { content: '·'; margin: 0 12px; color: var(--muted-2); }
+.section-title, .chapter-title { font-family: var(--serif); font-weight: 700; font-size: clamp(30px, 4.5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 auto 16px; max-width: 860px; text-align: center; text-wrap: balance; }
+.section-title em, .chapter-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+.section-dek, .chapter-dek { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 700px; margin: 0 auto 40px; text-align: center; font-style: italic; }
+.subsection-title { font-family: var(--serif); font-weight: 700; font-size: 26px; letter-spacing: -0.01em; margin: 42px auto 12px; max-width: 720px; padding: 0 32px; color: var(--ink); }
+.subsubsection-title { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 32px auto 10px; max-width: 720px; padding: 20px 32px 0; border-top: 1px solid var(--rule); }
+
+.prose { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+.prose p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); margin: 0 0 22px; text-wrap: pretty; }
+.prose p.lead { font-size: 22px; line-height: 1.5; color: var(--ink); }
+.prose p b, .prose p strong { color: var(--ink); font-weight: 600; }
+.prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.prose a:hover { border-bottom-color: var(--accent); }
+.prose img { max-width: 100%; height: auto; display: block; margin: 32px auto; border-radius: 2px; }
+.prose ul, .prose ol { font-family: var(--serif); font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0 0 22px; padding-left: 24px; }
+.prose table { border-collapse: collapse; width: 100%; margin: 20px 0 26px; }
+.prose table th { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; }
+.prose table td { color: var(--ink-2); font-family: var(--serif); font-size: 16px; line-height: 1.4; border-bottom: 1px solid var(--rule); padding: 10px 14px; vertical-align: top; }
+.prose table td:first-child { font-family: var(--mono); font-size: 13px; color: var(--ink); white-space: nowrap; }
+
+.equation { margin: 24px auto; padding: 22px 32px; background: var(--panel); border-left: 3px solid var(--accent-2); overflow-x: auto; max-width: 720px; }
+
+.viz-embed { max-width: 1180px; margin: 40px auto; padding: 0 32px; }
+.viz-embed .viz-title { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 auto 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-embed iframe { width: 100%; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; min-height: 500px; }
+.viz-embed .caption { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 14px; }
+
+.ed-md h1, .ed-md h2 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.02em; max-width: 720px; margin: 42px auto 14px; padding: 0 32px; color: var(--ink); }
+.ed-md h1 { font-size: 38px; }
+.ed-md h2 { font-size: 30px; }
+.ed-md h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; max-width: 720px; margin: 32px auto 10px; padding: 0 32px; color: var(--ink); }
+.ed-md p:not([class]) { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px; }
+.ed-md .lead { font-family: var(--serif); font-size: 22px; line-height: 1.5; font-weight: 400; color: var(--ink); }
+.ed-md a:not(.btn) { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.ed-md a:not(.btn):hover { color: var(--accent); border-bottom-color: var(--accent); }
+.ed-md ul:not([class]), .ed-md ol:not([class]) { font-family: var(--serif); font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px 0 56px; }
+.ed-md table:not([class]) { max-width: 720px; margin: 20px auto 26px; border-collapse: collapse; background: transparent; }
+.ed-md table:not([class]) th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; background: transparent; }
+.ed-md table:not([class]) td { font-family: var(--serif); font-size: 16px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 10px 14px; background: transparent; }
+.ed-md img:not([class]) { max-width: 720px; width: 100%; height: auto; display: block; margin: 32px auto; }
+.ed-md blockquote { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); border-left: 3px solid var(--accent); max-width: 680px; margin: 36px auto; padding: 8px 32px; }
+.ed-md code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); color: var(--ink); padding: 2px 6px; border-radius: 2px; }
+.ed-md hr { border: 0; border-top: 1px solid var(--rule); max-width: 720px; margin: 36px auto; }
+.ed-md .btn-primary { background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; border-radius: 0; font-family: var(--sans); letter-spacing: 0.06em; text-transform: uppercase; font-size: 13px; }
+.ed-md .btn-primary:hover { background: var(--ink) !important; border-color: var(--ink) !important; }
+.ed-md .btn-secondary { border-radius: 0; }
+.ed-md .modal-content { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; }
+.ed-md .modal-header, .ed-md .modal-footer { border-color: var(--rule); }
+.ed-md .modal-title { font-family: var(--serif); font-weight: 700; color: var(--ink); }
+
+.ed-md .container, .ed-md .container-lg, .ed-md .container-fluid { max-width: 960px; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto; }
+.ed-md .row { margin-left: 0; margin-right: 0; }
+.ed-md [class*="col-"] { padding-left: 12px; padding-right: 12px; }
+.ed-md .container p, .ed-md [class*="col-"] p { max-width: none; padding: 0; margin: 0 0 18px; }
+.ed-md .container h1, .ed-md .container h2, .ed-md .container h3,
+.ed-md [class*="col-"] h1, .ed-md [class*="col-"] h2, .ed-md [class*="col-"] h3 { max-width: none; padding: 0; margin: 0 0 12px; }
+.ed-md .container ul, .ed-md .container ol, .ed-md [class*="col-"] ul, .ed-md [class*="col-"] ol { max-width: none; padding-left: 22px; margin: 0 0 18px; }
+.ed-md .container img, .ed-md [class*="col-"] img { max-width: 100%; margin: 0 0 18px; }
+
+.viz-block { max-width: 1180px; margin: 26px auto 10px; padding: 0 32px; }
+.viz-lab { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 auto 14px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-cap { font-family: var(--sans); font-size: 12.5px; line-height: 1.5; color: var(--muted); text-align: center; max-width: 820px; margin: 16px auto 0; }
+.viz-cap b { color: var(--ink-2); font-weight: 600; }
+.viz-err { grid-column: 1/-1; text-align: center; color: var(--muted); font-family: var(--sans); padding: 30px; }
+.viz-controls { display: flex; flex-wrap: wrap; gap: 16px 30px; align-items: center; justify-content: center; margin: 26px auto 4px; font-family: var(--sans); font-size: 12.5px; color: var(--ink-2); }
+.viz-controls .ctl { display: inline-flex; align-items: center; gap: 9px; }
+.viz-controls .lab { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.viz-controls select { font-family: var(--sans); font-size: 13px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule-2); border-radius: 2px; padding: 6px 12px; }
+.viz-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.viz-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.viz-panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 8px; }
+.viz-panel .panel-title { font-family: var(--serif); font-weight: 700; font-size: 15px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 5px; }
+.viz-panel svg { width: 100%; height: auto; display: block; }
+.viz-panel .axis text { font-family: var(--mono); font-size: 9px; fill: var(--muted-2); }
+.viz-panel .gridline { stroke: var(--rule); stroke-dasharray: 2 3; }
+.viz-panel svg rect, .viz-panel svg circle, .viz-panel svg path { cursor: pointer; }
+.viz-legend { display: flex; gap: 12px 22px; justify-content: center; flex-wrap: wrap; margin-top: 16px; font-family: var(--sans); font-size: 12.5px; color: var(--ink-2); }
+.viz-legend .it { display: inline-flex; align-items: center; gap: 7px; }
+.viz-legend .sw { width: 13px; height: 13px; border-radius: 2px; display: inline-block; }
+.viz-single { background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; padding: 14px 16px 10px; max-width: 940px; margin: 0 auto; }
+.viz-single svg { width: 100%; height: auto; display: block; }
+.viz-single .axis text { font-family: var(--mono); font-size: 10px; fill: var(--muted-2); }
+.viz-single .gridline { stroke: var(--rule); stroke-dasharray: 2 3; }
+.ramp-legend { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.ramp-legend .rl-bar { width: 190px; height: 11px; border-radius: 2px; display: inline-block; border: 1px solid var(--rule-2); }
+.ramp-legend .rl-note { font-family: var(--sans); font-size: 11px; color: var(--muted-2); }
+.viz-tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--panel); padding: 9px 12px; border-radius: 3px; font-family: var(--sans); font-size: 12px; line-height: 1.45; max-width: 270px; z-index: 9999; opacity: 0; transition: opacity 90ms; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+.viz-tip .h { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: #fff; margin-bottom: 3px; }
+.viz-tip .v { font-family: var(--mono); color: var(--accent-2); }
+@media (max-width: 900px) { .viz-grid-3 { grid-template-columns: 1fr 1fr; } .viz-block { padding: 0 16px; } }
+@media (max-width: 600px) { .viz-grid-3, .viz-grid-2 { grid-template-columns: 1fr; } }
+
+.ed-footer { max-width: 900px; margin: 60px auto 0; padding: 50px 32px 70px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
+.ed-footer a { color: var(--accent); text-decoration: none; }
+.ed-footer .copy { margin-top: 16px; font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted-2); }
+
+@media (max-width: 800px) {
+  .cover { padding: 40px 20px 30px; }
+  .prose, .ed-md p:not([class]) { padding: 0 20px; }
+  .prose p, .ed-md p:not([class]) { font-size: 17px; }
+  .ed-hero img { height: 200px; }
+}
+</style>
+
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="navbar-chulapa-fab d-md-none">
+    <input type="checkbox" class="navbar-chulapa-fab-button d-none" id="navi-toggle">
+    <label for="navi-toggle" class="navbar-toggler p-1 m-0 text-center d-flex">
+        <span class="navbar-toggler-icon m-auto">&nbsp;</span>
+    </label>
+    <div class="navbar-chulapa-fab-background">&nbsp;</div>
+    <nav class="navbar-chulapa-fab-nav" aria-label="alternative-navigation">
+        <ul class="navbar-nav text-center text-uppercase font-weight-light mt-0 mb-1 py-1">
+            <li class="nav-item">
+                <a class="nav-link px-3 navbar-brand mx-1 " href="https://marcosemeraro.github.io/g1-2026-website/"><img src="https://marcosemeraro.github.io/g1-2026-website/assets/images/Logo_masthead.png" width="30" height="30" class="d-inline-block align-top rounded-lg text-center mr-1" alt="NavbarLogo">Una città, Due mercati</a>
+            </li><li class="nav-item my-0 py-1">
+                <a class="nav-link px-3 py-1" href="https://marcosemeraro.github.io/g1-2026-website/articolo.html">Articolo</a>
+            </li><li class="nav-item dropdown my-0 py-1"><a class="nav-link dropdown-toggle px-3 py-1 " href="#" id="Approfondimenti" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approfondimenti</a>
+                <div class="dropdown-menu dropdown-menu-right text-center rounded-0 pr-4" aria-labelledby="Approfondimenti"><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/immobili.html">Immobili </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/elezioni.html">Elezioni </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/cronaca.html">Cronaca </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/vulnerabilita.html">Vulnerabilità </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/ricchezza.html">Ricchezza </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/classificatore.html">Classificatore </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/sna.html">SNA </a></div>
+            </li><li class="nav-item my-0 py-1">
+                <a class="nav-link px-3 py-1" href="https://masterbigdata.it/">SBD Master</a>
+            </li></ul>
+    </nav>
+</div>
+
+<nav class="navbar navbar-expand sticky-top navbar-chulapa d-none d-md-block " aria-label="primary-navigation">
+    <div class="container-fluid mx-md-2">
+        <a class="navbar-brand text-uppercase font-weight-light" href="https://marcosemeraro.github.io/g1-2026-website/"><img src="https://marcosemeraro.github.io/g1-2026-website/assets/images/Logo_masthead.png" width="30" height="30" class="d-inline-block align-top rounded-lg mr-1" alt="NavbarLogo">Una città, Due mercati</a><ul class="navbar-nav ml-auto"><li class="nav-item mx-2">
+                <a class="nav-link text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/articolo.html">Articolo</a>
+            </li><li class="nav-item mx-2 dropdown"><a class="nav-link text-uppercase font-weight-light dropdown-toggle " href="#" id="Approfondimenti2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approfondimenti</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Approfondimenti2"><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/immobili.html">Immobili</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/elezioni.html">Elezioni</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/cronaca.html">Cronaca</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/vulnerabilita.html">Vulnerabilità</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/ricchezza.html">Ricchezza</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/classificatore.html">Classificatore</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/sna.html">SNA</a></div>
+            </li><li class="nav-item mx-2">
+                <a class="nav-link text-uppercase font-weight-light " href="https://masterbigdata.it/">SBD Master</a>
+            </li></ul></div>
+</nav>
+
+<main class="ed-content">
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+<style>
+.el-tab { max-width: 720px; margin: 22px auto 26px; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+.el-tab th { font-size: 10.5px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: var(--muted); padding: 9px 12px; border-bottom: 2px solid var(--rule-2); text-align: left; background: var(--panel-2); }
+.el-tab td { padding: 8px 12px; color: var(--ink-2); border-bottom: 1px solid var(--rule); vertical-align: top; }
+.el-tab td:first-child { font-family: var(--mono); font-size: 12.5px; color: var(--ink); white-space: nowrap; }
+.el-btn { display: inline-block; font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; background: var(--accent); padding: 11px 24px; border: none; border-radius: 2px; cursor: pointer; }
+.el-btn:hover { background: var(--ink); }
+.el-correnti { display: none; margin: 18px auto 0; max-width: 760px; padding: 0 32px; }
+.el-correnti.open { display: block; }
+.el-correnti table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 13px; }
+.el-correnti th { font-size: 10.5px; letter-spacing: 0.11em; text-transform: uppercase; color: var(--muted); padding: 9px 12px; border-bottom: 2px solid var(--rule-2); text-align: left; background: var(--panel-2); }
+.el-correnti td { padding: 9px 12px; border-bottom: 1px solid var(--rule); color: var(--ink-2); line-height: 1.5; }
+.el-correnti td:first-child { font-family: var(--serif); font-weight: 700; color: var(--ink); white-space: nowrap; vertical-align: top; }
+</style>
+
+<header class="cover">
+  <h1>Il voto, <em>quartiere per quartiere</em></h1>
+  <p class="dek">Dalla singola sezione elettorale alle aree sub-comunali: come abbiamo costruito una base dati geografica del voto per leggere le differenze interne alle città.</p>
+</header>
+
+<div class="prose">
+  <p class="lead">L'idea di utilizzare i dati elettorali per analizzare i processi di segregazione e differenziazione interna delle città italiane è nata dalla lettura del lavoro di <a href="https://www.tandfonline.com/doi/full/10.1080/2474736X.2023.2185158" target="_blank" rel="noopener">Gabriele Pinto</a>, pubblicato nel 2023 con il titolo <em>"Sezioni Elettorali Italiane (SEI): a new database of Italian electoral results geocoded at precinct level"</em>. Il lavoro raccoglie e geocodifica i risultati delle elezioni italiane a livello di singola sezione elettorale.</p>
+  <p class="lead">L'aspetto che ci ha maggiormente interessato di questa ampia raccolta di dati è la possibilità di osservare da vicino le differenze elettorali tra i quartieri e di utilizzare il voto come una delle chiavi di lettura delle trasformazioni sociali e territoriali delle città.</p>
+</div>
+
+<section class="chapter">
+<h2 class="section-title">Dati <em>elettorali</em></h2>
+<div class="prose">
+    <p>Il portale Eligendo del Ministero dell'Interno raccoglie i risultati delle elezioni svoltesi in Italia dall'Assemblea Costituente a oggi. Il principale limite di questa fonte rispetto agli obiettivi del nostro lavoro è rappresentato dal livello di aggregazione, poiché i risultati vengono generalmente forniti a livello comunale.</p>
+  </div>
+
+  <h3 class="subsection-title">Scraping dei dati mancanti</h3>
+  <div class="prose">
+    <p>Per garantire una maggiore omogeneità tra città diverse, abbiamo scelto di concentrare l'analisi sulle elezioni della Camera dei deputati.</p>
+    <p>I dati non disponibili in formato strutturato sono stati raccolti direttamente dai portali delle amministrazioni comunali mediante procedure di web scraping. Questo passaggio ha consentito di ottenere i risultati elettorali al livello delle singole sezioni.</p>
+  </div>
+
+  <h3 class="subsection-title">Partiti che vanno, partiti che vengono</h3>
+  <div class="prose">
+    <p>Durante l'integrazione dei dati provenienti da città e anni diversi è emerso che i nomi dei partiti non erano riportati in maniera uniforme. La prima fase di armonizzazione è quindi consistita nell'introduzione di un codice identificativo univoco per ciascun partito.</p>
+    <p>Lo stesso codice è stato mantenuto negli anni per i partiti che hanno modificato la propria denominazione senza alterare in modo sostanziale la struttura e l'area politica di appartenenza. Per ricostruire la storia di cambi di nome, scissioni e fusioni sono state consultate anche fonti documentali esterne. Nei casi in cui un nuovo partito fosse nato dall'unione di più formazioni politiche, è stato invece assegnato un nuovo codice.</p>
+    <p>I partiti sono stati successivamente raggruppati in correnti politiche più ampie. Come nel lavoro di riferimento, alcune formazioni spiccatamente apartitiche non sono state attribuite ad alcuna corrente. Considerata anche la loro limitata rilevanza in termini di voti, queste formazioni non sono state incluse nelle analisi successive.</p>
+    <p style="text-align:center;margin-bottom:0"><button type="button" class="el-btn" id="btn-correnti">Esplora le correnti</button></p>
+  </div>
+
+  <div class="el-correnti" id="box-correnti">
+    <table>
+      <thead><tr><th>Corrente</th><th>Partiti</th></tr></thead>
+      <tbody>
+        <tr><td>Centro-Sinistra</td><td>Partito Democratico, +Europa, Comunisti Italiani, Rifondazione Comunista, Italia dei Valori, Federazione dei Verdi, Partito Comunista dei Lavoratori, Partito Socialista Italiano, Sinistra Ecologia e Libertà, Centro Democratico, Rivoluzione Civile, Unione Popolare, Italia Europa Insieme, Civica Popolare Lorenzin, Liberi e Uguali, Potere al Popolo!, Partito Comunista, Lista del Popolo per la Costituzione, Per una Sinistra Rivoluzionaria, Partito Valore Umano, Alleanza Verdi e Sinistra, Impegno Civico Luigi Di Maio</td></tr>
+        <tr><td>Centro</td><td>Unione di Centro, Scelta Civica con Monti, Fare per Fermare il Declino, Partito Repubblicano Italiano, Il Popolo della Famiglia, Azione - Italia Viva, Noi di Centro Mastella</td></tr>
+        <tr><td>Centro-Destra</td><td>Forza Italia, Lega, Fiamma Tricolore, Partito Pensionati, Liberali per l'Italia - PLI, Forza Nuova, Grande Sud - MPA, Fratelli d'Italia, La Destra, MIR - Moderati in Rivoluzione, Intesa Popolare, Futuro e Libertà, CasaPound Italia, Io Amo l'Italia, Riformisti Italiani, Liberi per una Italia Equa, Rifondazione Missina Italiana, Italia agli Italiani, Blocco Nazionale per le Libertà, Ilalexit per l'Italia</td></tr>
+        <tr><td>Movimento 5 Stelle</td><td>Movimento 5 Stelle</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title">Sezioni che si muovono</h3>
+  <div class="prose">
+    <p>I dati elettorali raccolti riportavano il numero identificativo della sezione, ma non sempre il nome dell'edificio nel quale era collocata o il relativo indirizzo. È stato quindi necessario verificare se una sezione identificata con lo stesso numero fosse rimasta nella medesima posizione nel corso delle diverse consultazioni elettorali.</p>
+    <p>L'analisi ha evidenziato numerosi cambiamenti nella localizzazione dei seggi tra un'elezione e l'altra. La ricostruzione è stata resa complessa dalla frammentarietà della documentazione disponibile e dalla varietà dei formati utilizzati dalle amministrazioni comunali. Alcuni Comuni pubblicano queste informazioni attraverso portali Open Data, mentre altri utilizzano documenti in formato PDF, Word o pagine web non strutturate.</p>
+    <p>Sulla base delle informazioni disponibili è stata quindi ricostruita una corrispondenza temporale tra numero della sezione, indirizzo del seggio e anno elettorale.</p>
+  </div>
+
+  <h3 class="subsection-title">Coordinate</h3>
+  <div class="prose">
+    <p>Gli indirizzi raccolti sono stati sottoposti a una fase di pulizia e standardizzazione. Abbreviazioni e varianti, come "V.le" e "Viale" oppure "A. Manzoni" e "Alessandro Manzoni", sono state ricondotte a una forma comune. A ogni indirizzo sono stati inoltre aggiunti il CAP e il nome della città.</p>
+    <p>Questa operazione è stata necessaria per procedere con il <strong>geocoding</strong>, ossia la conversione degli indirizzi in coordinate geografiche.</p>
+    <p>Le coordinate sono state ottenute tramite l'API di <a href="https://nominatim.org/" target="_blank" rel="noopener">Nominatim</a>, rispettando il limite di una richiesta al secondo previsto dal servizio. Gli indirizzi non riconosciuti automaticamente sono stati verificati e geolocalizzati manualmente attraverso Google Maps.</p>
+    <p>Le coordinate ottenute, insieme all'anno di validità della sezione e al relativo indirizzo, sono state quindi utilizzate per costruire un nuovo dataset geografico.</p>
+  </div>
+
+  <div class="viz-block">
+    <div class="viz-lab">Le sezioni elettorali geolocalizzate di Firenze</div>
+    <div class="viz-single"><svg id="el-seggi"></svg></div>
+    <p class="viz-cap">Le <b>360 sezioni elettorali</b> di Firenze, distribuite in <b>85 edifici</b>: ogni punto è un seggio e il raggio è proporzionale al numero di sezioni ospitate (fino a 12 nello stesso edificio). Passa sopra un punto per i numeri di sezione.</p>
+  </div>
+</section>
+
+<section class="chapter">
+<h2 class="section-title">Aree <em>subcomunali</em></h2>
+<div class="viz-block">
+    <div class="viz-lab">Le 419 aree subcomunali ASC2 · sei città</div>
+    <div class="viz-grid-3" id="el-zones"></div>
+    <p class="viz-cap">Partizioni ISTAT a confini stabili, intermedie fra CAP e sezione di censimento.</p>
+  </div>
+
+  <div class="prose">
+    <p>L'Istat mette a disposizione i <a href="https://www.istat.it/notizia/basi-territoriali-e-variabili-censuarie/" target="_blank" rel="noopener">dati</a> geografici relativi alle partizioni del territorio italiano e, in particolare, alle Aree subcomunali di secondo livello, indicate come ASC2, delle principali città.</p>
+    <p>Le ASC2 rappresentano una suddivisione del territorio comunale intermedia tra i CAP e le sezioni di censimento. La loro relativa stabilità temporale e il livello di dettaglio territoriale le rendono adatte agli obiettivi del nostro studio.</p>
+    <p>Una volta acquisiti gli <em>shapefile</em> delle aree, le coordinate delle sezioni elettorali sono state associate alle rispettive ASC2 mediante un'operazione di <strong>spatial join</strong> realizzata con la libreria <strong>GeoPandas</strong>. In questo modo è stato possibile aggregare i risultati elettorali delle singole sezioni al livello dei quartieri.</p>
+  </div>
+
+  <div class="viz-controls">
+    <span class="ctl"><span class="lab">Anno</span>
+      <select id="win-year"><option>2013</option><option selected>2018</option><option>2022</option></select>
+    </span>
+    <div class="viz-legend" id="win-legend" style="margin-top:0"></div>
+  </div>
+
+  <div class="viz-block">
+    <div class="viz-lab">Corrente politica vincente per zona ASC2 · sei città</div>
+    <div class="viz-grid-3" id="el-winners"></div>
+    <p class="viz-cap">L'intensità cromatica è proporzionale alla quota di voti del vincitore: le tonalità più tenui corrispondono a vittorie di misura.</p>
+  </div>
+
+  <div class="viz-block">
+    <div class="viz-lab">Percentuale media di voti per corrente politica</div>
+    <div class="viz-grid-3" id="el-share"></div>
+    <div class="viz-legend" id="share-legend"></div>
+  </div>
+
+  <div class="viz-block">
+    <div class="viz-lab">Differenza percentuale rispetto all'elezione precedente</div>
+    <div class="viz-grid-3" id="el-delta"></div>
+    <p class="viz-cap">Sopra lo zero la corrente cresce rispetto alla tornata precedente, sotto arretra.</p>
+  </div>
+</section>
+
+<section class="chapter">
+<h2 class="section-title">Gli <em>indici</em></h2>
+<h3 class="subsection-title">Indice di Gini</h3>
+  <div class="prose">
+    <p>Per descrivere il grado di concentrazione o frammentazione dei risultati elettorali è stato utilizzato l'indice di Gini, una misura comunemente impiegata per quantificare la disuguaglianza di una distribuzione.</p>
+    <p>Sono state costruite due versioni dell'indice:</p>
+    <ul>
+      <li>una misura calcolata a livello di singolo quartiere, sulla distribuzione dei voti tra le diverse correnti politiche;</li>
+      <li>una misura calcolata a livello cittadino, considerando congiuntamente i quartieri presenti in una determinata elezione.</li>
+    </ul>
+    <p>Entrambe le versioni derivano dalla seguente formulazione generale:</p>
+  </div>
+
+  <div class="equation">
+    \[ G = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n} |x_i - x_j|}{2n\sum_{i=1}^{n} x_i} \]
+  </div>
+
+  <div class="prose">
+    <p>Poiché il numero di correnti politiche varia tra gli anni, anche in seguito alla comparsa del Movimento 5 Stelle nel 2018, è stata utilizzata una versione normalizzata dell'indice, così da rendere maggiormente confrontabili i risultati delle diverse elezioni:</p>
+  </div>
+
+  <div class="equation">
+    \[ G^*_{a,t} = \frac{\sum_{i=1}^{n_t}\sum_{j=1}^{n_t} |x_{i,a,t} - x_{j,a,t}|}{2n_t \sum_{i=1}^{n_t} x_{i,a,t}} \cdot \frac{n_t}{n_t - 1} \]
+  </div>
+
+  <div class="prose">
+    <p>dove:</p>
+    <ul>
+      <li>\(a\) indica la zona ASC2;</li>
+      <li>\(t\) indica l'anno elettorale;</li>
+      <li>\(x_i\) rappresenta il numero di voti ricevuti dalla corrente politica \(i\);</li>
+      <li>\(n_t\) rappresenta il numero di correnti politiche attive nell'anno \(t\).</li>
+    </ul>
+    <table class="el-tab">
+      <thead><tr><th>Gini</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>I voti sono perfettamente bilanciati tra le correnti politiche</td></tr>
+        <tr><td>1</td><td>Una sola corrente politica raccoglie tutti i voti</td></tr>
+      </tbody>
+    </table>
+    <p>Valori bassi dell'indice indicano quindi una distribuzione più equilibrata dei voti, mentre valori elevati segnalano una maggiore concentrazione verso una o poche correnti politiche.</p>
+  </div>
+
+  <div class="viz-block">
+    <div class="viz-lab">Indice di Gini per corrente politica · sei città</div>
+    <div class="viz-grid-3" id="el-gini"></div>
+  </div>
+
+  <h3 class="subsection-title">I di Moran globale</h3>
+  <div class="prose">
+    <p>L'indice di Gini consente di descrivere se i risultati elettorali di un quartiere siano politicamente concentrati o frammentati, ma non fornisce informazioni sulla distribuzione spaziale di tali valori.</p>
+    <p>Per valutare se quartieri con caratteristiche simili tendano a essere geograficamente vicini, è stato calcolato l'indice I di Moran globale. Si tratta di una misura di autocorrelazione spaziale che assume valori positivi quando aree con valori simili risultano spazialmente raggruppate. Al contrario, valori negativi indicano che aree vicine tendono a presentare valori differenti.</p>
+    <p>La formula utilizzata è:</p>
+  </div>
+
+  <div class="equation">
+    \[ I_{c,t} = \frac{n_{c,t}}{S_{0,c,t}} \frac{\sum_{i=1}^{n_{c,t}} \sum_{j=1}^{n_{c,t}} w_{ij,c,t} (x_{i,c,t} - \bar{x}_{c,t}) (x_{j,c,t} - \bar{x}_{c,t})}{\sum_{i=1}^{n_{c,t}} (x_{i,c,t} - \bar{x}_{c,t})^2} \]
+  </div>
+
+  <div class="prose">
+    <p>dove:</p>
+    <ul>
+      <li>\(c\) indica la città;</li>
+      <li>\(t\) indica l'anno;</li>
+      <li>\(x_{i,c,t}\) rappresenta il valore della variabile nell'area \(i\), nella città \(c\) e nell'anno \(t\), ad esempio <code>pol_gini</code> o <code>winner_share</code>;</li>
+      <li>\(\bar{x}_{c,t}\) rappresenta la media della variabile nella città \(c\) e nell'anno \(t\);</li>
+      <li>\(w_{ij,c,t}\) rappresenta il peso spaziale tra le aree \(i\) e \(j\) nella città \(c\) e nell'anno \(t\);</li>
+      <li>\(S_{0,c,t} = \sum_i \sum_j w_{ij,c,t}\) rappresenta la somma complessiva dei pesi spaziali;</li>
+      <li>\(n_{c,t}\) rappresenta il numero di aree considerate nella città \(c\) e nell'anno \(t\).</li>
+    </ul>
+    <table class="el-tab">
+      <thead><tr><th>I di Moran</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>Positivo</td><td>Le aree con valori simili tendono a essere spazialmente raggruppate</td></tr>
+        <tr><td>Intorno a 0</td><td>Non emerge un chiaro pattern di autocorrelazione spaziale</td></tr>
+        <tr><td>Negativo</td><td>Le aree confinanti tendono a presentare valori differenti</td></tr>
+        <tr><td>p-value significativo</td><td>Il pattern osservato è difficilmente attribuibile al caso</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="viz-block">
+    <div class="viz-lab">Aree senza sezioni elettorali · il caso di Milano</div>
+    <div class="viz-single"><svg id="el-empty"></svg></div>
+    <div class="viz-legend" id="empty-legend"></div>
+    <p class="viz-cap">Le <b>1.248 sezioni elettorali</b> di Milano, ospitate in <b>203 seggi</b> (il raggio conta le sezioni per edificio). Le <b>20 aree in ocra</b> non ne contengono alcuna, e sono tali discontinuità a rendere necessario il criterio di vicinato KNN.</p>
+  </div>
+
+  <div class="prose">
+    <p>I pesi spaziali \(w_{ij,c,t}\) definiscono quali aree debbano essere considerate vicine. Riprendendo l'analogia con gli scacchi, la contiguità di tipo <strong>Rook</strong> considera vicine le aree che condividono un lato, come i movimenti della torre, mentre la contiguità di tipo <strong>Queen</strong> considera anche quelle che condividono soltanto un vertice, analogamente ai movimenti della regina.</p>
+    <p>Questi metodi sono implementati nella libreria <strong>libpysal</strong>, che mette a disposizione strumenti per la costruzione delle matrici dei pesi e per l'analisi spaziale.</p>
+    <p>Dopo aver sperimentato entrambi i criteri di contiguità, è emersa la presenza di aree isolate. In alcuni quartieri, infatti, non erano presenti sezioni elettorali e non risultavano quindi disponibili osservazioni. Per evitare che queste discontinuità producessero unità prive di vicini, è stato adottato il metodo <strong>K-Nearest Neighbors</strong>, o KNN, che associa a ogni area un numero prefissato di unità geograficamente più vicine, anche quando non direttamente confinanti.</p>
+  </div>
+
+  <div class="viz-controls">
+    <span class="ctl"><span class="lab">Città</span>
+      <select id="moran-city"><option>Bologna</option><option>Firenze</option><option>Milano</option><option>Napoli</option><option>Roma</option><option>Torino</option></select>
+    </span>
+    <div class="viz-legend" id="moran-legend" style="margin-top:0"></div>
+  </div>
+  <div class="viz-block">
+    <div class="viz-lab">I di Moran globale per variabile</div>
+    <div class="viz-single"><svg id="el-moran"></svg></div>
+    <p class="viz-cap">I punti pieni indicano un risultato statisticamente significativo (p &lt; 0,05); i punti vuoti un pattern non distinguibile dal caso.</p>
+  </div>
+
+  <h3 class="subsection-title">I di Moran locale</h3>
+  <div class="prose">
+    <p>Mentre l'indice di Moran globale consente di verificare l'esistenza complessiva di autocorrelazione spaziale all'interno di una città, l'indice di Moran locale permette di individuare le specifiche aree nelle quali si formano cluster o anomalie spaziali.</p>
+    <p>Per un'area \(a\), appartenente alla città \(c\) e osservata nell'anno \(t\), l'indice è definito come:</p>
+  </div>
+
+  <div class="equation">
+    \[ I_{a,c,t} = \frac{x_{a,c,t} - \bar{x}_{c,t}}{m_{2,c,t}} \sum_{b=1}^{n_{c,t}} w_{ab,c,t} \left(x_{b,c,t} - \bar{x}_{c,t}\right) \]
+  </div>
+  <div class="prose"><p>con:</p></div>
+  <div class="equation">
+    \[ m_{2,c,t} = \frac{1}{n_{c,t}} \sum_{k=1}^{n_{c,t}} \left(x_{k,c,t} - \bar{x}_{c,t}\right)^2 \]
+  </div>
+
+  <div class="prose">
+    <p>dove:</p>
+    <ul>
+      <li>\(a\) indica l'area ASC2 analizzata;</li>
+      <li>\(b\) indicizza le aree vicine;</li>
+      <li>\(k\) indicizza tutte le aree appartenenti alla stessa combinazione città-anno ed è utilizzato per calcolarne la varianza;</li>
+      <li>\(c\) indica la città;</li>
+      <li>\(t\) indica l'anno;</li>
+      <li>\(x_{a,c,t}\) rappresenta il valore della variabile nell'area \(a\), nella città \(c\) e nell'anno \(t\), ad esempio <code>pol_gini</code>;</li>
+      <li>\(\bar{x}_{c,t}\) rappresenta il valore medio della variabile nella città \(c\) e nell'anno \(t\);</li>
+      <li>\(w_{ab,c,t}\) rappresenta il peso spaziale tra l'area \(a\) e l'area vicina \(b\);</li>
+      <li>\(n_{c,t}\) rappresenta il numero di aree presenti nella città \(c\) e nell'anno \(t\);</li>
+      <li>\(m_{2,c,t}\) rappresenta il termine di normalizzazione basato sulla varianza della distribuzione città-anno.</li>
+    </ul>
+    <p>Dopo il calcolo dell'indice di Moran locale, ogni quartiere è stato classificato mediante i <strong>Local Indicators of Spatial Association</strong>, o cluster LISA.</p>
+  </div>
+
+  <div class="viz-controls">
+    <span class="ctl"><span class="lab">Anno</span>
+      <select id="lisa-year"><option>2013</option><option selected>2018</option><option>2022</option></select>
+    </span>
+    <span class="ctl"><span class="lab">Variabile</span>
+      <select id="lisa-var"></select>
+    </span>
+  </div>
+  <div class="viz-block">
+    <div class="viz-lab">Cluster LISA per zona ASC2 · sei città</div>
+    <div class="viz-grid-3" id="el-lisa"></div>
+    <div class="viz-legend" id="lisa-legend"></div>
+  </div>
+
+  <div class="prose">
+    <p>La classificazione considera congiuntamente:</p>
+    <ul>
+      <li>se il valore osservato nel quartiere è superiore o inferiore alla media della relativa combinazione città-anno;</li>
+      <li>se i valori osservati nelle aree vicine sono, a loro volta, superiori o inferiori alla stessa media.</li>
+    </ul>
+    <p>Nel caso della variabile <code>pol_gini</code>, i cluster possono essere interpretati come segue:</p>
+    <table class="el-tab">
+      <thead><tr><th>Cluster LISA</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>High-High</td><td>Alta concentrazione politica circondata da aree caratterizzate da alta concentrazione politica</td></tr>
+        <tr><td>Low-Low</td><td>Bassa concentrazione politica circondata da aree caratterizzate da bassa concentrazione politica</td></tr>
+        <tr><td>High-Low</td><td>Alta concentrazione politica circondata da aree caratterizzate da bassa concentrazione politica</td></tr>
+        <tr><td>Low-High</td><td>Bassa concentrazione politica circondata da aree caratterizzate da alta concentrazione politica</td></tr>
+        <tr><td>Not significant</td><td>Il cluster locale non risulta statisticamente significativo</td></tr>
+      </tbody>
+    </table>
+    <p>Le configurazioni High-High e Low-Low rappresentano cluster spaziali di valori simili, mentre High-Low e Low-High identificano potenziali anomalie spaziali, ossia quartieri che presentano valori differenti rispetto alle aree circostanti.</p>
+  </div>
+
+  <h3 class="subsection-title">Indice di polarizzazione</h3>
+  <div class="prose">
+    <p>La differenza tra l'80° e il 20° percentile è stata utilizzata come misura sintetica della distanza tra la parte alta e la parte bassa della distribuzione.</p>
+  </div>
+  <div class="equation">
+    \[ P_{80/20} = Q_{0.80} - Q_{0.20} \]
+  </div>
+  <div class="prose">
+    <p>dove \(Q_{0.80}\) e \(Q_{0.20}\) rappresentano rispettivamente l'80° e il 20° percentile della distribuzione osservata.</p>
+    <p>Un valore elevato indica una maggiore distanza tra le due parti della distribuzione e può essere interpretato come un segnale di maggiore polarizzazione. Un valore contenuto indica invece una distribuzione più omogenea rispetto alla variabile analizzata.</p>
+  </div>
+
+  <div class="viz-block">
+    <div class="viz-lab">Indice di polarizzazione (80°–20° percentile) · sei città</div>
+    <div class="viz-grid-3" id="el-polar"></div>
+    <div class="viz-legend" id="polar-legend"></div>
+  </div>
+</section>
+
+<div id="el-tt" class="viz-tip"></div>
+
+
+<script>
+(function () {
+  const CI = ['Bologna', 'Firenze', 'Milano', 'Napoli', 'Roma', 'Torino'];
+  const PCOL = { CSX: '#A02222', CDX: '#1F3A5F', MCS: '#EDBF2E', CEN: '#A6A2CD' };
+  const PLAB = { CSX: 'Centro-sinistra', CDX: 'Centro-destra', MCS: 'Movimento 5 Stelle', CEN: 'Centro' };
+  const LISA = { 1: ['High-High', '#1F5E5B'], 2: ['Low-High', '#D9B36A'], 3: ['Low-Low', '#A0642E'], 4: ['High-Low', '#8FC4BC'], 0: ['Non significativo', '#EDE7DB'] };
+  const MVARS = ['pol_gini', 'winner_share', '_CSX_share', '_CDX_share', '_MCS_share', '_CEN_share'];
+  const MLAB = { pol_gini: 'Gini politico', winner_share: 'Quota vincitore', _CSX_share: 'CSX', _CDX_share: 'CDX', _MCS_share: 'M5S', _CEN_share: 'Centro' };
+  const MC = { pol_gini: '#7A2E6E', winner_share: '#3E7C8C', _CSX_share: '#A02222', _CDX_share: '#1F3A5F', _MCS_share: '#EDBF2E', _CEN_share: '#A6A2CD' };
+  const YEARS = [2013, 2018, 2022];
+  const PARTIES = ['CSX', 'CDX', 'MCS', 'CEN'];
+
+  const tipEl = document.getElementById('el-tt');
+  function show(html, ev) {
+    tipEl.innerHTML = html; tipEl.style.opacity = 1;
+    let x = ev.clientX + 14, y = ev.clientY + 14;
+    if (x + tipEl.offsetWidth > innerWidth) x = ev.clientX - tipEl.offsetWidth - 14;
+    if (y + tipEl.offsetHeight > innerHeight) y = ev.clientY - tipEl.offsetHeight - 14;
+    tipEl.style.left = x + 'px'; tipEl.style.top = y + 'px';
+  }
+  function hide() { tipEl.style.opacity = 0; }
+  const pc = v => (v * 100).toFixed(1).replace('.', ',') + '%';
+  const n3 = v => v == null ? 'n/d' : v.toFixed(3).replace('.', ',');
+  function legend(sel, items) {
+    const el = d3.select(sel); el.selectAll('*').remove();
+    items.forEach(([t, c]) => {
+      const it = el.append('span').attr('class', 'it');
+      it.append('span').attr('class', 'sw').style('background', c);
+      it.append('span').text(t);
+    });
+  }
+
+  document.getElementById('btn-correnti').addEventListener('click', function () {
+    const b = document.getElementById('box-correnti');
+    b.classList.toggle('open');
+    this.textContent = b.classList.contains('open') ? 'Nascondi le correnti' : 'Esplora le correnti';
+  });
+
+  Promise.all([
+    d3.json("/g1-2026-website/assets/charts/el_seggi_firenze.json"),
+    d3.json("/g1-2026-website/assets/charts/ivsm_maps.json")
+  ]).then(([pts, IV]) => {
+    const W = 880, H = 520, m = 18;
+    const svg = d3.select('#el-seggi').attr('viewBox', `0 0 ${W} ${H}`);
+    const fcZone = IV['Firenze']['2021'];
+    const proj = d3.geoMercator().fitExtent([[m, m], [W - m, H - m]], fcZone);
+    const path = d3.geoPath(proj);
+    svg.append('g').selectAll('path').data(fcZone.features).join('path')
+      .attr('d', path)
+      .attr('fill', '#FBFAF6').attr('stroke', '#A39B8E').attr('stroke-width', 0.6)
+      .on('mousemove', function (ev, d) {
+        d3.select(this).attr('fill', '#EFE9DC').attr('stroke', 'var(--ink)').raise();
+        show(`<div class="h">${d.properties.n}</div>Firenze · zona ASC2`, ev);
+      })
+      .on('mouseleave', function () { d3.select(this).attr('fill', '#FBFAF6').attr('stroke', '#A39B8E'); hide(); });
+    const rr = d3.scaleSqrt().domain([1, d3.max(pts, p => p[2])]).range([3, 9.5]);
+    const g = svg.append('g');
+    pts.forEach(p => {
+      const xy = proj([p[0], p[1]]); if (!xy) return;
+      const n = p[3].join(', ');
+      const lab = p[2] === 1 ? `Sezione n. ${n}` : `${p[2]} sezioni: n. ${n}`;
+      g.append('circle').attr('cx', xy[0]).attr('cy', xy[1]).attr('r', rr(p[2]))
+        .attr('fill', '#A0402E').attr('fill-opacity', 0.7)
+        .attr('stroke', '#FBFAF6').attr('stroke-width', 0.8)
+        .on('mousemove', function (ev) {
+          d3.select(this).attr('fill-opacity', 1).raise();
+          show(`<div class="h">Seggio elettorale · Firenze</div>${lab}`, ev);
+        })
+        .on('mouseleave', function () { d3.select(this).attr('fill-opacity', 0.7); hide(); });
+    });
+  }).catch(() => {});
+
+  d3.json("/g1-2026-website/assets/charts/el_winners.json").then(D => {
+    legend('#win-legend', PARTIES.map(p => [PLAB[p], PCOL[p]]));
+    const W = 330, H = 250;
+    const feats = {}, paths = {};
+    CI.forEach(c => { feats[c] = D.geo[c].map(z => ({ type: 'Feature', geometry: z.g, properties: { n: z.n } })); });
+
+    function panelFor(cont, c, onMove) {
+      const panel = cont.append('div').attr('class', 'viz-panel');
+      panel.append('div').attr('class', 'panel-title').text(c);
+      const svg = panel.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
+      const proj = d3.geoMercator().fitSize([W - 10, H - 10], { type: 'FeatureCollection', features: feats[c] });
+      return svg.append('g').attr('transform', 'translate(5,5)')
+        .selectAll('path').data(feats[c]).join('path')
+        .attr('d', d3.geoPath(proj)).attr('stroke', '#FBFAF6').attr('stroke-width', 0.4)
+        .on('mousemove', function (ev, d) {
+          d3.select(this).attr('stroke', 'var(--ink)').attr('stroke-width', 1.2).raise();
+          onMove(ev, d, feats[c].indexOf(d));
+        })
+        .on('mouseleave', function () { d3.select(this).attr('stroke', '#FBFAF6').attr('stroke-width', 0.4); hide(); });
+    }
+
+    function paintWin() {
+      const yr = document.getElementById('win-year').value;
+      CI.forEach(c => paths[c]
+        .attr('fill', (d, i) => { const w = D.win[c][yr][i]; return (!w || w[0] < 0) ? '#E4DCCB' : PCOL[D.parties[w[0]]]; })
+        .attr('fill-opacity', (d, i) => { const w = D.win[c][yr][i]; return (!w || w[0] < 0) ? 0.5 : 0.4 + Math.min(1, Math.max(0, (w[1] - 0.18) / 0.42)) * 0.6; }));
+    }
+    const contW = d3.select('#el-winners');
+    CI.forEach(c => {
+      paths[c] = panelFor(contW, c, (ev, d, i) => {
+        const yr = document.getElementById('win-year').value, w = D.win[c][yr][i];
+        show(`<div class="h">${d.properties.n}</div>${c} · ${yr}<br>` +
+          (w && w[0] >= 0 ? `${PLAB[D.parties[w[0]]]}<br>Quota: <span class="v">${pc(w[1])}</span>` : 'dato non disponibile'), ev);
+      });
+    });
+    paintWin();
+    document.getElementById('win-year').addEventListener('change', paintWin);
+
+    d3.json("/g1-2026-website/assets/charts/el_lisa.json").then(L => {
+      const vs = document.getElementById('lisa-var');
+      const NICE = { pol_gini: 'Gini politico', winner_share: 'Quota del vincitore', winner_changed: 'Cambio del vincitore', _CSX_share: 'Quota CSX', _CDX_share: 'Quota CDX', _MCS_share: 'Quota M5S', _CEN_share: 'Quota Centro', delta_pol_gini: 'Variazione Gini politico', delta_CSX_share: 'Variazione quota CSX', delta_CDX_share: 'Variazione quota CDX', delta_MCS_share: 'Variazione quota M5S', delta_CEN_share: 'Variazione quota Centro', prev_winner_margin: 'Margine del vincitore precedente' };
+      L.vars.forEach(v => vs.append(new Option(NICE[v] || v, v)));
+      vs.value = 'pol_gini';
+      legend('#lisa-legend', [1, 3, 4, 2, 0].map(k => [LISA[k][0], LISA[k][1]]));
+      const lp = {}, contL = d3.select('#el-lisa');
+      function key() { return document.getElementById('lisa-year').value + '|' + vs.value; }
+      CI.forEach(c => {
+        lp[c] = panelFor(contL, c, (ev, d, i) => {
+          const q = (L.q[c][key()] || [])[i] || [0, null, null];
+          show(`<div class="h">${d.properties.n}</div>${c} · ${document.getElementById('lisa-year').value}<br>` +
+            `${(LISA[q[0]] || LISA[0])[0]}<br>I locale: <span class="v">${n3(q[1])}</span> · p: <span class="v">${n3(q[2])}</span>`, ev);
+        });
+      });
+      function paintL() {
+        const k = key();
+        CI.forEach(c => { const arr = L.q[c][k] || []; lp[c].attr('fill', (d, i) => (LISA[(arr[i] || [0])[0]] || LISA[0])[1]).attr('fill-opacity', 0.9); });
+      }
+      paintL();
+      document.getElementById('lisa-year').addEventListener('change', paintL);
+      vs.addEventListener('change', paintL);
+    }).catch(() => d3.select('#el-lisa').html('<p class="viz-err">Cluster LISA non caricati.</p>'));
+  }).catch(() => d3.select('#el-winners').html('<p class="viz-err">Mappe non caricate.</p>'));
+
+  d3.json("/g1-2026-website/assets/charts/el_series.json").then(S => {
+    function facetLines(sel, rows, vi, keys, colOf, labOf, dom, fmt, zero) {
+      const cont = d3.select(sel); cont.selectAll('*').remove();
+      const W = 330, H = 190, m = { t: 12, r: 14, b: 28, l: 42 };
+      CI.forEach((city, ci) => {
+        const sub = rows.filter(r => r[0] === ci && r[vi] != null);
+        const panel = cont.append('div').attr('class', 'viz-panel');
+        panel.append('div').attr('class', 'panel-title').text(city);
+        const svg = panel.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
+        const x = d3.scalePoint().domain(YEARS).range([m.l, W - m.r]).padding(0.5);
+        const y = d3.scaleLinear().domain(dom).nice().range([H - m.b, m.t]);
+        y.ticks(4).forEach(t => svg.append('line').attr('class', 'gridline').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)));
+        svg.append('g').attr('class', 'axis').attr('transform', `translate(${m.l},0)`)
+          .call(d3.axisLeft(y).ticks(4).tickFormat(fmt).tickSize(0)).call(g => g.select('.domain').remove());
+        if (zero) svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).attr('stroke', 'var(--muted-2)');
+        YEARS.forEach(yr => svg.append('text').attr('x', x(yr)).attr('y', H - 9).attr('text-anchor', 'middle')
+          .attr('font-family', 'var(--mono)').attr('font-size', 9.5).attr('fill', 'var(--muted)').text(yr));
+        keys.forEach(k => {
+          const pts = sub.filter(r => r[2] === k).sort((a, b) => a[1] - b[1]);
+          if (!pts.length) return;
+          svg.append('path').attr('d', d3.line().x(d => x(d[1])).y(d => y(d[vi]))(pts))
+            .attr('fill', 'none').attr('stroke', colOf(k)).attr('stroke-width', 2);
+          pts.forEach(d => svg.append('circle').attr('cx', x(d[1])).attr('cy', y(d[vi])).attr('r', 3.6).attr('fill', colOf(k))
+            .on('mousemove', ev => show(`<div class="h">${city} · ${d[1]}</div>${labOf(k)}<br><span class="v">${fmt(d[vi])}</span>`, ev))
+            .on('mouseleave', hide));
+        });
+      });
+    }
+    const P = k => PCOL[k], PL = k => PLAB[k];
+    const sv = S.share.map(r => r[3]);
+    facetLines('#el-share', S.share, 3, PARTIES, P, PL, [0, d3.max(sv)], v => Math.round(v * 100) + '%', false);
+    legend('#share-legend', PARTIES.map(p => [PLAB[p], PCOL[p]]));
+    const dv = S.delta.filter(r => r[3] != null).map(r => r[3]);
+    facetLines('#el-delta', S.delta, 3, PARTIES, P, PL, [d3.min(dv), d3.max(dv)], v => (v > 0 ? '+' : '') + Math.round(v * 100) + '%', true);
+    const gv = S.gini.map(r => r[3]);
+    facetLines('#el-gini', S.gini, 3, PARTIES, P, PL, [0, d3.max(gv)], v => v.toFixed(2), false);
+
+    const MCf = k => MC[k], MLf = k => MLAB[k];
+    const pv = S.moran.filter(r => r[5] != null).map(r => r[5]);
+    facetLines('#el-polar', S.moran, 5, MVARS, MCf, MLf, [0, d3.max(pv)], d3.format('.2f'), false);
+    legend('#polar-legend', MVARS.map(v => [MLAB[v], MC[v]]));
+    legend('#moran-legend', MVARS.map(v => [MLAB[v], MC[v]]));
+
+    function drawMoran(city) {
+      const ci = CI.indexOf(city);
+      const sub = S.moran.filter(r => r[0] === ci && r[3] != null);
+      const W = 900, H = 340, m = { t: 16, r: 20, b: 36, l: 50 };
+      const svg = d3.select('#el-moran').attr('viewBox', `0 0 ${W} ${H}`); svg.selectAll('*').remove();
+      const vals = S.moran.filter(r => r[3] != null).map(r => r[3]);
+      const x = d3.scalePoint().domain(YEARS).range([m.l, W - m.r]).padding(0.5);
+      const y = d3.scaleLinear().domain([d3.min(vals), d3.max(vals)]).nice().range([H - m.b, m.t]);
+      y.ticks(6).forEach(t => svg.append('line').attr('class', 'gridline').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)));
+      svg.append('g').attr('class', 'axis').attr('transform', `translate(${m.l},0)`)
+        .call(d3.axisLeft(y).ticks(6).tickSize(0)).call(g => g.select('.domain').remove());
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0))
+        .attr('stroke', 'var(--muted-2)').attr('stroke-dasharray', '4 4');
+      YEARS.forEach(yr => svg.append('text').attr('x', x(yr)).attr('y', H - 13).attr('text-anchor', 'middle')
+        .attr('font-family', 'var(--mono)').attr('font-size', 11).attr('fill', 'var(--muted)').text(yr));
+      MVARS.forEach(v => {
+        const pts = sub.filter(r => r[2] === v).sort((a, b) => a[1] - b[1]);
+        if (!pts.length) return;
+        svg.append('path').attr('d', d3.line().x(d => x(d[1])).y(d => y(d[3]))(pts))
+          .attr('fill', 'none').attr('stroke', MC[v]).attr('stroke-width', 2.2);
+        pts.forEach(d => {
+          const sig = d[4] != null && d[4] < 0.05;
+          svg.append('circle').attr('cx', x(d[1])).attr('cy', y(d[3])).attr('r', 5)
+            .attr('fill', sig ? MC[v] : '#FBFAF6').attr('stroke', MC[v]).attr('stroke-width', 2)
+            .on('mousemove', ev => show(`<div class="h">${city} · ${d[1]}</div>${MLAB[v]}<br>I di Moran: <span class="v">${n3(d[3])}</span><br>p-value: <span class="v">${n3(d[4])}</span>`, ev))
+            .on('mouseleave', hide);
+        });
+      });
+    }
+    drawMoran(document.getElementById('moran-city').value);
+    document.getElementById('moran-city').addEventListener('change', e => drawMoran(e.target.value));
+  }).catch(() => d3.select('#el-share').html('<p class="viz-err">Serie non caricate.</p>'));
+})();
+</script>
+
+
+
+<script>
+(function () {
+  const CI = ['Bologna', 'Firenze', 'Milano', 'Napoli', 'Roma', 'Torino'];
+  const tipEl = document.getElementById('el-tt');
+  function show(html, ev) {
+    tipEl.innerHTML = html; tipEl.style.opacity = 1;
+    let x = ev.clientX + 14, y = ev.clientY + 14;
+    if (x + tipEl.offsetWidth > innerWidth) x = ev.clientX - tipEl.offsetWidth - 14;
+    if (y + tipEl.offsetHeight > innerHeight) y = ev.clientY - tipEl.offsetHeight - 14;
+    tipEl.style.left = x + 'px'; tipEl.style.top = y + 'px';
+  }
+  function hide() { tipEl.style.opacity = 0; }
+
+  d3.json("/g1-2026-website/assets/charts/ivsm_maps.json").then(IV => {
+
+    const contZ = d3.select('#el-zones');
+    const W = 330, H = 250;
+    CI.forEach(city => {
+      const fc = IV[city] && IV[city]['2021']; if (!fc) return;
+      const panel = contZ.append('div').attr('class', 'viz-panel');
+      panel.append('div').attr('class', 'panel-title').text(city + ' · ' + fc.features.length + ' zone');
+      const svg = panel.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
+      const proj = d3.geoMercator().fitSize([W - 10, H - 10], fc);
+      const path = d3.geoPath(proj);
+      svg.append('g').attr('transform', 'translate(5,5)')
+        .selectAll('path').data(fc.features).join('path')
+        .attr('d', path)
+        .attr('fill', '#EDE7DB')
+        .attr('stroke', '#A39B8E').attr('stroke-width', 0.5)
+        .on('mousemove', function (ev, d) {
+          d3.select(this).attr('fill', '#C58B31').attr('stroke', 'var(--ink)').raise();
+          show(`<div class="h">${d.properties.n}</div>${city} · zona ASC2`, ev);
+        })
+        .on('mouseleave', function () { d3.select(this).attr('fill', '#EDE7DB').attr('stroke', '#A39B8E'); hide(); });
+    });
+
+    d3.json("/g1-2026-website/assets/charts/el_empty_milano.json").then(EM => {
+      const feats = EM.zones.map(z => ({ type: 'Feature', geometry: z.g, properties: { n: z.n, p: z.p } }));
+      const fc = { type: 'FeatureCollection', features: feats };
+      const W2 = 880, H2 = 560;
+      const svg = d3.select('#el-empty').attr('viewBox', `0 0 ${W2} ${H2}`);
+      const proj = d3.geoMercator().fitSize([W2 - 16, H2 - 16], fc);
+      const path = d3.geoPath(proj);
+      svg.append('g').attr('transform', 'translate(8,8)')
+        .selectAll('path').data(feats).join('path')
+        .attr('d', path)
+        .attr('fill', d => d.properties.p ? '#FBFAF6' : '#D9B36A')
+        .attr('stroke', '#8A8070').attr('stroke-width', 0.6)
+        .on('mousemove', function (ev, d) {
+          d3.select(this).attr('stroke', 'var(--ink)').attr('stroke-width', 1.3).raise();
+          show(`<div class="h">${d.properties.n}</div>Milano · ` +
+            (d.properties.p ? 'contiene sezioni elettorali' : '<b>nessuna sezione elettorale</b>'), ev);
+        })
+        .on('mouseleave', function () { d3.select(this).attr('stroke', '#8A8070').attr('stroke-width', 0.6); hide(); });
+      const g2 = svg.append('g').attr('transform', 'translate(8,8)');
+      const rr = d3.scaleSqrt().domain([1, d3.max(EM.pins, p => p[2])]).range([2, 7.5]);
+      EM.pins.forEach(p => {
+        const xy = proj([p[0], p[1]]);
+        if (!xy) return;
+        const n = p[3].filter(x => x !== '?');
+        const lab = p[2] === 1
+          ? (n.length ? `Sezione n. ${n[0]}` : '1 sezione')
+          : `${p[2]} sezioni` + (n.length ? `: n. ${n.join(', ')}` : '');
+        g2.append('circle').attr('cx', xy[0]).attr('cy', xy[1]).attr('r', rr(p[2]))
+          .attr('fill', '#1F3A5F').attr('fill-opacity', 0.7)
+          .attr('stroke', '#FBFAF6').attr('stroke-width', 0.5)
+          .on('mousemove', function (ev) {
+            d3.select(this).attr('fill-opacity', 1);
+            show(`<div class="h">Seggio elettorale · Milano</div>${lab}`, ev);
+          })
+          .on('mouseleave', function () { d3.select(this).attr('fill-opacity', 0.7); hide(); });
+      });
+      const leg = d3.select('#empty-legend'); leg.selectAll('*').remove();
+      [['area con sezioni', '#FBFAF6'], ['area senza sezioni', '#D9B36A']].forEach(([t, c]) => {
+        const it = leg.append('span').attr('class', 'it');
+        it.append('span').attr('class', 'sw').style('background', c).style('border', '1px solid var(--rule-2)');
+        it.append('span').text(t);
+      });
+      const it = leg.append('span').attr('class', 'it');
+      it.append('span').style('width', '10px').style('height', '10px').style('border-radius', '50%').style('background', '#1F3A5F').style('display', 'inline-block');
+      it.append('span').text('sezione elettorale');
+    }).catch(() => {});
+  }).catch(() => d3.select('#el-zones').html('<p class="viz-err">Zone non caricate.</p>'));
+})();
+</script>
+
+
+</main>
+
+<footer class="ed-footer">
+  <a href="https://github.com/marcosemeraro/g1-2026-website/" target="_blank" rel="noopener">Gruppo 1 - Repository del sito</a>
+  <div class="copy">2026 SoBigData RI</div>
+</footer>
+
+<script>
+(function () {
+  var bar = document.getElementById('progress-bar');
+  if (!bar) return;
+  var ticking = false;
+  function update() {
+    var doc = document.documentElement;
+    var top = doc.scrollTop || document.body.scrollTop;
+    var h = doc.scrollHeight - doc.clientHeight;
+    bar.style.width = (h > 0 ? (top / h) * 100 : 0).toFixed(2) + '%';
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+})();
+</script>
+
+</body>
+</html>

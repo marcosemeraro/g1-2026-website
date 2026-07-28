@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISVM — Analisi della Vulnerabilità Sociale e Materiale</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root {
+  --bg: #F5F1EA; --panel: #FBFAF6; --panel-2: #EFE9DC;
+  --ink: #1A1A1A; --ink-2: #333; --muted: #6B6157; --muted-2: #A39B8E;
+  --rule: #DDD4C4; --rule-2: #C7BEA9;
+  --accent: #A0402E; --accent-2: #C58B31;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', 'Menlo', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin:0; padding:0; background: var(--bg); color: var(--ink); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.cover { padding: 100px 32px 60px; max-width: 1240px; margin: 0 auto; }
+.cover .kicker { font-family: var(--sans); font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); text-align:center; margin-bottom:22px; }
+.cover h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(48px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.03em; margin: 0 auto 26px; max-width:900px; text-align:center; text-wrap: balance; }
+.cover h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.cover .dek { font-family: var(--serif); font-size: 21px; line-height: 1.45; color: var(--ink-2); max-width: 720px; margin: 0 auto 30px; text-align:center; text-wrap: balance; }
+.cover .byline { font-family: var(--sans); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align:center; padding: 14px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); max-width: 720px; margin: 0 auto; }
+.cover .byline b { color: var(--ink); font-weight: 600; }
+
+.chapter { padding: 80px 0 40px; border-top: 1px solid var(--rule); }
+.chapter-marker { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 14px; color: var(--accent); text-align:center; margin-bottom: 20px; }
+.chapter-marker::before, .chapter-marker::after { content:'·'; margin: 0 12px; color: var(--muted-2); }
+.chapter-title { font-family: var(--serif); font-weight: 700; font-size: clamp(30px, 4.5vw, 46px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 auto 16px; max-width: 860px; text-align:center; text-wrap: balance; }
+.chapter-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+.chapter-dek { font-family: var(--serif); font-size: 19px; line-height: 1.45; color: var(--muted); max-width: 700px; margin: 0 auto 40px; text-align:center; text-wrap: balance; font-style: italic; }
+
+.prose-col { max-width: 680px; margin: 30px auto; padding: 0 32px; }
+.prose-col p { font-family: var(--serif); font-size: 19px; line-height: 1.55; color: var(--ink-2); margin: 0 0 22px; }
+.prose-col p b, .prose-col p strong { color: var(--ink); font-weight: 600; }
+.prose-col h3 { font-family: var(--serif); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; margin: 40px 0 12px; color: var(--ink); }
+.prose-col ul { font-family: var(--serif); font-size: 18px; line-height: 1.6; color: var(--ink-2); margin: 0 0 22px; padding-left: 24px; }
+.prose-col ul li { margin-bottom: 10px; }
+.prose-col ul li b { color: var(--ink); font-weight: 600; }
+.prose-col blockquote { border-left: 3px solid var(--accent-2); margin: 28px 0; padding: 12px 20px; background: var(--panel-2); font-family: var(--serif); font-size: 16px; line-height: 1.55; color: var(--muted); border-radius: 0 4px 4px 0; }
+.prose-col blockquote b { color: var(--ink-2); }
+
+.math-block { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 20px 28px; margin: 22px 0; font-family: var(--mono); font-size: 17px; color: var(--ink); text-align: center; letter-spacing: 0.01em; }
+.math-def { font-family: var(--sans); font-size: 14px; color: var(--muted); margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--rule); line-height: 1.6; }
+.math-def ul { padding-left: 18px; margin: 6px 0 0; list-style: disc; }
+.math-def ul li { margin-bottom: 4px; font-family: var(--sans); }
+
+.indicators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; max-width: 1000px; margin: 30px auto; padding: 0 32px; }
+.ind-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; }
+.ind-num { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+.ind-name { font-family: var(--serif); font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+.ind-desc { font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+.uses-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin: 30px auto; padding: 0 32px; }
+.use-card { background: var(--panel-2); border-radius: 6px; padding: 20px; }
+.use-icon { font-size: 22px; margin-bottom: 10px; color: var(--accent); }
+.use-title { font-family: var(--serif); font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+.use-desc { font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+.pipeline { display: flex; align-items: stretch; gap: 0; max-width: 900px; margin: 30px auto; padding: 0 32px; overflow-x: auto; }
+.pipe-step { flex: 1; min-width: 140px; background: var(--panel); border: 1px solid var(--rule); padding: 18px 16px; position: relative; }
+.pipe-step:not(:first-child) { border-left: none; }
+.pipe-step:first-child { border-radius: 6px 0 0 6px; }
+.pipe-step:last-child { border-radius: 0 6px 6px 0; }
+.pipe-num { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-bottom: 8px; font-weight: 500; }
+.pipe-label { font-family: var(--serif); font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 4px; }
+.pipe-sub { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.4; }
+.pipe-arrow { position: absolute; right: -11px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; background: var(--accent-2); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; font-size: 10px; color: white; }
+
+.range-bar { height: 8px; border-radius: 4px; background: linear-gradient(to right, #4a90d9, #e8a838, #c0392b); margin: 16px 0 6px; position: relative; }
+.range-labels { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+.footer { max-width: 900px; margin: 0 auto; padding: 60px 32px 80px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
+.footer h3 { font-family: var(--serif); font-weight: 600; font-size: 18px; color: var(--ink); margin: 24px 0 8px; letter-spacing: -0.005em; }
+
+@media (max-width: 640px) {
+  .uses-grid { grid-template-columns: 1fr; }
+  .pipeline { flex-direction: column; }
+  .pipe-step { border-left: 1px solid var(--rule) !important; border-top: none; }
+  .pipe-step:first-child { border-radius: 6px 6px 0 0; }
+  .pipe-step:last-child { border-radius: 0 0 6px 6px; }
+  .pipe-arrow { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="kicker">Analisi territoriale · ISTAT · Censimenti 2011–2021</div>
+  <h1>Indice di <em>Vulnerabilità</em> Sociale e Materiale</h1>
+  <p class="dek">Calcolo e distribuzione dell'ISVM sui dati dei Censimenti ISTAT: dalla costruzione degli indicatori elementari alla mappatura micro-territoriale.</p>
+  <p class="byline"><b>7 indicatori elementari</b> · <b>Metodologia AMPI</b> · <b>Scala ASC2</b></p>
+</header>
+
+<section class="chapter">
+  <div class="chapter-marker">Capitolo I</div>
+  <h1 class="chapter-title">Cos'è l'<em>ISVM</em> e a cosa serve</h1>
+  <p class="chapter-dek">Un indicatore composito per misurare il grado di esposizione al rischio dei territori.</p>
+
+  <div class="prose-col">
+    <p>L'<strong>Indice di Vulnerabilità Sociale e Materiale (ISVM)</strong> è un indicatore composito costruito attraverso la sintesi di 7 indicatori elementari, riferiti alle dimensioni della vulnerabilità ritenute più rilevanti per la caratterizzazione del territorio.</p>
+    <p>Implementato dall'Istat all'interno del sistema di diffusione <strong>"8milaCensus"</strong>, l'indice nasce per offrire uno strumento di facile lettura, capace di esprimere con un unico valore sintetico un fenomeno complesso e multidimensionale.</p>
+
+    <h3>Utilizzi istituzionali</h3>
+  </div>
+
+  <div class="uses-grid">
+    <div class="use-card">
+      <div class="use-icon">⊞</div>
+      <div class="use-title">Collegi elettorali</div>
+      <div class="use-desc">Determinazione dei collegi della Camera dei Deputati e del Senato della Repubblica.</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">◎</div>
+      <div class="use-title">Audizioni parlamentari</div>
+      <div class="use-desc">Analisi dello stato di degrado delle città e delle loro periferie in sede parlamentare.</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">◈</div>
+      <div class="use-title">Fondi ai Comuni</div>
+      <div class="use-desc">Parametro per l'erogazione di fondi ai piccoli Comuni da parte del MIT.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="chapter-marker">Capitolo II</div>
+  <h1 class="chapter-title">Il quadro concettuale: <em>cos'è</em> la vulnerabilità?</h1>
+  <p class="chapter-dek">A differenza della sola povertà monetaria, la vulnerabilità intercetta una fragilità più ampia legata al ciclo di vita e alle reti familiari.</p>
+
+  <div class="prose-col">
+    <p>L'ISVM si fonda sul concetto di vulnerabilità intesa come l'esposizione a fattori di rischio che minacciano l'autonomia delle persone e la loro stabilità sociale ed economica (Ranci, 2002).</p>
+
+    <h3>Tre dimensioni del rischio</h3>
+    <ul>
+      <li><b>Nuovi rischi sociali:</b> instabilità lavorativa e difficoltà nel conciliare tempi di cura e lavoro.</li>
+      <li><b>Fasi del ciclo di vita:</b> presenza di bambini piccoli, giovani in cerca di occupazione o anziani soli/non autosufficienti.</li>
+      <li><b>Indebolimento delle reti familiari:</b> minore dimensione dei nuclei, che riduce il supporto parentale nei momenti di difficoltà.</li>
+    </ul>
+    <p>L'ISVM nasce quindi per misurare il <strong>grado di esposizione al rischio dei territori</strong>, permettendo ai decisori pubblici di programmare interventi socio-assistenziali mirati prima che la vulnerabilità si trasformi in esclusione sociale.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="chapter-marker">Capitolo III</div>
+  <h1 class="chapter-title">I dati censuari <em>ISTAT</em></h1>
+  <p class="chapter-dek">Censimenti 2011 e 2021 a scala micro-territoriale: oltre 150 variabili grezze analizzate e filtrate.</p>
+
+  <div class="prose-col">
+    <p>L'ISTAT rilascia periodicamente i dati dei <strong>Censimenti Generali della Popolazione e delle Abitazioni</strong>, fonte fondamentale per analizzare le dinamiche socio-economiche del territorio.</p>
+    <p>Per questo studio sono stati estratti i dati a livello micro-territoriale per gli anni <strong>2011 e 2021</strong>, superando la dimensione comunale per accedere a una scala d'analisi molto più dettagliata.</p>
+
+    <h3>Selezione e pulizia dei dati</h3>
+    <ul>
+      <li><b>Dataset di partenza:</b> oltre 150 variabili censuarie grezze scaricate e analizzate.</li>
+      <li><b>Filtering & data cleaning:</b> selezione esclusiva delle variabili idonee al calcolo dei 7 indicatori elementari.</li>
+      <li><b>Risoluzione criticità:</b> correzione dei dati incompleti o non uniformi a livello di <strong>Area Sub-Comunale (ASC2)</strong> per garantire la comparabilità territoriale.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="chapter-marker">Capitolo IV</div>
+  <h1 class="chapter-title">I 7 <em>indicatori</em> elementari</h1>
+  <p class="chapter-dek">Sette dimensioni del disagio socio-economico, calcolate a partire dalle variabili censuarie grezze.</p>
+
+  <div class="indicators-grid">
+    <div class="ind-card">
+      <div class="ind-num">Ind. 01</div>
+      <div class="ind-name">Carico di Minori</div>
+      <div class="ind-desc">Incidenza della popolazione under 14 rispetto al totale delle famiglie.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-num">Ind. 02</div>
+      <div class="ind-name">Famiglie Numerose</div>
+      <div class="ind-desc">Incidenza percentuale delle famiglie con sei o più componenti.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-num">Ind. 03</div>
+      <div class="ind-name">Bassa Istruzione</div>
+      <div class="ind-desc">Pop. 25–64 anni analfabeta o senza titolo di studio sul totale della stessa fascia.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-num">Ind. 04</div>
+      <div class="ind-name">Disagio Assistenziale</div>
+      <div class="ind-desc">Incidenza della popolazione over 74 rapportata al totale delle famiglie.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-num">Ind. 05</div>
+      <div class="ind-name">Disagio Abitativo</div>
+      <div class="ind-desc">Incidenza delle famiglie in affitto sul totale delle famiglie dell'area.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-num">Ind. 06</div>
+      <div class="ind-name">NEET</div>
+      <div class="ind-desc">Giovani non occupati e non inseriti in percorsi di istruzione o formazione.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-num">Ind. 07</div>
+      <div class="ind-name">Disagio Economico</div>
+      <div class="ind-desc">Pop. ≥ 15 anni priva di reddito sul totale della popolazione di pari età.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="chapter-marker">Capitolo V</div>
+  <h1 class="chapter-title">Metodologia <em>AMPI</em></h1>
+  <p class="chapter-dek">Normalizzazione Min-Max riscalata e aggregazione con penalità per squilibrio orizzontale.</p>
+
+  <div class="prose-col">
+    <h3>Normalizzazione dei dati</h3>
+    <p>Ciascun indicatore elementare è stato normalizzato per depurarlo dalla propria unità di misura e ricondotto a un campo di variazione compreso tra <strong>70 e 130</strong>:</p>
+  </div>
+
+  <div style="max-width: 680px; margin: 0 auto; padding: 0 32px;">
+    <div class="math-block">
+      r<sub>ij</sub> = (x<sub>ij</sub> − Min<sub>j</sub>) / (Max<sub>j</sub> − Min<sub>j</sub>) · 60 + 70
+      <div class="math-def">
+        <ul>
+          <li><b>r<sub>ij</sub></b> — valore normalizzato dell'indicatore j nell'unità i</li>
+          <li><b>x<sub>ij</sub></b> — valore effettivo dell'indicatore j nell'unità i</li>
+          <li><b>Min<sub>j</sub>, Max<sub>j</sub></b> — valori estremi nella distribuzione considerata</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin: 16px 0 8px; font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Campo di variazione normalizzato</div>
+    <div class="range-bar"></div>
+    <div class="range-labels"><span>70 — bassa vulnerabilità</span><span>100 — media</span><span>130 — alta vulnerabilità</span></div>
+  </div>
+
+  <div class="prose-col">
+    <h3>Aggregazione con penalità per squilibrio (AMPI⁺)</h3>
+  </div>
+
+  <div style="max-width: 680px; margin: 0 auto; padding: 0 32px;">
+    <div class="math-block">
+      AMPI<sub>i</sub>⁺ = M<sub>ri</sub> + S<sub>ri</sub> · cv<sub>i</sub>
+      <div class="math-def">
+        <ul>
+          <li><b>M<sub>ri</sub></b> — media aritmetica dei valori normalizzati per l'unità i</li>
+          <li><b>S<sub>ri</sub></b> — scostamento quadratico medio dei valori normalizzati</li>
+          <li><b>cv<sub>i</sub> = S<sub>ri</sub> / M<sub>ri</sub></b> — coefficiente di variazione (squilibrio orizzontale)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose-col">
+    <blockquote>
+      <b>Perché la penalità positiva?</b> Trattandosi di un fenomeno "negativo", il coefficiente di penalità corregge la media spingendola verso l'alto. A parità di media, penalizza le unità con maggiore squilibrio fra gli indicatori: anche un solo valore estremamente critico emergono dall'aggregazione. Più è alto il valore dell'indice, maggiore è il livello di vulnerabilità dell'area.
+    </blockquote>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="chapter-marker">Capitolo VI</div>
+  <h1 class="chapter-title">Dalla fonte alla <em>mappa</em></h1>
+  <p class="chapter-dek">Il percorso dai dati censuari grezzi alla visualizzazione geografica interattiva.</p>
+
+  <div class="pipeline">
+    <div class="pipe-step">
+      <div class="pipe-num">01</div>
+      <div class="pipe-label">Dati censuari</div>
+      <div class="pipe-sub">Download ISTAT 2011 e 2021, 150+ variabili grezze</div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">02</div>
+      <div class="pipe-label">Selezione variabili</div>
+      <div class="pipe-sub">Filtraggio e cleaning per le 7 dimensioni ISVM</div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">03</div>
+      <div class="pipe-label">Calcolo indicatori</div>
+      <div class="pipe-sub">7 indicatori elementari a scala ASC2</div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">04</div>
+      <div class="pipe-label">Normalizzazione AMPI</div>
+      <div class="pipe-sub">Min-Max riscalata su campo 70–130</div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">05</div>
+      <div class="pipe-label">Georeferenziazione</div>
+      <div class="pipe-sub">Join con Shapefile ASC2 via GeoPandas</div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">06</div>
+      <div class="pipe-label">Mappa coroplete</div>
+      <div class="pipe-sub">Visualizzazione interattiva con Altair / Vega-Lite</div>
+    </div>
+  </div>
+
+  <div class="prose-col">
+    <p>I valori dell'ISVM sono stati associati alle partizioni geografiche dell'ISTAT tramite file <strong>Shapefile</strong>, mappati a livello di <strong>Aree Sub-Comunali (ASC2)</strong> per isolare i confini reali dei quartieri e mostrare le micro-disuguaglianze all'interno della città.</p>
+    <p>L'approccio consente di esplorare dinamicamente il territorio e individuare visivamente le cosiddette <em>"isole di vulnerabilità"</em>: i quartieri in cui si concentrano le maggiori criticità materiali e sociali.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <h3>Fonti e metodologia</h3>
+  <p>Dati: ISTAT — Censimento della Popolazione e delle Abitazioni 2011 e 2021, sistema <em>8milaCensus</em>. Metodologia AMPI: Mazziotta M., Pareto A. (2011), <em>Un indicatore sintetico di dotazione infrastrutturale</em>. Strumenti: Python, GeoPandas, Altair (Vega-Lite).</p>
+</footer>
+
+</body>
+</html>

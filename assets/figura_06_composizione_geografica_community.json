@@ -1,0 +1,451 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Composizione percentuale per città delle comunità principali nel periodo 2023–2025.",
+  "background": "#FBFAF6",
+  "width": "container",
+  "height": 340,
+  "padding": {
+    "left": 8,
+    "right": 20,
+    "top": 10,
+    "bottom": 10
+  },
+  "title": {
+    "text": "Composizione geografica delle comunità",
+    "subtitle": "Quota percentuale delle aree di ciascuna città · 2023–2025",
+    "anchor": "start",
+    "font": "Fraunces",
+    "fontSize": 26,
+    "fontWeight": 700,
+    "subtitleFont": "Inter",
+    "subtitleFontSize": 14,
+    "subtitleColor": "#6B6157",
+    "offset": 18,
+    "color": "#1A1A1A"
+  },
+  "data": {
+    "values": [
+      {
+        "periodo": "2023–2025",
+        "comunita": "C1",
+        "ordine_comunita": 1,
+        "citta": "Milano",
+        "ordine_citta": 3,
+        "n_nodi_citta": 9,
+        "n_nodi_comunita": 9,
+        "quota_pct": 100.0,
+        "x0": 0.0,
+        "x1": 100.0,
+        "x_centro": 50.0
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C2",
+        "ordine_comunita": 2,
+        "citta": "Bologna",
+        "ordine_citta": 1,
+        "n_nodi_citta": 3,
+        "n_nodi_comunita": 91,
+        "quota_pct": 3.2967032967,
+        "x0": 0.0,
+        "x1": 3.2967032967,
+        "x_centro": 1.6483516484
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C2",
+        "ordine_comunita": 2,
+        "citta": "Firenze",
+        "ordine_citta": 2,
+        "n_nodi_citta": 10,
+        "n_nodi_comunita": 91,
+        "quota_pct": 10.989010989,
+        "x0": 3.2967032967,
+        "x1": 14.2857142857,
+        "x_centro": 8.7912087912
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C2",
+        "ordine_comunita": 2,
+        "citta": "Napoli",
+        "ordine_citta": 4,
+        "n_nodi_citta": 1,
+        "n_nodi_comunita": 91,
+        "quota_pct": 1.0989010989,
+        "x0": 14.2857142857,
+        "x1": 15.3846153846,
+        "x_centro": 14.8351648352
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C2",
+        "ordine_comunita": 2,
+        "citta": "Roma",
+        "ordine_citta": 5,
+        "n_nodi_citta": 54,
+        "n_nodi_comunita": 91,
+        "quota_pct": 59.3406593407,
+        "x0": 15.3846153846,
+        "x1": 74.7252747253,
+        "x_centro": 45.0549450549
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C2",
+        "ordine_comunita": 2,
+        "citta": "Torino",
+        "ordine_citta": 6,
+        "n_nodi_citta": 23,
+        "n_nodi_comunita": 91,
+        "quota_pct": 25.2747252747,
+        "x0": 74.7252747253,
+        "x1": 100.0,
+        "x_centro": 87.3626373626
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C3",
+        "ordine_comunita": 3,
+        "citta": "Bologna",
+        "ordine_citta": 1,
+        "n_nodi_citta": 5,
+        "n_nodi_comunita": 115,
+        "quota_pct": 4.347826087,
+        "x0": 0.0,
+        "x1": 4.347826087,
+        "x_centro": 2.1739130435
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C3",
+        "ordine_comunita": 3,
+        "citta": "Firenze",
+        "ordine_citta": 2,
+        "n_nodi_citta": 43,
+        "n_nodi_comunita": 115,
+        "quota_pct": 37.3913043478,
+        "x0": 4.347826087,
+        "x1": 41.7391304348,
+        "x_centro": 23.0434782609
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C3",
+        "ordine_comunita": 3,
+        "citta": "Napoli",
+        "ordine_citta": 4,
+        "n_nodi_citta": 18,
+        "n_nodi_comunita": 115,
+        "quota_pct": 15.652173913,
+        "x0": 41.7391304348,
+        "x1": 57.3913043478,
+        "x_centro": 49.5652173913
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C3",
+        "ordine_comunita": 3,
+        "citta": "Roma",
+        "ordine_citta": 5,
+        "n_nodi_citta": 26,
+        "n_nodi_comunita": 115,
+        "quota_pct": 22.6086956522,
+        "x0": 57.3913043478,
+        "x1": 80.0,
+        "x_centro": 68.6956521739
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C3",
+        "ordine_comunita": 3,
+        "citta": "Torino",
+        "ordine_citta": 6,
+        "n_nodi_citta": 23,
+        "n_nodi_comunita": 115,
+        "quota_pct": 20.0,
+        "x0": 80.0,
+        "x1": 100.0,
+        "x_centro": 90.0
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C4",
+        "ordine_comunita": 4,
+        "citta": "Bologna",
+        "ordine_citta": 1,
+        "n_nodi_citta": 4,
+        "n_nodi_comunita": 139,
+        "quota_pct": 2.8776978417,
+        "x0": 0.0,
+        "x1": 2.8776978417,
+        "x_centro": 1.4388489209
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C4",
+        "ordine_comunita": 4,
+        "citta": "Firenze",
+        "ordine_citta": 2,
+        "n_nodi_citta": 21,
+        "n_nodi_comunita": 139,
+        "quota_pct": 15.1079136691,
+        "x0": 2.8776978417,
+        "x1": 17.9856115108,
+        "x_centro": 10.4316546763
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C4",
+        "ordine_comunita": 4,
+        "citta": "Milano",
+        "ordine_citta": 3,
+        "n_nodi_citta": 42,
+        "n_nodi_comunita": 139,
+        "quota_pct": 30.2158273381,
+        "x0": 17.9856115108,
+        "x1": 48.2014388489,
+        "x_centro": 33.0935251799
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C4",
+        "ordine_comunita": 4,
+        "citta": "Napoli",
+        "ordine_citta": 4,
+        "n_nodi_citta": 11,
+        "n_nodi_comunita": 139,
+        "quota_pct": 7.9136690647,
+        "x0": 48.2014388489,
+        "x1": 56.1151079137,
+        "x_centro": 52.1582733813
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C4",
+        "ordine_comunita": 4,
+        "citta": "Roma",
+        "ordine_citta": 5,
+        "n_nodi_citta": 25,
+        "n_nodi_comunita": 139,
+        "quota_pct": 17.9856115108,
+        "x0": 56.1151079137,
+        "x1": 74.1007194245,
+        "x_centro": 65.1079136691
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C4",
+        "ordine_comunita": 4,
+        "citta": "Torino",
+        "ordine_citta": 6,
+        "n_nodi_citta": 36,
+        "n_nodi_comunita": 139,
+        "quota_pct": 25.8992805755,
+        "x0": 74.1007194245,
+        "x1": 100.0,
+        "x_centro": 87.0503597122
+      },
+      {
+        "periodo": "2023–2025",
+        "comunita": "C5",
+        "ordine_comunita": 5,
+        "citta": "Bologna",
+        "ordine_citta": 1,
+        "n_nodi_citta": 4,
+        "n_nodi_comunita": 4,
+        "quota_pct": 100.0,
+        "x0": 0.0,
+        "x1": 100.0,
+        "x_centro": 50.0
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "height": 42,
+        "stroke": "#FBFAF6",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "y": {
+          "field": "comunita",
+          "type": "ordinal",
+          "sort": [
+            "C1",
+            "C2",
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "axis": {
+            "title": null,
+            "labelFont": "Inter",
+            "labelFontSize": 14,
+            "labelColor": "#1A1A1A",
+            "labelPadding": 12,
+            "ticks": false,
+            "domain": false
+          }
+        },
+        "x": {
+          "field": "x0",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              100
+            ]
+          },
+          "axis": {
+            "title": "Quota delle aree della comunità",
+            "values": [
+              0,
+              25,
+              50,
+              75,
+              100
+            ],
+            "labelExpr": "datum.value + '%'",
+            "labelFont": "Inter",
+            "labelFontSize": 12,
+            "titleFont": "Inter",
+            "titleFontSize": 12,
+            "titlePadding": 14,
+            "grid": true,
+            "gridColor": "#DDD4C4",
+            "gridOpacity": 0.65,
+            "ticks": false,
+            "domain": false
+          }
+        },
+        "x2": {
+          "field": "x1"
+        },
+        "color": {
+          "field": "citta",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Bologna",
+              "Firenze",
+              "Milano",
+              "Napoli",
+              "Roma",
+              "Torino"
+            ],
+            "range": [
+              "#59A14F",
+              "#76B7B2",
+              "#F28E2B",
+              "#EDC948",
+              "#4E79A7",
+              "#E15759"
+            ]
+          },
+          "legend": {
+            "title": null,
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 6,
+            "labelFont": "Inter",
+            "labelFontSize": 12,
+            "symbolType": "square",
+            "symbolSize": 130,
+            "offset": 18
+          }
+        },
+        "order": {
+          "field": "ordine_citta",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "comunita",
+            "type": "nominal",
+            "title": "Comunità"
+          },
+          {
+            "field": "citta",
+            "type": "nominal",
+            "title": "Città"
+          },
+          {
+            "field": "n_nodi_citta",
+            "type": "quantitative",
+            "title": "Aree della città",
+            "format": "d"
+          },
+          {
+            "field": "n_nodi_comunita",
+            "type": "quantitative",
+            "title": "Aree della comunità",
+            "format": "d"
+          },
+          {
+            "field": "quota_pct",
+            "type": "quantitative",
+            "title": "Quota",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.quota_pct >= 8"
+        },
+        {
+          "calculate": "format(datum.quota_pct, '.0f') + '%'",
+          "as": "etichetta_quota"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "baseline": "middle"
+      },
+      "encoding": {
+        "y": {
+          "field": "comunita",
+          "type": "ordinal",
+          "sort": [
+            "C1",
+            "C2",
+            "C3",
+            "C4",
+            "C5"
+          ]
+        },
+        "x": {
+          "field": "x_centro",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "etichetta_quota"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.citta === 'Napoli'",
+            "value": "#1A1A1A"
+          },
+          "value": "#FFFFFF"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelColor": "#333333",
+      "titleColor": "#6B6157"
+    }
+  }
+}

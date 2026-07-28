@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dalle cronache locali alla geografia del tono mediatico</title>
+<meta name="description" content="Scrivi qui una descrizione accattivante per il tuo nuovo sito. Puoi modificare questa riga in _config.yml. Apparirà nei meta del documento head (per i risult...">
+
+<link rel="icon" href="/g1-2026-website/assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/g1-2026-website/assets/favicon/favicon-256.png" sizes="256x256">
+<link rel="apple-touch-icon" href="/g1-2026-website/assets/favicon/favicon-256.png">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="/g1-2026-website/assets/css/custom.css">
+
+
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #F5F1EA; --panel: #FBFAF6; --panel-2: #EFE9DC;
+  --ink: #1A1A1A; --ink-2: #333; --muted: #6B6157; --muted-2: #A39B8E;
+  --rule: #DDD4C4; --rule-2: #C7BEA9;
+  --accent: #A0402E; --accent-2: #C58B31;
+  --p-cdx: #1F3A5F; --p-csx: #A02222; --p-cen: #A6A2CD; --p-mcs: #EDBF2E;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono:  'IBM Plex Mono', 'Menlo', monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg) !important; color: var(--ink); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.navbar-chulapa { background: rgba(245,241,234,0.94) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); padding: .5rem 1.5rem; }
+.navbar-chulapa .navbar-brand { color: var(--ink) !important; font-weight: 300; letter-spacing: 0.05em; }
+.navbar-chulapa .navbar-brand:hover { color: var(--accent) !important; }
+.navbar-chulapa .nav-link { color: var(--muted) !important; letter-spacing: 0.08em; font-size: 13px; font-weight: 300; }
+.navbar-chulapa .nav-link:hover { color: var(--ink) !important; }
+.navbar-chulapa .nav-link.active, .navbar-chulapa .nav-item.active > .nav-link { color: var(--ink) !important; font-weight: 700; }
+.navbar-chulapa .dropdown-menu { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.navbar-chulapa .dropdown-item { color: var(--muted); font-size: 12px; letter-spacing: 0.06em; padding: .4rem 1.25rem; }
+.navbar-chulapa .dropdown-item:hover { background: rgba(0,0,0,0.04); color: var(--ink); }
+.navbar-chulapa .dropdown-item.active { background: transparent; color: var(--accent); font-weight: 700; }
+.navbar-chulapa-fab .navbar-toggler { background: var(--panel) !important; border: 1px solid var(--rule) !important; }
+.navbar-chulapa-fab-nav { background: var(--panel) !important; }
+.navbar-chulapa .nav-link:focus, .navbar-chulapa .dropdown-item:focus, .navbar-chulapa .dropdown-toggle:focus, .navbar-chulapa .navbar-brand:focus, .navbar-chulapa a:focus { outline: none !important; box-shadow: none !important; }
+@media (min-width: 768px) { .navbar-chulapa-fab, .navbar-chulapa-fab-background, .navbar-chulapa-fab-nav { display: none !important; } }
+.navbar-chulapa .nav-item:last-child { border: none !important; }
+
+#progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 20000; transition: width 60ms linear; pointer-events: none; }
+
+body > div.progress { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 3px !important; background: transparent !important; z-index: 9999 !important; padding: 0 !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; display: block !important; }
+body > div.progress > .progress-bar, body > div.progress > #progressBar { height: 100% !important; background: var(--accent) !important; width: 0; transition: width 60ms linear; border-radius: 0 !important; animation: none !important; }
+.navbar-chulapa, nav.sticky-top { z-index: 100 !important; }
+
+.ed-hero { position: relative; max-width: 1240px; margin: 0 auto 20px; }
+.ed-hero img { width: 100%; height: 320px; object-fit: cover; display: block; filter: saturate(0.85); }
+.ed-hero__text { max-width: 900px; margin: 0 auto; padding: 40px 32px 20px; text-align: center; }
+.ed-hero__text h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(38px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 14px; color: var(--ink); text-wrap: balance; }
+.ed-hero__sub { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 720px; margin: 0 auto; text-wrap: balance; }
+
+.cover { padding: 60px 32px 40px; max-width: 1240px; margin: 0 auto; }
+.cover .kicker { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); text-align: center; margin-bottom: 22px; }
+.cover h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(48px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.03em; margin: 0 auto 26px; max-width: 900px; text-align: center; text-wrap: balance; }
+.cover h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.cover .dek { font-family: var(--serif); font-size: 22px; line-height: 1.45; color: var(--ink-2); max-width: 780px; margin: 0 auto 34px; text-align: center; text-wrap: balance; }
+.cover .byline { font-family: var(--sans); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); max-width: 720px; margin: 0 auto; }
+.cover .byline b { color: var(--ink); font-weight: 600; }
+
+section.chapter { padding: 40px 0 20px; border-top: 1px solid var(--rule); }
+section.chapter:first-of-type { border-top: none; }
+.section-marker, .chapter-marker { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 14px; color: var(--accent); text-align: center; margin-bottom: 18px; }
+.section-marker::before, .section-marker::after, .chapter-marker::before, .chapter-marker::after { content: '·'; margin: 0 12px; color: var(--muted-2); }
+.section-title, .chapter-title { font-family: var(--serif); font-weight: 700; font-size: clamp(30px, 4.5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 auto 16px; max-width: 860px; text-align: center; text-wrap: balance; }
+.section-title em, .chapter-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+.section-dek, .chapter-dek { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 700px; margin: 0 auto 40px; text-align: center; font-style: italic; }
+.subsection-title { font-family: var(--serif); font-weight: 700; font-size: 26px; letter-spacing: -0.01em; margin: 42px auto 12px; max-width: 720px; padding: 0 32px; color: var(--ink); }
+.subsubsection-title { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 32px auto 10px; max-width: 720px; padding: 20px 32px 0; border-top: 1px solid var(--rule); }
+
+.prose { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+.prose p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); margin: 0 0 22px; text-wrap: pretty; }
+.prose p.lead { font-size: 22px; line-height: 1.5; color: var(--ink); }
+.prose p b, .prose p strong { color: var(--ink); font-weight: 600; }
+.prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.prose a:hover { border-bottom-color: var(--accent); }
+.prose img { max-width: 100%; height: auto; display: block; margin: 32px auto; border-radius: 2px; }
+.prose ul, .prose ol { font-family: var(--serif); font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0 0 22px; padding-left: 24px; }
+.prose table { border-collapse: collapse; width: 100%; margin: 20px 0 26px; }
+.prose table th { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; }
+.prose table td { color: var(--ink-2); font-family: var(--serif); font-size: 16px; line-height: 1.4; border-bottom: 1px solid var(--rule); padding: 10px 14px; vertical-align: top; }
+.prose table td:first-child { font-family: var(--mono); font-size: 13px; color: var(--ink); white-space: nowrap; }
+
+.equation { margin: 24px auto; padding: 22px 32px; background: var(--panel); border-left: 3px solid var(--accent-2); overflow-x: auto; max-width: 720px; }
+
+.viz-embed { max-width: 1180px; margin: 40px auto; padding: 0 32px; }
+.viz-embed .viz-title { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 auto 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-embed iframe { width: 100%; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; min-height: 500px; }
+.viz-embed .caption { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 14px; }
+
+.ed-md h1, .ed-md h2 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.02em; max-width: 720px; margin: 42px auto 14px; padding: 0 32px; color: var(--ink); }
+.ed-md h1 { font-size: 38px; }
+.ed-md h2 { font-size: 30px; }
+.ed-md h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; max-width: 720px; margin: 32px auto 10px; padding: 0 32px; color: var(--ink); }
+.ed-md p:not([class]) { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px; }
+.ed-md .lead { font-family: var(--serif); font-size: 22px; line-height: 1.5; font-weight: 400; color: var(--ink); }
+.ed-md a:not(.btn) { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.ed-md a:not(.btn):hover { color: var(--accent); border-bottom-color: var(--accent); }
+.ed-md ul:not([class]), .ed-md ol:not([class]) { font-family: var(--serif); font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px 0 56px; }
+.ed-md table:not([class]) { max-width: 720px; margin: 20px auto 26px; border-collapse: collapse; background: transparent; }
+.ed-md table:not([class]) th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; background: transparent; }
+.ed-md table:not([class]) td { font-family: var(--serif); font-size: 16px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 10px 14px; background: transparent; }
+.ed-md img:not([class]) { max-width: 720px; width: 100%; height: auto; display: block; margin: 32px auto; }
+.ed-md blockquote { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); border-left: 3px solid var(--accent); max-width: 680px; margin: 36px auto; padding: 8px 32px; }
+.ed-md code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); color: var(--ink); padding: 2px 6px; border-radius: 2px; }
+.ed-md hr { border: 0; border-top: 1px solid var(--rule); max-width: 720px; margin: 36px auto; }
+.ed-md .btn-primary { background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; border-radius: 0; font-family: var(--sans); letter-spacing: 0.06em; text-transform: uppercase; font-size: 13px; }
+.ed-md .btn-primary:hover { background: var(--ink) !important; border-color: var(--ink) !important; }
+.ed-md .btn-secondary { border-radius: 0; }
+.ed-md .modal-content { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; }
+.ed-md .modal-header, .ed-md .modal-footer { border-color: var(--rule); }
+.ed-md .modal-title { font-family: var(--serif); font-weight: 700; color: var(--ink); }
+
+.ed-md .container, .ed-md .container-lg, .ed-md .container-fluid { max-width: 960px; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto; }
+.ed-md .row { margin-left: 0; margin-right: 0; }
+.ed-md [class*="col-"] { padding-left: 12px; padding-right: 12px; }
+.ed-md .container p, .ed-md [class*="col-"] p { max-width: none; padding: 0; margin: 0 0 18px; }
+.ed-md .container h1, .ed-md .container h2, .ed-md .container h3,
+.ed-md [class*="col-"] h1, .ed-md [class*="col-"] h2, .ed-md [class*="col-"] h3 { max-width: none; padding: 0; margin: 0 0 12px; }
+.ed-md .container ul, .ed-md .container ol, .ed-md [class*="col-"] ul, .ed-md [class*="col-"] ol { max-width: none; padding-left: 22px; margin: 0 0 18px; }
+.ed-md .container img, .ed-md [class*="col-"] img { max-width: 100%; margin: 0 0 18px; }
+
+.viz-block { max-width: 1180px; margin: 26px auto 10px; padding: 0 32px; }
+.viz-lab { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 auto 14px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-cap { font-family: var(--sans); font-size: 12.5px; line-height: 1.5; color: var(--muted); text-align: center; max-width: 820px; margin: 16px auto 0; }
+.viz-cap b { color: var(--ink-2); font-weight: 600; }
+.viz-err { grid-column: 1/-1; text-align: center; color: var(--muted); font-family: var(--sans); padding: 30px; }
+.viz-controls { display: flex; flex-wrap: wrap; gap: 16px 30px; align-items: center; justify-content: center; margin: 26px auto 4px; font-family: var(--sans); font-size: 12.5px; color: var(--ink-2); }
+.viz-controls .ctl { display: inline-flex; align-items: center; gap: 9px; }
+.viz-controls .lab { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.viz-controls select { font-family: var(--sans); font-size: 13px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule-2); border-radius: 2px; padding: 6px 12px; }
+.viz-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.viz-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.viz-panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 8px; }
+.viz-panel .panel-title { font-family: var(--serif); font-weight: 700; font-size: 15px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 5px; }
+.viz-panel svg { width: 100%; height: auto; display: block; }
+.viz-panel .axis text { font-family: var(--mono); font-size: 9px; fill: var(--muted-2); }
+.viz-panel .gridline { stroke: var(--rule); stroke-dasharray: 2 3; }
+.viz-panel svg rect, .viz-panel svg circle, .viz-panel svg path { cursor: pointer; }
+.viz-legend { display: flex; gap: 12px 22px; justify-content: center; flex-wrap: wrap; margin-top: 16px; font-family: var(--sans); font-size: 12.5px; color: var(--ink-2); }
+.viz-legend .it { display: inline-flex; align-items: center; gap: 7px; }
+.viz-legend .sw { width: 13px; height: 13px; border-radius: 2px; display: inline-block; }
+.viz-single { background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; padding: 14px 16px 10px; max-width: 940px; margin: 0 auto; }
+.viz-single svg { width: 100%; height: auto; display: block; }
+.viz-single .axis text { font-family: var(--mono); font-size: 10px; fill: var(--muted-2); }
+.viz-single .gridline { stroke: var(--rule); stroke-dasharray: 2 3; }
+.ramp-legend { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.ramp-legend .rl-bar { width: 190px; height: 11px; border-radius: 2px; display: inline-block; border: 1px solid var(--rule-2); }
+.ramp-legend .rl-note { font-family: var(--sans); font-size: 11px; color: var(--muted-2); }
+.viz-tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--panel); padding: 9px 12px; border-radius: 3px; font-family: var(--sans); font-size: 12px; line-height: 1.45; max-width: 270px; z-index: 9999; opacity: 0; transition: opacity 90ms; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+.viz-tip .h { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: #fff; margin-bottom: 3px; }
+.viz-tip .v { font-family: var(--mono); color: var(--accent-2); }
+@media (max-width: 900px) { .viz-grid-3 { grid-template-columns: 1fr 1fr; } .viz-block { padding: 0 16px; } }
+@media (max-width: 600px) { .viz-grid-3, .viz-grid-2 { grid-template-columns: 1fr; } }
+
+.ed-footer { max-width: 900px; margin: 60px auto 0; padding: 50px 32px 70px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
+.ed-footer a { color: var(--accent); text-decoration: none; }
+.ed-footer .copy { margin-top: 16px; font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted-2); }
+
+@media (max-width: 800px) {
+  .cover { padding: 40px 20px 30px; }
+  .prose, .ed-md p:not([class]) { padding: 0 20px; }
+  .prose p, .ed-md p:not([class]) { font-size: 17px; }
+  .ed-hero img { height: 200px; }
+}
+</style>
+
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="navbar-chulapa-fab d-md-none">
+    <input type="checkbox" class="navbar-chulapa-fab-button d-none" id="navi-toggle">
+    <label for="navi-toggle" class="navbar-toggler p-1 m-0 text-center d-flex">
+        <span class="navbar-toggler-icon m-auto">&nbsp;</span>
+    </label>
+    <div class="navbar-chulapa-fab-background">&nbsp;</div>
+    <nav class="navbar-chulapa-fab-nav" aria-label="alternative-navigation">
+        <ul class="navbar-nav text-center text-uppercase font-weight-light mt-0 mb-1 py-1">
+            <li class="nav-item">
+                <a class="nav-link px-3 navbar-brand mx-1 " href="https://marcosemeraro.github.io/g1-2026-website/"><img src="https://marcosemeraro.github.io/g1-2026-website/assets/images/Logo_masthead.png" width="30" height="30" class="d-inline-block align-top rounded-lg text-center mr-1" alt="NavbarLogo">Una città, Due mercati</a>
+            </li><li class="nav-item my-0 py-1">
+                <a class="nav-link px-3 py-1" href="https://marcosemeraro.github.io/g1-2026-website/articolo.html">Articolo</a>
+            </li><li class="nav-item dropdown my-0 py-1"><a class="nav-link dropdown-toggle px-3 py-1 " href="#" id="Approfondimenti" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approfondimenti</a>
+                <div class="dropdown-menu dropdown-menu-right text-center rounded-0 pr-4" aria-labelledby="Approfondimenti"><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/immobili.html">Immobili </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/elezioni.html">Elezioni </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/cronaca.html">Cronaca </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/vulnerabilita.html">Vulnerabilità </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/ricchezza.html">Ricchezza </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/classificatore.html">Classificatore </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/sna.html">SNA </a></div>
+            </li><li class="nav-item my-0 py-1">
+                <a class="nav-link px-3 py-1" href="https://masterbigdata.it/">SBD Master</a>
+            </li></ul>
+    </nav>
+</div>
+
+<nav class="navbar navbar-expand sticky-top navbar-chulapa d-none d-md-block " aria-label="primary-navigation">
+    <div class="container-fluid mx-md-2">
+        <a class="navbar-brand text-uppercase font-weight-light" href="https://marcosemeraro.github.io/g1-2026-website/"><img src="https://marcosemeraro.github.io/g1-2026-website/assets/images/Logo_masthead.png" width="30" height="30" class="d-inline-block align-top rounded-lg mr-1" alt="NavbarLogo">Una città, Due mercati</a><ul class="navbar-nav ml-auto"><li class="nav-item mx-2">
+                <a class="nav-link text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/articolo.html">Articolo</a>
+            </li><li class="nav-item mx-2 dropdown"><a class="nav-link text-uppercase font-weight-light dropdown-toggle " href="#" id="Approfondimenti2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approfondimenti</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Approfondimenti2"><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/immobili.html">Immobili</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/elezioni.html">Elezioni</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/cronaca.html">Cronaca</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/vulnerabilita.html">Vulnerabilità</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/ricchezza.html">Ricchezza</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/classificatore.html">Classificatore</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/sna.html">SNA</a></div>
+            </li><li class="nav-item mx-2">
+                <a class="nav-link text-uppercase font-weight-light " href="https://masterbigdata.it/">SBD Master</a>
+            </li></ul></div>
+</nav>
+
+<main class="ed-content">
+<style>
+.step-kicker { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); text-align: center; margin-bottom: 14px; }
+.step-kicker .num { font-family: var(--serif); font-style: italic; font-weight: 500; margin-right: 8px; color: var(--muted-2); }
+.quote-block { font-family: var(--serif); font-style: italic; font-size: 24px; line-height: 1.4; color: var(--ink); max-width: 680px; margin: 36px auto; padding: 8px 32px; border-left: 3px solid var(--accent); }
+details.tech { max-width: 820px; margin: 22px auto; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; }
+details.tech > summary { cursor: pointer; padding: 14px 22px; font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); list-style: none; }
+details.tech > summary::-webkit-details-marker { display: none; }
+details.tech > summary::before { content: '▸  '; color: var(--muted-2); }
+details[open].tech > summary::before { content: '▾  '; }
+details.tech > summary:hover { background: rgba(0,0,0,0.02); }
+details.tech .tech-body { padding: 6px 32px 26px; border-top: 1px solid var(--rule); }
+details.tech .tech-body h4 { font-family: var(--serif); font-weight: 700; font-size: 20px; color: var(--ink); margin: 24px 0 10px; }
+details.tech .tech-body p { font-family: var(--serif); font-size: 17px; line-height: 1.55; color: var(--ink-2); margin: 0 0 16px; }
+details.tech .tech-body table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; }
+details.tech .tech-body th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 8px 12px; text-align: left; }
+details.tech .tech-body td { font-family: var(--serif); font-size: 15px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 8px 12px; vertical-align: top; }
+details.tech .tech-body code { font-family: var(--mono); font-size: .85em; background: var(--panel-2); color: var(--ink); padding: 2px 6px; }
+.callout-box { background: var(--panel-2); border-left: 3px solid var(--accent-2); padding: 12px 16px; margin: 18px 0; font-family: var(--sans); font-size: 14px; line-height: 1.55; color: var(--ink-2); }
+.callout-box code { font-family: var(--mono); font-size: .9em; }
+.formula-box { background: var(--panel); border-left: 3px solid var(--accent-2); padding: 16px 24px; margin: 20px auto; max-width: 720px; overflow-x: auto; text-align: center; }
+.polarity-bubble-viz { max-width: 960px; margin: 26px auto 20px; padding: 24px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule); }
+.polarity-bubble-viz .polarity-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; }
+.polarity-bubble-viz .polarity-panel { min-width: 0; text-align: center; }
+.polarity-bubble-viz .polarity-heading { display: flex; justify-content: center; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.polarity-bubble-viz .polarity-heading h3 { margin: 0; font-family: var(--serif); font-size: 22px; font-weight: 700; }
+.polarity-bubble-viz .polarity-negative .polarity-heading h3 { color: #B4473D; }
+.polarity-bubble-viz .polarity-positive .polarity-heading h3 { color: #2B7A68; }
+.polarity-bubble-viz .polarity-heading span,
+.polarity-bubble-viz .method-note { font-family: var(--sans); font-size: 12px; color: var(--muted); }
+.polarity-bubble-viz .bubble-chart { display: block; width: 100%; height: auto; overflow: visible; }
+.polarity-bubble-viz .bubble circle { stroke-width: 1.5; }
+.polarity-bubble-viz .bubble-negativa circle { fill: #B4473D; fill-opacity: .20; stroke: #B4473D; }
+.polarity-bubble-viz .bubble-positiva circle { fill: #2B7A68; fill-opacity: .20; stroke: #2B7A68; }
+.polarity-bubble-viz .bubble text { fill: var(--ink); font-family: var(--sans); font-weight: 600; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+.polarity-bubble-viz .method-note { margin: 10px 0 0; line-height: 1.5; text-align: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.method-footer { max-width: 960px; margin: 56px auto 12px; padding: 22px 24px; border-top: 1px solid var(--rule-2); border-bottom: 1px solid var(--rule); text-align: center; }
+.method-footer h2 { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; }
+.method-footer p { font-family: var(--sans); font-size: 12px; line-height: 1.7; color: var(--muted); margin: 0; }
+.method-footer .tool { display: inline-block; white-space: nowrap; }
+@media (max-width: 760px) {
+  .polarity-bubble-viz { padding: 18px; }
+  .polarity-bubble-viz .polarity-grid { grid-template-columns: 1fr; }
+  .polarity-bubble-viz .polarity-panel { max-width: 410px; margin: 0 auto; }
+}
+
+</style>
+
+<header class="cover" style="padding-top:88px;padding-bottom:20px">
+  <h1>Dalle cronache locali alla <em>geografia del tono mediatico</em> </h1>
+</header>
+
+<div class="prose">
+  <p class="lead">Per capire come una città fosse stata raccontata nel corso del tempo, volevamo raccogliere molti anni di notiziari regionali. Prima degli algoritmi, delle mappe e dei modelli di linguaggio, il progetto è iniziato con un incontro sul campo: una visita alla sede di un notiziario regionale per esplorare le possibilità di accesso a dieci anni di edizioni locali.</p>
+</div>
+
+<blockquote class="quote-block">"Per richiedere i materiali è necessario consultarli prima, uno per uno, e indicare quali sono quelli di interesse."</blockquote>
+
+<div class="prose">
+  <p>Una procedura del tutto comprensibile per chi entra in un archivio alla ricerca di un contenuto preciso. Ma noi volevamo analizzare dieci anni di informazione senza conoscere preventivamente ciò che avremmo trovato.</p>
+  <p>La soluzione è arrivata quando abbiamo scoperto, come fonte alternativa, le edizioni locali del network <a href="https://www.citynews.it" target="_blank" rel="noopener">City News</a>. Nel suo archivio convivono le ultime notizie, la cronaca, gli eventi, le zone, le segnalazioni e molto altro. È un flusso continuo nel quale la città compare attraverso fatti eccezionali e gesti ordinari, incidenti e concerti, cantieri e mostre, problemi di quartiere e occasioni di partecipazione.</p>
+  <p>Citynews definisce la propria forza attraverso il legame con il territorio e la capacità delle sue testate di prossimità (come <a href="https://www.firenzetoday.it/notizie/firenze/" target="_blank" rel="noopener">FirenzeToday</a>) di entrare nella vita delle comunità locali.</p>
+</div>
+
+<section class="chapter" id="scraping">
+  <div class="step-kicker"><span class="num">01</span> Scraping</div>
+  <h2 class="section-title">Dal flusso delle notizie a un archivio strutturato</h2>
+  <div class="prose">
+    <p>Il primo passaggio è stato raccogliere in modo sistematico le notizie pubblicate dalle edizioni locali di CityNews. Per ciascuna città abbiamo sviluppato uno scraper in Python capace di percorrere le pagine dedicate alle notizie di zona, procedendo dagli articoli più recenti verso quelli più lontani nel tempo.</p>
+    <p>Per ogni notizia sono stati registrati la categoria (che può contenere informazioni territoriali, tipo di evento o macrocategoria dell'argomento trattato), il titolo, il link, il trafiletto e la data mostrata sul sito. Queste informazioni sono state organizzate in un archivio tabellare, che costituisce il punto di partenza per le successive operazioni.</p>
+  </div>
+</section>
+
+<section class="chapter" id="tempo">
+  <div class="step-kicker"><span class="num">02</span> Tempo</div>
+  <h2 class="section-title">Rimettere ogni notizia al suo posto nel tempo</h2>
+  <div class="prose">
+    <p>La data raccolta dal sito non corrispondeva sempre a un giorno scritto nel formato tradizionale. Molte notizie erano accompagnate da espressioni relative come "ieri", "tre settimane fa", "aprile scorso".</p>
+    <p>Abbiamo quindi ricostruito ogni riferimento temporale a partire dal giorno in cui è stato eseguito lo scraping. La conversione ha prodotto una data standardizzata.</p>
+  </div>
+
+  <details class="tech">
+    <summary>Dettagli tecnici · come abbiamo ricostruito le date</summary>
+    <div class="tech-body">
+      <h4>Riconoscere le diverse forme linguistiche</h4>
+      <p>Abbiamo costruito un parser basato su espressioni regolari. Ogni regola riconosce una particolare struttura della data e ne estrae gli elementi necessari, come la quantità, l'unità temporale, il mese, il giorno della settimana o l'orario.</p>
+      <div class="callout-box"><strong>Esempio:</strong> "3 settimane fa" → quantità: 3 · unità: settimane · operazione: sottrarre tre settimane dalla data dello scraping.</div>
+      <p>Abbiamo quindi utilizzato come riferimento la data dello scraping, fissata ad esempio all'8 luglio 2026, e abbiamo sottratto da essa l'intervallo temporale riconosciuto.</p>
+      <h4>Alcuni esempi</h4>
+      <table>
+        <thead><tr><th>Espressione originale</th><th>Operazione</th><th>Risultato</th><th>Precisione</th></tr></thead>
+        <tbody>
+          <tr><td>"L'altro ieri, 9:31"</td><td>Sottrazione di due giorni</td><td>6 luglio 2026, 9:31</td><td>Minuto</td></tr>
+          <tr><td>"3 settimane fa"</td><td>Sottrazione di tre settimane</td><td>17 giugno 2026</td><td>Giorno</td></tr>
+          <tr><td>"5 mesi fa"</td><td>Sottrazione di cinque mesi</td><td>Febbraio 2026</td><td>Mese</td></tr>
+          <tr><td>"2 anni fa, a ottobre"</td><td>Sottrazione di due anni e selezione del mese</td><td>Ottobre 2024</td><td>Mese</td></tr>
+          <tr><td>"Aprile scorso"</td><td>Ricerca dell'ultima occorrenza passata di aprile</td><td>Aprile 2026</td><td>Mese</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<section class="chapter" id="geografia">
+  <div class="step-kicker"><span class="num">03</span> Geografia</div>
+  <h2 class="section-title">Dal linguaggio delle notizie alle aree subcomunali</h2>
+  <div class="prose">
+    <p>I luoghi citati nelle cronache locali non seguono sempre una classificazione territoriale uniforme. Una stessa zona può essere indicata attraverso una via, una forma abbreviata, un quartiere, un parco oppure un toponimo conosciuto dagli abitanti.</p>
+    <p>Per collegare questi riferimenti a una geografia comune, abbiamo cercato nelle categorie, nei titoli e nei trafiletti le denominazioni e le varianti linguistiche delle aree subcomunali ASC2.</p>
+    <p>Ogni corrispondenza è stata associata alla relativa area territoriale, conservando anche la parola trovata e il campo della notizia nel quale compariva. Una stessa notizia può quindi essere collegata a più zone quando descrive eventi che coinvolgono parti diverse della città.</p>
+  </div>
+
+  <details class="tech">
+    <summary>Dettagli tecnici · riconoscimento delle aree ASC2</summary>
+    <div class="tech-body">
+      <h4>1. Normalizzazione del testo</h4>
+      <p>Prima della ricerca, testi e denominazioni territoriali sono stati convertiti in minuscolo, privati degli accenti e della punteggiatura e uniformati negli spazi.</p>
+      <div class="callout-box"><strong>Esempio:</strong> <code>Notizie da NOVOLI-LIPPI</code> diventa <code>notizie da novoli lippi</code></div>
+      <h4>2. Costruzione del dizionario geografico</h4>
+      <p>Per ogni ASC2 abbiamo costruito una lista di parole chiave a partire dalle varianti presenti nel file territoriale. Le denominazioni separate dal simbolo <code>|</code> sono state divise, normalizzate e raccolte senza duplicati.</p>
+      <div class="callout-box"><strong>ASC2 Novoli - Lippi</strong> — varianti originali: <code>novoli|lippi</code> · parole ricercate: <code>novoli</code>, <code>lippi</code></div>
+      <p>Alcune parole, come <code>novoli</code>, compaiono nelle varianti di più ASC2: Novoli - Lippi, Novoli - Fiat, Novoli - Baracca Est e Novoli - Baracca Ovest.</p>
+      <h4>3. Ricerca delle denominazioni</h4>
+      <p>Le parole chiave sono state cercate nei campi normalizzati della categoria, del titolo e del trafiletto. Il confronto utilizza i confini di parola, così da riconoscere soltanto termini o espressioni complete.</p>
+      <div class="callout-box"><strong>Pattern utilizzato:</strong> <code>\b + denominazione + \b</code></div>
+      <div class="callout-box"><strong>Esempio</strong> — testo: <code>Nuovi lavori nel quartiere di Novoli</code> · keyword riconosciuta: <code>novoli</code></div>
+      <h4>4. Il caso dell'ASC2 Centro</h4>
+      <p>A Firenze l'ASC2 49 si chiama <strong>Centro</strong>. Abbiamo escluso questa espressione perché troppo generica. Per recuperare le notizie del centro abbiamo sfruttato le descrizioni OMI, che contengono denominazioni più precise.</p>
+      <div class="callout-box"><strong>Esempio di zona OMI:</strong> <code>CENTRO STORICO (SIGNORIA - DUOMO - PITTI - SAN NICCOLO)</code> · parole utilizzate: <code>signoria</code>, <code>duomo</code>, <code>pitti</code>, <code>san niccolo</code></div>
+      <h4>5. Notizie associate a più aree</h4>
+      <p>Una notizia può citare più zone oppure contenere una denominazione condivisa da più ASC2. Contarla interamente in ciascuna zona aumenterebbe artificialmente il numero totale delle notizie.</p>
+      <div class="callout-box">La parola <code>novoli</code> è associata a quattro ASC2. La notizia viene distribuita tra le quattro aree: <code>0,25</code> per ciascuna. Il peso complessivo rimane pari a <code>1</code>.</div>
+      <h4>6. Conversione dalle zone OMI alle ASC2</h4>
+      <p>La conversione è stata applicata soltanto alle notizie che avevano un riferimento OMI ma nessun match ASC2 diretto. Il peso della notizia è stato distribuito tra le ASC2 in proporzione alla superficie condivisa con la zona OMI.</p>
+      <div class="callout-box">Una notizia ha peso OMI pari a <code>1</code>. La zona OMI ricade per il 70% nell'ASC2 A e per il 30% nell'ASC2 B → peso A: <code>0,70</code>, peso B: <code>0,30</code>, totale <code>1</code>.</div>
+    </div>
+  </details>
+</section>
+
+<section class="chapter" id="sentiment">
+  <div class="step-kicker"><span class="num">04</span> Sentiment</div>
+  <h2 class="section-title">Dalle emozioni alla polarità territoriale</h2>
+  <div class="prose">
+    <p>Con <a href="https://github.com/Unipisa/ItEM" target="_blank" rel="noopener">ItEM</a> (lessico emotivo ad alta copertura per la lingua italiana, in cui a ciascun termine target viene assegnato un punteggio di associazione con le emozioni di base definite nella tassonomia di Plutchik, 1994) abbiamo analizzato titolo e trafiletto di ogni notizia, ottenendo uno score per otto emozioni: attese, disgusto, fiducia, gioia, paura, rabbia, sorpresa e tristezza.</p>
+    <p>Da questi valori abbiamo ricavato uno score di polarità compreso tra −1 e +1 per ogni notizia. Le polarità delle singole notizie sono state poi aggregate per area ASC2 e periodo elettorale, tenendo conto del peso territoriale di ciascun articolo.</p>
+    <p>Il risultato permette di distinguere la quantità di attenzione ricevuta da una zona dal tono, relativamente positivo o negativo, con cui viene raccontata rispetto alla propria città.</p>
+  </div>
+
+  <details class="tech">
+    <summary>Dettagli tecnici · Dentro il calcolo della polarità</summary>
+    <div class="tech-body">
+      <h4>Dal testo alle chiavi lemma–POS di ItEM</h4>
+      <p>ItEM non contiene soltanto parole isolate: le sue voci sono indicizzate come combinazioni di <strong>lemma</strong> e <strong>parte del discorso (POS)</strong>. Questa informazione permette di distinguere termini che hanno la stessa forma ma una funzione grammaticale diversa e rende necessario trasformare nello stesso formato anche le parole dei titoli e dei trafiletti.</p>
+      <p>Abbiamo unito titolo e trafiletto, convertito il testo in minuscolo, rimosso URL, caratteri non alfabetici e spazi multipli, quindi lo abbiamo elaborato con il modello italiano <code>it_core_news_sm</code> di spaCy. Per ogni token sono stati ricavati il lemma con <code>token.lemma_</code> e il POS con <code>token.pos_</code>; sono stati esclusi stopword, token non alfabetici, parole di due caratteri o meno e POS non presenti nella mappatura di ItEM. Per alleggerire l'elaborazione, parser sintattico e riconoscimento delle entità nominate sono stati disattivati, perché non necessari a questo confronto lessicale.</p>
+      <table>
+        <thead><tr><th>POS riconosciuto da spaCy</th><th>Codice ItEM</th><th>Esempio di chiave confrontata</th></tr></thead>
+        <tbody>
+          <tr><td><code>NOUN</code>, <code>PROPN</code></td><td><code>s</code></td><td><code>casa-s</code></td></tr>
+          <tr><td><code>ADJ</code></td><td><code>a</code></td><td><code>difficile-a</code></td></tr>
+          <tr><td><code>VERB</code>, <code>AUX</code></td><td><code>v</code></td><td><code>aumentare-v</code></td></tr>
+        </tbody>
+      </table>
+      <p>Le chiavi <code>lemma-POS</code> estratte dalle notizie sono state confrontate esattamente con l'indice del lessico. Per ogni termine riconosciuto, ItEM restituisce un vettore di otto punteggi: uno per ciascuna emozione.</p>
+      <h4>Da più termini a un solo profilo emotivo per notizia</h4>
+      <p>Titolo e trafiletto sono stati trattati insieme come un unico testo. I risultati non sono stati conservati come score separati per ciascuna frase o parola: sono stati <strong>appiattiti a livello di notizia</strong>. Per ogni emozione abbiamo sommato i punteggi ItEM di tutti i termini riconosciuti e abbiamo diviso la somma per il numero totale di termini eleggibili estratti da spaCy. </p>
+      <div class="formula-box">$$E_{i,e}=\frac{1}{N_i}\sum_{t\in M_i}c(t,e)$$</div>
+      <p>Dove \(E_{i,e}\) è lo score della notizia \(i\) per l'emozione \(e\), \(M_i\) è l'insieme delle occorrenze lemma–POS della notizia riconosciute in ItEM, \(c(t,e)\) è il punteggio di associazione del termine \(t\) con l'emozione \(e\) e \(N_i\) è il numero complessivo dei termini eleggibili estratti da spaCy, compresi quelli senza corrispondenza nel lessico. In questo modo ogni notizia viene rappresentata da una sola riga con otto valori emotivi, indipendentemente dal numero di termini che contiene.</p>
+      <div class="callout-box"><strong>In sintesi:</strong> molti termini × otto score ItEM → somma separata per ciascuna emozione → divisione per la lunghezza eleggibile della notizia → un unico vettore di otto emozioni per news.</div>
+      <h4>Dalle emozioni alla polarità</h4>
+      <p>Abbiamo riunito <strong>gioia, fiducia, attese e sorpresa</strong> nella componente positiva e <strong>tristezza, rabbia, paura e disgusto</strong> nella componente negativa.</p>
+      <div class="formula-box">$$P_i = \frac{S_i^{+} - S_i^{-}}{S_i^{+} + S_i^{-}}$$</div>
+      <p>La polarità varia tra −1 e +1: valori positivi indicano una prevalenza delle emozioni positive, valori negativi una prevalenza di quelle negative. Le notizie senza termini riconosciuti da ItEM vengono escluse dal calcolo, perché l'assenza di uno score non equivale a neutralità.</p>
+      <h4>Polarità media della zona</h4>
+      <p>Per ogni ASC2 e periodo elettorale abbiamo calcolato la media delle polarità, pesando ogni notizia per la quota attribuita alla zona. Un articolo condiviso tra più aree influenza ciascuna di esse soltanto per la propria frazione.</p>
+      <h4>Polarità z-normalizzata</h4>
+      <p>Per confrontare territori con livelli medi differenti, la polarità della zona viene rapportata alla media e alla variabilità della propria città nello stesso periodo.</p>
+      <div class="formula-box">$$Z_{q,p} = \frac{\overline{P}_{q,p} - \mu_{c,p}}{\sigma_{c,p}}$$</div>
+      <div class="callout-box"><code>Z &gt; 0</code>: tono più positivo della media cittadina · <code>Z &lt; 0</code>: tono più negativo · <code>Z ≈ 0</code>: tono vicino alla media.</div>
+      <p>Lo z-score non descrive una qualità oggettiva del quartiere, ma la sua posizione relativa nella narrazione mediatica della città.</p>
+    </div>
+  </details>
+</section>
+
+<section class="chapter" id="tfidf">
+  <div class="step-kicker"><span class="num">05</span> Parole distintive</div>
+  <h2 class="section-title">Leggere le polarità attraverso il TF-IDF</h2>
+  <div class="prose">
+    <p>Per osservare quali parole caratterizzano maggiormente le notizie classificate come negative o positive, abbiamo affiancato alla polarità lessicale un bubble chart basato sul TF-IDF.</p>
+  </div>
+
+  <figure id="polarity-tfidf-no-neutral-viz" class="polarity-bubble-viz" aria-label="Parole più distintive nelle notizie negative e positive secondo il TF-IDF">
+    <div class="polarity-grid">
+      <section class="polarity-panel polarity-negative" aria-labelledby="tfidf-negative-heading">
+        <div class="polarity-heading">
+          <h3 id="tfidf-negative-heading">Negativa</h3>
+          <span>57.620 notizie</span>
+        </div>
+        <svg class="bubble-chart" data-polarity="Negative" viewBox="0 0 350 290" role="img"></svg>
+        <p class="sr-only">Le parole più distintive sono arrestato, ferito, polizia, auto, denunciato, paura, incendio, rapina, fuoco e fiamme.</p>
+      </section>
+      <section class="polarity-panel polarity-positive" aria-labelledby="tfidf-positive-heading">
+        <div class="polarity-heading">
+          <h3 id="tfidf-positive-heading">Positiva</h3>
+          <span>151.760 notizie</span>
+        </div>
+        <svg class="bubble-chart" data-polarity="Positive" viewBox="0 0 350 290" role="img"></svg>
+        <p class="sr-only">Le parole più distintive sono evento, concerto, musica, edizione, teatro, progetto, appuntamento, mostra, festival e arte.</p>
+      </section>
+    </div>
+    <figcaption class="method-note">L'area della bolla combina il TF-IDF medio della parola e la sua distintività rispetto alla polarità opposta.</figcaption>
+  </figure>
+
+  <details class="tech">
+    <summary>Dettagli tecnici · che cosa misura il TF-IDF</summary>
+    <div class="tech-body">
+      <h4>L'idea fondamentale</h4>
+      <p>Il TF-IDF non risponde semplicemente alla domanda “quali parole compaiono più spesso?”. Cerca invece parole <strong>importanti nei singoli articoli ma non diffuse indistintamente in tutto il corpus</strong>. Nel nostro confronto serve quindi a far emergere il vocabolario che caratterizza maggiormente una polarità rispetto all'altra.</p>
+      <div class="callout-box"><strong>Regola da ricordare:</strong> la TF guarda dentro una notizia; l'IDF guarda tutte le notizie.</div>
+
+      <h4>1. TF: quanto conta la parola nella notizia</h4>
+      <p>Ogni documento è formato da titolo e trafiletto. Se \(f_{t,d}\) è il numero di volte in cui il termine \(t\) compare nella notizia \(d\), abbiamo usato una frequenza sublineare:</p>
+      <div class="formula-box">$$\operatorname{TF}_{t,d}=1+\ln(f_{t,d})$$</div>
+      <p>Il logaritmo evita che la ripetizione della stessa parola domini il risultato: passare da una a due occorrenze aumenta il peso, ma ripeterla dieci volte non la rende dieci volte più informativa.</p>
+
+      <h4>2. IDF: quanto la parola è rara nel corpus</h4>
+      <div class="formula-box">$$\operatorname{IDF}_{t}=\ln\!\left(\frac{1+N}{1+\operatorname{df}_{t}}\right)+1$$</div>
+      <p>\(N\) è il numero totale di notizie positive e negative, mentre \(\operatorname{df}_{t}\) è il numero di notizie che contengono il termine. Una parola presente quasi ovunque riceve un IDF basso; una parola concentrata in un numero più limitato di articoli riceve un IDF più alto. Gli \(1\) della formula sono lo <em>smoothing</em> usato da scikit-learn e rendono il calcolo stabile.</p>
+
+      <h4>3. Il peso TF-IDF</h4>
+      <div class="formula-box">$$\operatorname{TFIDF}_{t,d}=\operatorname{TF}_{t,d}\cdot\operatorname{IDF}_{t}$$</div>
+      <p>Dopo il prodotto, ciascun vettore-documento è normalizzato con norma L2. In questo modo un trafiletto più lungo non ottiene automaticamente valori maggiori soltanto perché contiene più parole. Sono stati mantenuti i termini presenti in almeno 40 notizie.</p>
+
+      <h4>4. Dal TF-IDF alla dimensione della bolla</h4>
+      <p>Il TF-IDF viene prima calcolato per ogni notizia. Poi, per ciascuna parola, ne calcoliamo la media nelle notizie di una polarità e la confrontiamo con la media nella polarità opposta:</p>
+      <div class="formula-box">$$B_g(t)=\overline{\operatorname{TFIDF}}_g(t)\,\max\!\left[\log_2\!\left(\frac{\overline{\operatorname{TFIDF}}_g(t)+\varepsilon}{\overline{\operatorname{TFIDF}}_{\mathrm{altro}}(t)+\varepsilon}\right),0\right]$$</div>
+      <p>La prima parte premia una parola importante nel gruppo; il rapporto logaritmico premia una parola molto più forte in quel gruppo che nell'altro. Se le due medie sono uguali, il logaritmo vale circa zero e la parola non produce una bolla grande, anche se è frequente. \(\varepsilon\) è un numero piccolissimo che evita divisioni per zero.</p>
+
+      <h4>Come leggere il grafico</h4>
+      <p>Una bolla grande identifica quindi una parola che è contemporaneamente <strong>rilevante</strong> nelle notizie di una polarità e <strong>distintiva</strong> rispetto all'altra. Per esempio, nel corpus termini di cronaca ed emergenza distinguono maggiormente il gruppo negativo, mentre eventi e cultura distinguono il gruppo positivo. Questo non significa che una parola sia positiva o negativa in assoluto: il grafico descrive il suo uso nel nostro corpus e nelle classi prodotte da ItEM.</p>
+    </div>
+  </details>
+</section>
+
+<footer class="method-footer" aria-label="Librerie e risorse utilizzate">
+  <h2>Librerie e risorse utilizzate</h2>
+  <p>
+    <span class="tool">Python 3</span> ·
+    <span class="tool">pandas</span> ·
+    <span class="tool">NumPy</span> ·
+    <span class="tool">Requests</span> ·
+    <span class="tool">Beautiful Soup 4</span> ·
+    <span class="tool">python-dateutil</span> ·
+    <span class="tool">spaCy (<code>it_core_news_sm</code>)</span> ·
+    <span class="tool">scikit-learn</span> ·
+    <span class="tool">tqdm</span> ·
+    <span class="tool">GeoPandas</span> ·
+    <span class="tool">Altair</span> ·
+    <span class="tool">Matplotlib</span> ·
+    <span class="tool">Seaborn</span> 
+    Risorsa lessicale: <span class="tool">ItEM – Italian Emotive Lexicon</span>.
+  </p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  if (typeof d3 === 'undefined') return;
+
+  var tfidfData = [{"polarity":"Negative","label":"negativa","cssClass":"bubble-negativa","items":[{"term":"arrestato","docs":7742,"share":0.134363,"score":0.087517003,"mean":0.026113904,"otherMean":0.0025586622,"lift":3.3514},{"term":"ferito","docs":4006,"share":0.069524,"score":0.0602975594,"mean":0.015531265,"otherMean":0.0010531927,"lift":3.8823},{"term":"polizia","docs":7863,"share":0.136463,"score":0.0595496089,"mean":0.0243153664,"otherMean":0.004452896,"lift":2.4491},{"term":"auto","docs":6101,"share":0.105883,"score":0.0558005994,"mean":0.0208490826,"otherMean":0.0032614341,"lift":2.6764},{"term":"denunciato","docs":2825,"share":0.049028,"score":0.0511078558,"mean":0.0117469754,"otherMean":0.0005757413,"lift":4.3507},{"term":"paura","docs":1965,"share":0.034103,"score":0.0441709379,"mean":0.0080887479,"otherMean":0.0001836624,"lift":5.4608},{"term":"incendio","docs":3069,"share":0.053263,"score":0.0439148668,"mean":0.012781633,"otherMean":0.0011811738,"lift":3.4358},{"term":"rapina","docs":2704,"share":0.046928,"score":0.0436204777,"mean":0.0112551824,"otherMean":0.0007668026,"lift":3.8756},{"term":"fuoco","docs":3216,"share":0.055814,"score":0.0435044248,"mean":0.0129078244,"otherMean":0.0012481421,"lift":3.3704},{"term":"fiamme","docs":2241,"share":0.038893,"score":0.0420927015,"mean":0.0098038867,"otherMean":0.0004999595,"lift":4.2935}]},{"polarity":"Positive","label":"positiva","cssClass":"bubble-positiva","items":[{"term":"evento","docs":10445,"share":0.068826,"score":0.0599259785,"mean":0.0097859024,"otherMean":0.0001403402,"lift":6.1237},{"term":"concerto","docs":9588,"share":0.063179,"score":0.055390742,"mean":0.0104205868,"otherMean":0.0002616761,"lift":5.3155},{"term":"musica","docs":10302,"share":0.067884,"score":0.0517451254,"mean":0.0104206037,"otherMean":0.0003334891,"lift":4.9657},{"term":"edizione","docs":7546,"share":0.049723,"score":0.0516760934,"mean":0.007626219,"otherMean":0.000069582,"lift":6.7761},{"term":"teatro","docs":12718,"share":0.083803,"score":0.044938481,"mean":0.013539501,"otherMean":0.0013566399,"lift":3.3191},{"term":"progetto","docs":8091,"share":0.053314,"score":0.0444126856,"mean":0.0082948305,"otherMean":0.000202775,"lift":5.3543},{"term":"appuntamento","docs":9975,"share":0.065729,"score":0.0418413476,"mean":0.0091656161,"otherMean":0.0003872127,"lift":4.565},{"term":"mostra","docs":8347,"share":0.055001,"score":0.0418123088,"mean":0.0099689471,"otherMean":0.0005445687,"lift":4.1943},{"term":"festival","docs":5239,"share":0.034522,"score":0.04112878,"mean":0.0071230263,"otherMean":0.0001301665,"lift":5.7741},{"term":"arte","docs":6047,"share":0.039846,"score":0.0361237715,"mean":0.0070506201,"otherMean":0.000202257,"lift":5.1235}]}];
+  var formatInteger = new Intl.NumberFormat('it-IT');
+  var formatPercent = new Intl.NumberFormat('it-IT', {
+    style: 'percent',
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1
+  });
+
+  function renderChart(config) {
+    var root = document.getElementById(config.rootId);
+    if (!root) return;
+
+    root.querySelectorAll('.bubble-chart').forEach(function (svgElement) {
+      var group = config.data.find(function (entry) {
+        return entry.polarity === svgElement.dataset.polarity;
+      });
+      if (!group) return;
+
+      var svg = d3.select(svgElement);
+      svg.selectAll('*').remove();
+      svg.append('title').text(config.titlePrefix + ' nella polarità ' + group.label);
+      svg.append('desc').text(config.description + ' Polarità ' + group.label + '.');
+
+      var hierarchy = d3.hierarchy({ children: group.items })
+        .sum(function (item) { return item[config.valueKey]; })
+        .sort(function (a, b) { return b.value - a.value; });
+
+      var packed = d3.pack()
+        .size([346, 284])
+        .padding(5)(hierarchy);
+
+      var bubbles = svg.append('g')
+        .attr('transform', 'translate(2,3)')
+        .selectAll('g')
+        .data(packed.leaves())
+        .join('g')
+        .attr('class', 'bubble ' + group.cssClass)
+        .attr('transform', function (item) {
+          return 'translate(' + item.x + ',' + item.y + ')';
+        });
+
+      bubbles.append('circle').attr('r', function (item) { return item.r; });
+
+      bubbles.append('title').text(function (item) {
+        var d = item.data;
+        var common = d.term + ': ' + formatInteger.format(d.docs) +
+          ' notizie (' + formatPercent.format(d.share) + ' del gruppo).';
+        if (config.valueKey === 'score') {
+          return common + ' TF-IDF medio ' + d.mean.toFixed(4) +
+            '; nell’altra polarità ' + d.otherMean.toFixed(4) +
+            '; distintività log₂ ' + d.lift.toFixed(2) + '.';
+        }
+        return common;
+      });
+
+      bubbles.append('text')
+        .attr('font-size', function (item) {
+          var size = Math.max(12, Math.min(18, item.r * 0.39));
+          var length = item.data.term.length;
+          if (length >= 11) size *= 0.74;
+          else if (length >= 9) size *= 0.86;
+          return size;
+        })
+        .text(function (item) { return item.data.term; });
+    });
+  }
+
+  renderChart({
+    rootId: 'polarity-tfidf-no-neutral-viz',
+    data: tfidfData,
+    valueKey: 'score',
+    titlePrefix: 'Parole più distintive',
+    description: 'Parole con il maggiore TF-IDF contrastivo.'
+  });
+
+})();
+</script>
+
+
+</main>
+
+<footer class="ed-footer">
+  <a href="https://github.com/marcosemeraro/g1-2026-website/" target="_blank" rel="noopener">Gruppo 1 - Repository del sito</a>
+  <div class="copy">2026 SoBigData RI</div>
+</footer>
+
+<script>
+(function () {
+  var bar = document.getElementById('progress-bar');
+  if (!bar) return;
+  var ticking = false;
+  function update() {
+    var doc = document.documentElement;
+    var top = doc.scrollTop || document.body.scrollTop;
+    var h = doc.scrollHeight - doc.clientHeight;
+    bar.style.width = (h > 0 ? (top / h) * 100 : 0).toFixed(2) + '%';
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+})();
+</script>
+
+</body>
+</html>

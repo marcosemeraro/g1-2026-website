@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dati OMI</title>
+<meta name="description" content="Scrivi qui una descrizione accattivante per il tuo nuovo sito. Puoi modificare questa riga in _config.yml. Apparirà nei meta del documento head (per i risult...">
+
+<link rel="icon" href="/g1-2026-website/assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/g1-2026-website/assets/favicon/favicon-256.png" sizes="256x256">
+<link rel="apple-touch-icon" href="/g1-2026-website/assets/favicon/favicon-256.png">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="/g1-2026-website/assets/css/custom.css">
+
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #F5F1EA; --panel: #FBFAF6; --panel-2: #EFE9DC;
+  --ink: #1A1A1A; --ink-2: #333; --muted: #6B6157; --muted-2: #A39B8E;
+  --rule: #DDD4C4; --rule-2: #C7BEA9;
+  --accent: #A0402E; --accent-2: #C58B31;
+  --p-cdx: #1F3A5F; --p-csx: #A02222; --p-cen: #A6A2CD; --p-mcs: #EDBF2E;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono:  'IBM Plex Mono', 'Menlo', monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg) !important; color: var(--ink); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.navbar-chulapa { background: rgba(245,241,234,0.94) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); padding: .5rem 1.5rem; }
+.navbar-chulapa .navbar-brand { color: var(--ink) !important; font-weight: 300; letter-spacing: 0.05em; }
+.navbar-chulapa .navbar-brand:hover { color: var(--accent) !important; }
+.navbar-chulapa .nav-link { color: var(--muted) !important; letter-spacing: 0.08em; font-size: 13px; font-weight: 300; }
+.navbar-chulapa .nav-link:hover { color: var(--ink) !important; }
+.navbar-chulapa .nav-link.active, .navbar-chulapa .nav-item.active > .nav-link { color: var(--ink) !important; font-weight: 700; }
+.navbar-chulapa .dropdown-menu { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.navbar-chulapa .dropdown-item { color: var(--muted); font-size: 12px; letter-spacing: 0.06em; padding: .4rem 1.25rem; }
+.navbar-chulapa .dropdown-item:hover { background: rgba(0,0,0,0.04); color: var(--ink); }
+.navbar-chulapa .dropdown-item.active { background: transparent; color: var(--accent); font-weight: 700; }
+.navbar-chulapa-fab .navbar-toggler { background: var(--panel) !important; border: 1px solid var(--rule) !important; }
+.navbar-chulapa-fab-nav { background: var(--panel) !important; }
+.navbar-chulapa .nav-link:focus, .navbar-chulapa .dropdown-item:focus, .navbar-chulapa .dropdown-toggle:focus, .navbar-chulapa .navbar-brand:focus, .navbar-chulapa a:focus { outline: none !important; box-shadow: none !important; }
+@media (min-width: 768px) { .navbar-chulapa-fab, .navbar-chulapa-fab-background, .navbar-chulapa-fab-nav { display: none !important; } }
+.navbar-chulapa .nav-item:last-child { border: none !important; }
+
+#progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 20000; transition: width 60ms linear; pointer-events: none; }
+
+body > div.progress { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 3px !important; background: transparent !important; z-index: 9999 !important; padding: 0 !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; display: block !important; }
+body > div.progress > .progress-bar, body > div.progress > #progressBar { height: 100% !important; background: var(--accent) !important; width: 0; transition: width 60ms linear; border-radius: 0 !important; animation: none !important; }
+.navbar-chulapa, nav.sticky-top { z-index: 100 !important; }
+
+.ed-hero { position: relative; max-width: 1240px; margin: 0 auto 20px; }
+.ed-hero img { width: 100%; height: 320px; object-fit: cover; display: block; filter: saturate(0.85); }
+.ed-hero__text { max-width: 900px; margin: 0 auto; padding: 40px 32px 20px; text-align: center; }
+.ed-hero__text h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(38px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 14px; color: var(--ink); text-wrap: balance; }
+.ed-hero__sub { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 720px; margin: 0 auto; text-wrap: balance; }
+
+.cover { padding: 60px 32px 40px; max-width: 1240px; margin: 0 auto; }
+.cover .kicker { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); text-align: center; margin-bottom: 22px; }
+.cover h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(48px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.03em; margin: 0 auto 26px; max-width: 900px; text-align: center; text-wrap: balance; }
+.cover h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.cover .dek { font-family: var(--serif); font-size: 22px; line-height: 1.45; color: var(--ink-2); max-width: 780px; margin: 0 auto 34px; text-align: center; text-wrap: balance; }
+.cover .byline { font-family: var(--sans); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); max-width: 720px; margin: 0 auto; }
+.cover .byline b { color: var(--ink); font-weight: 600; }
+
+section.chapter { padding: 40px 0 20px; border-top: 1px solid var(--rule); }
+section.chapter:first-of-type { border-top: none; }
+.section-marker, .chapter-marker { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 14px; color: var(--accent); text-align: center; margin-bottom: 18px; }
+.section-marker::before, .section-marker::after, .chapter-marker::before, .chapter-marker::after { content: '·'; margin: 0 12px; color: var(--muted-2); }
+.section-title, .chapter-title { font-family: var(--serif); font-weight: 700; font-size: clamp(30px, 4.5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 auto 16px; max-width: 860px; text-align: center; text-wrap: balance; }
+.section-title em, .chapter-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+.section-dek, .chapter-dek { font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 700px; margin: 0 auto 40px; text-align: center; font-style: italic; }
+.subsection-title { font-family: var(--serif); font-weight: 700; font-size: 26px; letter-spacing: -0.01em; margin: 42px auto 12px; max-width: 720px; padding: 0 32px; color: var(--ink); }
+.subsubsection-title { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 32px auto 10px; max-width: 720px; padding: 20px 32px 0; border-top: 1px solid var(--rule); }
+
+.prose { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+.prose p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); margin: 0 0 22px; text-wrap: pretty; }
+.prose p.lead { font-size: 22px; line-height: 1.5; color: var(--ink); }
+.prose p b, .prose p strong { color: var(--ink); font-weight: 600; }
+.prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.prose a:hover { border-bottom-color: var(--accent); }
+.prose img { max-width: 100%; height: auto; display: block; margin: 32px auto; border-radius: 2px; }
+.prose ul, .prose ol { font-family: var(--serif); font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0 0 22px; padding-left: 24px; }
+.prose table { border-collapse: collapse; width: 100%; margin: 20px 0 26px; }
+.prose table th { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; }
+.prose table td { color: var(--ink-2); font-family: var(--serif); font-size: 16px; line-height: 1.4; border-bottom: 1px solid var(--rule); padding: 10px 14px; vertical-align: top; }
+.prose table td:first-child { font-family: var(--mono); font-size: 13px; color: var(--ink); white-space: nowrap; }
+
+.equation { margin: 24px auto; padding: 22px 32px; background: var(--panel); border-left: 3px solid var(--accent-2); overflow-x: auto; max-width: 720px; }
+
+.viz-embed { max-width: 1180px; margin: 40px auto; padding: 0 32px; }
+.viz-embed .viz-title { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 auto 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-embed iframe { width: 100%; background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; min-height: 500px; }
+.viz-embed .caption { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 14px; }
+
+.ed-md h1, .ed-md h2 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.02em; max-width: 720px; margin: 42px auto 14px; padding: 0 32px; color: var(--ink); }
+.ed-md h1 { font-size: 38px; }
+.ed-md h2 { font-size: 30px; }
+.ed-md h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; max-width: 720px; margin: 32px auto 10px; padding: 0 32px; color: var(--ink); }
+.ed-md p:not([class]) { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px; }
+.ed-md .lead { font-family: var(--serif); font-size: 22px; line-height: 1.5; font-weight: 400; color: var(--ink); }
+.ed-md a:not(.btn) { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(160,64,46,0.3); }
+.ed-md a:not(.btn):hover { color: var(--accent); border-bottom-color: var(--accent); }
+.ed-md ul:not([class]), .ed-md ol:not([class]) { font-family: var(--serif); font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0 auto 22px; padding: 0 32px 0 56px; }
+.ed-md table:not([class]) { max-width: 720px; margin: 20px auto 26px; border-collapse: collapse; background: transparent; }
+.ed-md table:not([class]) th { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); border-bottom: 2px solid var(--rule-2); padding: 10px 14px; text-align: left; background: transparent; }
+.ed-md table:not([class]) td { font-family: var(--serif); font-size: 16px; color: var(--ink-2); border-bottom: 1px solid var(--rule); padding: 10px 14px; background: transparent; }
+.ed-md img:not([class]) { max-width: 720px; width: 100%; height: auto; display: block; margin: 32px auto; }
+.ed-md blockquote { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); border-left: 3px solid var(--accent); max-width: 680px; margin: 36px auto; padding: 8px 32px; }
+.ed-md code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); color: var(--ink); padding: 2px 6px; border-radius: 2px; }
+.ed-md hr { border: 0; border-top: 1px solid var(--rule); max-width: 720px; margin: 36px auto; }
+.ed-md .btn-primary { background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; border-radius: 0; font-family: var(--sans); letter-spacing: 0.06em; text-transform: uppercase; font-size: 13px; }
+.ed-md .btn-primary:hover { background: var(--ink) !important; border-color: var(--ink) !important; }
+.ed-md .btn-secondary { border-radius: 0; }
+.ed-md .modal-content { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; }
+.ed-md .modal-header, .ed-md .modal-footer { border-color: var(--rule); }
+.ed-md .modal-title { font-family: var(--serif); font-weight: 700; color: var(--ink); }
+
+.ed-md .container, .ed-md .container-lg, .ed-md .container-fluid { max-width: 960px; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto; }
+.ed-md .row { margin-left: 0; margin-right: 0; }
+.ed-md [class*="col-"] { padding-left: 12px; padding-right: 12px; }
+.ed-md .container p, .ed-md [class*="col-"] p { max-width: none; padding: 0; margin: 0 0 18px; }
+.ed-md .container h1, .ed-md .container h2, .ed-md .container h3,
+.ed-md [class*="col-"] h1, .ed-md [class*="col-"] h2, .ed-md [class*="col-"] h3 { max-width: none; padding: 0; margin: 0 0 12px; }
+.ed-md .container ul, .ed-md .container ol, .ed-md [class*="col-"] ul, .ed-md [class*="col-"] ol { max-width: none; padding-left: 22px; margin: 0 0 18px; }
+.ed-md .container img, .ed-md [class*="col-"] img { max-width: 100%; margin: 0 0 18px; }
+
+.viz-block { max-width: 1180px; margin: 26px auto 10px; padding: 0 32px; }
+.viz-lab { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 auto 14px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); max-width: 820px; }
+.viz-cap { font-family: var(--sans); font-size: 12.5px; line-height: 1.5; color: var(--muted); text-align: center; max-width: 820px; margin: 16px auto 0; }
+.viz-cap b { color: var(--ink-2); font-weight: 600; }
+.viz-err { grid-column: 1/-1; text-align: center; color: var(--muted); font-family: var(--sans); padding: 30px; }
+.viz-controls { display: flex; flex-wrap: wrap; gap: 16px 30px; align-items: center; justify-content: center; margin: 26px auto 4px; font-family: var(--sans); font-size: 12.5px; color: var(--ink-2); }
+.viz-controls .ctl { display: inline-flex; align-items: center; gap: 9px; }
+.viz-controls .lab { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.viz-controls select { font-family: var(--sans); font-size: 13px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule-2); border-radius: 2px; padding: 6px 12px; }
+.viz-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.viz-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.viz-panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 8px; }
+.viz-panel .panel-title { font-family: var(--serif); font-weight: 700; font-size: 15px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 5px; }
+.viz-panel svg { width: 100%; height: auto; display: block; }
+.viz-panel .axis text { font-family: var(--mono); font-size: 9px; fill: var(--muted-2); }
+.viz-panel .gridline { stroke: var(--rule); stroke-dasharray: 2 3; }
+.viz-panel svg rect, .viz-panel svg circle, .viz-panel svg path { cursor: pointer; }
+.viz-legend { display: flex; gap: 12px 22px; justify-content: center; flex-wrap: wrap; margin-top: 16px; font-family: var(--sans); font-size: 12.5px; color: var(--ink-2); }
+.viz-legend .it { display: inline-flex; align-items: center; gap: 7px; }
+.viz-legend .sw { width: 13px; height: 13px; border-radius: 2px; display: inline-block; }
+.viz-single { background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; padding: 14px 16px 10px; max-width: 940px; margin: 0 auto; }
+.viz-single svg { width: 100%; height: auto; display: block; }
+.viz-single .axis text { font-family: var(--mono); font-size: 10px; fill: var(--muted-2); }
+.viz-single .gridline { stroke: var(--rule); stroke-dasharray: 2 3; }
+.ramp-legend { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.ramp-legend .rl-bar { width: 190px; height: 11px; border-radius: 2px; display: inline-block; border: 1px solid var(--rule-2); }
+.ramp-legend .rl-note { font-family: var(--sans); font-size: 11px; color: var(--muted-2); }
+.viz-tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--panel); padding: 9px 12px; border-radius: 3px; font-family: var(--sans); font-size: 12px; line-height: 1.45; max-width: 270px; z-index: 9999; opacity: 0; transition: opacity 90ms; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+.viz-tip .h { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: #fff; margin-bottom: 3px; }
+.viz-tip .v { font-family: var(--mono); color: var(--accent-2); }
+@media (max-width: 900px) { .viz-grid-3 { grid-template-columns: 1fr 1fr; } .viz-block { padding: 0 16px; } }
+@media (max-width: 600px) { .viz-grid-3, .viz-grid-2 { grid-template-columns: 1fr; } }
+
+.ed-footer { max-width: 900px; margin: 60px auto 0; padding: 50px 32px 70px; font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--rule); }
+.ed-footer a { color: var(--accent); text-decoration: none; }
+.ed-footer .copy { margin-top: 16px; font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted-2); }
+
+@media (max-width: 800px) {
+  .cover { padding: 40px 20px 30px; }
+  .prose, .ed-md p:not([class]) { padding: 0 20px; }
+  .prose p, .ed-md p:not([class]) { font-size: 17px; }
+  .ed-hero img { height: 200px; }
+}
+</style>
+
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="navbar-chulapa-fab d-md-none">
+    <input type="checkbox" class="navbar-chulapa-fab-button d-none" id="navi-toggle">
+    <label for="navi-toggle" class="navbar-toggler p-1 m-0 text-center d-flex">
+        <span class="navbar-toggler-icon m-auto">&nbsp;</span>
+    </label>
+    <div class="navbar-chulapa-fab-background">&nbsp;</div>
+    <nav class="navbar-chulapa-fab-nav" aria-label="alternative-navigation">
+        <ul class="navbar-nav text-center text-uppercase font-weight-light mt-0 mb-1 py-1">
+            <li class="nav-item">
+                <a class="nav-link px-3 navbar-brand mx-1 " href="https://marcosemeraro.github.io/g1-2026-website/"><img src="https://marcosemeraro.github.io/g1-2026-website/assets/images/Logo_masthead.png" width="30" height="30" class="d-inline-block align-top rounded-lg text-center mr-1" alt="NavbarLogo">Una città, Due mercati</a>
+            </li><li class="nav-item my-0 py-1">
+                <a class="nav-link px-3 py-1" href="https://marcosemeraro.github.io/g1-2026-website/articolo.html">Articolo</a>
+            </li><li class="nav-item dropdown my-0 py-1"><a class="nav-link dropdown-toggle px-3 py-1 " href="#" id="Approfondimenti" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approfondimenti</a>
+                <div class="dropdown-menu dropdown-menu-right text-center rounded-0 pr-4" aria-labelledby="Approfondimenti"><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/immobili.html">Immobili </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/elezioni.html">Elezioni </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/cronaca.html">Cronaca </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/vulnerabilita.html">Vulnerabilità </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/ricchezza.html">Ricchezza </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/classificatore.html">Classificatore </a><a class="dropdown-item nav-link d-block px-3 small " href="https://marcosemeraro.github.io/g1-2026-website/sna.html">SNA </a></div>
+            </li><li class="nav-item my-0 py-1">
+                <a class="nav-link px-3 py-1" href="https://masterbigdata.it/">SBD Master</a>
+            </li></ul>
+    </nav>
+</div>
+
+<nav class="navbar navbar-expand sticky-top navbar-chulapa d-none d-md-block " aria-label="primary-navigation">
+    <div class="container-fluid mx-md-2">
+        <a class="navbar-brand text-uppercase font-weight-light" href="https://marcosemeraro.github.io/g1-2026-website/"><img src="https://marcosemeraro.github.io/g1-2026-website/assets/images/Logo_masthead.png" width="30" height="30" class="d-inline-block align-top rounded-lg mr-1" alt="NavbarLogo">Una città, Due mercati</a><ul class="navbar-nav ml-auto"><li class="nav-item mx-2">
+                <a class="nav-link text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/articolo.html">Articolo</a>
+            </li><li class="nav-item mx-2 dropdown"><a class="nav-link text-uppercase font-weight-light dropdown-toggle " href="#" id="Approfondimenti2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approfondimenti</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Approfondimenti2"><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/immobili.html">Immobili</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/elezioni.html">Elezioni</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/cronaca.html">Cronaca</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/vulnerabilita.html">Vulnerabilità</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/ricchezza.html">Ricchezza</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/classificatore.html">Classificatore</a><a class="dropdown-item text-uppercase font-weight-light " href="https://marcosemeraro.github.io/g1-2026-website/sna.html">SNA</a></div>
+            </li><li class="nav-item mx-2">
+                <a class="nav-link text-uppercase font-weight-light " href="https://masterbigdata.it/">SBD Master</a>
+            </li></ul></div>
+</nav>
+
+<main class="ed-content">
+<style>
+.omi-pipeline { display: flex; align-items: stretch; gap: 0; max-width: 1060px; margin: 34px auto 10px; padding: 0 32px; overflow-x: auto; }
+.omi-step { flex: 1; min-width: 118px; background: var(--panel); border: 1px solid var(--rule); padding: 15px 13px; position: relative; }
+.omi-step:not(:first-child) { border-left: none; }
+.omi-step:first-child { border-radius: 6px 0 0 6px; }
+.omi-step:last-child { border-radius: 0 6px 6px 0; }
+.omi-num { font-family: var(--mono); font-size: 11px; color: var(--accent-2); margin-bottom: 7px; font-weight: 500; }
+.omi-label { font-family: var(--serif); font-weight: 700; font-size: 13.5px; line-height: 1.25; color: var(--ink); }
+.omi-arrow { position: absolute; right: -11px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; font-size: 10px; color: white; }
+.omi-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 860px; margin: 30px auto; padding: 0 32px; }
+.omi-stat { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; text-align: center; }
+.omi-stat .v { font-family: var(--serif); font-weight: 800; font-size: 34px; letter-spacing: -0.02em; color: var(--accent); }
+.omi-stat .l { font-family: var(--sans); font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+.omi-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 860px; margin: 26px auto; padding: 0 32px; }
+.omi-col { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; }
+.omi-col .t { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.omi-col ul { font-family: var(--serif); font-size: 16px; line-height: 1.55; color: var(--ink-2); margin: 0; padding-left: 20px; }
+.omi-col li { margin-bottom: 7px; }
+.omi-col p { font-family: var(--serif); font-size: 16px; line-height: 1.55; color: var(--ink-2); margin: 0; }
+.omi-tab { width: 100%; max-width: 860px; margin: 26px auto; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+.omi-tab-wrap { max-width: 924px; margin: 0 auto; padding: 0 32px; overflow-x: auto; }
+.omi-tab th { font-size: 10.5px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; border-bottom: 2px solid var(--rule-2); text-align: left; background: var(--panel-2); }
+.omi-tab td { padding: 10px 12px; color: var(--ink-2); border-bottom: 1px solid var(--rule); vertical-align: top; }
+.omi-tab tr:last-child td { border-bottom: none; }
+.omi-tab td:first-child { font-family: var(--serif); font-weight: 700; color: var(--ink); white-space: nowrap; }
+.omi-box { background: var(--panel-2); border-left: 3px solid var(--accent-2); border-radius: 0 6px 6px 0; padding: 18px 22px; max-width: 796px; margin: 30px auto; }
+.omi-box .t { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 8px; }
+.omi-box p { font-family: var(--serif); font-size: 17px; line-height: 1.55; color: var(--ink-2); margin: 0; }
+.omi-box p b { color: var(--ink); }
+@media (max-width: 800px) {
+  .omi-pipeline { flex-direction: column; }
+  .omi-step { border-left: 1px solid var(--rule) !important; border-top: none; }
+  .omi-step:first-child { border-radius: 6px 6px 0 0; border-top: 1px solid var(--rule); }
+  .omi-step:last-child { border-radius: 0 0 6px 6px; }
+  .omi-arrow { display: none; }
+  .omi-stats, .omi-cols { grid-template-columns: 1fr; }
+}
+</style>
+
+<header class="cover">
+  <h1>Data <em>OMI</em> Preparation</h1>
+  <p class="dek">Dal dato OMI grezzo al dataset territoriale finale: sintesi metodologica della pipeline utilizzata per rendere i dati immobiliari coerenti, confrontabili nel tempo e riferibili alle aree sub-comunali ASC2.</p>
+</header>
+
+<div style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);text-align:center;margin:36px auto 0;">Logica della pipeline di data preparation</div>
+<div class="omi-pipeline">
+  <div class="omi-step"><div class="omi-num">01</div><div class="omi-label">Dati OMI semestrali</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">02</div><div class="omi-label">Pulizia e controlli</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">03</div><div class="omi-label">Indicatori temporali</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">04</div><div class="omi-label">Aggregazione in 6 macro-categorie</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">05</div><div class="omi-label">Trasferimento OMI → ASC2</div><div class="omi-arrow">→</div></div>
+  <div class="omi-step"><div class="omi-num">06</div><div class="omi-label">Dataset finale per zona ASC2</div></div>
+</div>
+
+<section class="chapter">
+<h2 class="section-title">Obiettivo e <em>logica generale</em></h2>
+
+  <div class="prose">
+    <p>Il dataset finale non era disponibile come prodotto già pronto. I dati di partenza descrivevano le quotazioni immobiliari OMI per semestre, zona e tipologia di immobile, ma presentavano una struttura troppo frammentata per sostenere direttamente un confronto longitudinale tra aree urbane. La Data Preparation è stata quindi progettata come una pipeline progressiva: prima rendere affidabile la serie storica, poi sintetizzare le dinamiche osservate, infine trasferire gli indicatori dal perimetro OMI alle unità territoriali ASC2.</p>
+    <p>La scelta metodologica centrale è stata separare tre domande: come cambia il mercato nel tempo, quale composizione immobiliare caratterizza ogni zona e come tradurre entrambe le informazioni in un'unica geografia territoriale coerente. Ogni passaggio della pipeline risolve uno di questi problemi e produce un output utilizzabile nello step successivo.</p>
+  </div>
+
+  <div class="omi-stats">
+    <div class="omi-stat"><div class="v">70.788</div><div class="l">record nella serie iniziale</div></div>
+    <div class="omi-stat"><div class="v">436</div><div class="l">zone OMI per periodo</div></div>
+    <div class="omi-stat"><div class="v">419</div><div class="l">unità ASC2 finali</div></div>
+  </div>
+</section>
+
+<section class="chapter">
+<h2 class="section-title">Costruire una serie storica <em>affidabile</em></h2>
+
+  <div class="prose">
+    <p>Il primo passaggio ha riguardato la verifica puntuale delle osservazioni. La serie OMI dal 2015 comprendeva valori di compravendita riferiti a 15 tipologie immobiliari e a numerosi semestri consecutivi. Prima di calcolare qualsiasi indicatore sono stati individuati record anomali o incompleti, soprattutto in specifiche combinazioni di città, zona, periodo e tipologia. In questi casi non è stata applicata una cancellazione indiscriminata: sono state costruite maschere selettive per rimuovere soltanto le osservazioni riconosciute come incoerenti.</p>
+    <p>È stata inoltre verificata la stabilità degli identificativi territoriali. Dove la stessa descrizione di zona risultava associata a codici differenti nel tempo, il codice è stato riallineato utilizzando la mappatura più recente disponibile. Questo controllo era necessario per evitare che una variazione amministrativa o nominale venisse interpretata come una trasformazione del mercato.</p>
+  </div>
+
+  <div class="omi-cols">
+    <div class="omi-col">
+      <div class="t">Controlli applicati</div>
+      <ul>
+        <li>verifica di anomalie per città, zona e tipologia</li>
+        <li>rimozione selettiva dei record incoerenti</li>
+        <li>riallineamento dei codici territoriali</li>
+        <li>ordinamento cronologico delle osservazioni</li>
+      </ul>
+    </div>
+    <div class="omi-col">
+      <div class="t">Perché era necessario</div>
+      <p>Gli indicatori temporali dipendono dalla corretta successione dei semestri. Un errore isolato o un cambio di codice avrebbe alterato trend, variazioni e volatilità.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+<h2 class="section-title">Trasformare le quotazioni in <em>indicatori di dinamica</em></h2>
+
+  <div class="prose">
+    <p>Una volta consolidata la serie storica, il prezzo medio di compravendita è stato osservato come sequenza temporale per ogni combinazione di comune, zona OMI e tipologia immobiliare. Dal confronto tra semestri consecutivi sono state calcolate le variazioni percentuali; dall'intero intervallo sono stati ricavati trend, differenza tra primo e ultimo valore, variabilità e volatilità.</p>
+    <p>La pipeline non ha considerato soltanto il livello dei prezzi. È stata misurata anche l'eterogeneità interna della fascia di quotazione, usando la distanza tra valore minimo e massimo e indicatori di dispersione relativa. In questo modo una zona può essere descritta non solo come più o meno costosa, ma anche come stabile, uniforme, in crescita oppure caratterizzata da una crescente differenziazione interna.</p>
+  </div>
+
+  <div class="omi-tab-wrap">
+    <table class="omi-tab">
+      <thead><tr><th>Dimensione</th><th>Indicatori sintetizzati</th><th>Significato</th></tr></thead>
+      <tbody>
+        <tr><td>Prezzo</td><td>range, trend, variazione semestrale</td><td>direzione e intensità del cambiamento</td></tr>
+        <tr><td>Volatilità</td><td>deviazione e variazioni tra semestri</td><td>regolarità o instabilità del percorso</td></tr>
+        <tr><td>Eterogeneità</td><td>range, trend, variazione semestrale</td><td>uniformità o differenziazione interna</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="chapter">
+<h2 class="section-title">Dalle tipologie immobiliari alle <em>funzioni urbane</em></h2>
+
+  <div class="prose">
+    <p>Le 15 tipologie immobiliari sono state mantenute durante il calcolo degli indicatori, per non perdere informazione. Nella fase di sintesi sono state però ricondotte a sei macro-categorie leggibili dal punto di vista urbano: <strong>Pertinenze, Residenziale di pregio, Residenziale ordinario, Produttivo, Terziario e Logistica</strong>.</p>
+    <p>Per ogni zona sono state calcolate la presenza delle tipologie, il numero di tipologie appartenenti a ciascuna macro-categoria e la relativa quota sul totale. Le quote descrivono la composizione funzionale della zona: un valore pari a zero indica che nessuna tipologia della categoria è censita nell'area.</p>
+    <p>I prezzi sono stati resi confrontabili attraverso un indice relativo alla media comunale. Un valore superiore a 1 indica che la zona si colloca sopra la media della propria città per quella tipologia o categoria; un valore inferiore a 1 indica il contrario. Questa normalizzazione riduce l'effetto delle differenze assolute tra città e consente di confrontare il posizionamento interno delle zone.</p>
+    <p>Gli indicatori temporali delle singole tipologie sono stati quindi aggregati all'interno delle sei macro-categorie. Le variabili sono state standardizzate e combinate in un indice di dinamicità per categoria. Infine, sia l'indice di dinamicità complessivo sia il prezzo relativo complessivo della zona sono stati calcolati come medie ponderate, usando come peso la composizione immobiliare effettivamente presente.</p>
+  </div>
+</section>
+
+<section class="chapter">
+<h2 class="section-title">Trasferire gli indicatori dalle zone OMI alle <em>aree ASC2</em></h2>
+
+  <div class="prose">
+    <p>L'ultimo passaggio ha risolto il problema geografico. Le zone OMI e le unità ASC2 non coincidono perfettamente: una stessa area ASC2 può sovrapporsi a più zone OMI e una zona OMI può contribuire solo in parte a un'area ASC2. Per evitare assegnazioni arbitrarie, gli indicatori sono stati trasferiti usando la percentuale di sovrapposizione territoriale come peso.</p>
+    <p>Per ogni indicatore è stata calcolata una media ponderata sulle sole osservazioni valide. I valori mancanti non hanno contribuito né al numeratore né al denominatore. Questo dettaglio è fondamentale: impedisce che l'assenza di una tipologia immobiliare abbassi artificialmente il valore medio dell'area ASC2.</p>
+    <p>Le variabili di presenza sono state trattate in modo specifico. Prima dell'aggregazione gli zeri sono stati temporaneamente esclusi dal denominatore, così una tipologia presente in una delle zone OMI sovrapposte non venisse trasformata in una presenza frazionaria. Dopo il trasferimento, i valori sono stati ricondotti a una codifica intera e sono state ricalcolate le quote funzionali, l'indice di dinamicità complessivo e il prezzo relativo complessivo sulla nuova geografia ASC2.</p>
+  </div>
+</section>
+
+<section class="chapter">
+<h2 class="section-title">Controlli finali e <em>risultato ottenuto</em></h2>
+
+  <div class="prose">
+    <p>La pipeline si chiude con controlli di coerenza tra presenza delle categorie e disponibilità degli indicatori, verifica delle aree prive di copertura OMI sufficiente, controllo degli identificativi territoriali e assenza di valori mancanti nei campi chiave CITY, COM_ASC2 e Periodo.</p>
+    <p>Il risultato è un dataset con una riga per ciascuna delle 419 aree ASC2 considerate in ogni periodo di analisi. Ogni area è descritta attraverso informazioni territoriali e demografiche, quote di composizione immobiliare, prezzi relativi per macro-categoria, indicatori di dinamicità e indici complessivi ricalcolati sulla geografia finale.</p>
+  </div>
+
+  <div class="omi-tab-wrap">
+    <table class="omi-tab">
+      <thead><tr><th>Blocco informativo</th><th>Contenuto del dataset finale</th></tr></thead>
+      <tbody>
+        <tr><td>Identificazione territoriale</td><td>città, codice ASC2, denominazione, geometria e periodo</td></tr>
+        <tr><td>Struttura urbana</td><td>numero e quota delle sei macro-categorie immobiliari</td></tr>
+        <tr><td>Posizionamento immobiliare</td><td>prezzi relativi per categoria e indice complessivo</td></tr>
+        <tr><td>Dinamica temporale</td><td>indicatori standardizzati e indice di dinamicità per categoria e zona</td></tr>
+        <tr><td>Controlli e copertura</td><td>presenze, missing informativi e aree senza adeguata sovrapposizione OMI</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="omi-box">
+    <div class="t">In sintesi</div>
+    <p>La Data Preparation ha trasformato una raccolta di quotazioni semestrali eterogenee in una base dati territoriale coerente e replicabile. La logica seguita è stata conservare il massimo dettaglio nelle fasi iniziali, sintetizzarlo solo dopo aver costruito gli indicatori temporali e trasferirlo alla geografia ASC2 mediante pesi territoriali espliciti. Il dataset finale non è quindi una semplice unione di fonti, ma il risultato di una sequenza controllata di pulizia, armonizzazione, normalizzazione, aggregazione e validazione.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="ed-footer">
+  <a href="https://github.com/marcosemeraro/g1-2026-website/" target="_blank" rel="noopener">Gruppo 1 - Repository del sito</a>
+  <div class="copy">2026 SoBigData RI</div>
+</footer>
+
+<script>
+(function () {
+  var bar = document.getElementById('progress-bar');
+  if (!bar) return;
+  var ticking = false;
+  function update() {
+    var doc = document.documentElement;
+    var top = doc.scrollTop || document.body.scrollTop;
+    var h = doc.scrollHeight - doc.clientHeight;
+    bar.style.width = (h > 0 ? (top / h) * 100 : 0).toFixed(2) + '%';
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+})();
+</script>
+
+</body>
+</html>

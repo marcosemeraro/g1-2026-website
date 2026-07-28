@@ -1,0 +1,150 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 400
+    }
+  },
+  "width": "container",
+  "height": 300,
+  "title": {
+    "text": "Efficienza dei Veicoli per Origine di Produzione (Japan)",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "color": "#333"
+  },
+  "data": {
+    "name": "cars-dataset"
+  },
+  "datasets": {
+    "cars-dataset": [
+      {"Origin": "USA", "Miles_per_Gallon": 15},
+      {"Origin": "USA", "Miles_per_Gallon": 18},
+      {"Origin": "USA", "Miles_per_Gallon": 21},
+      {"Origin": "USA", "Miles_per_Gallon": 23},
+      {"Origin": "Europe", "Miles_per_Gallon": 24},
+      {"Origin": "Europe", "Miles_per_Gallon": 26},
+      {"Origin": "Europe", "Miles_per_Gallon": 28},
+      {"Origin": "Europe", "Miles_per_Gallon": 30},
+      {"Origin": "Japan", "Miles_per_Gallon": 30},
+      {"Origin": "Japan", "Miles_per_Gallon": 33},
+      {"Origin": "Japan", "Miles_per_Gallon": 35},
+      {"Origin": "Japan", "Miles_per_Gallon": 37}
+    ]
+  },
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "on": "pointerover",
+            "clear": "pointerout"
+          }
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopLeft": 4,
+        "cornerRadiusTopRight": 4,
+        "cursor": "pointer"
+      },
+      "encoding": {
+        "x": {
+          "field": "Origin",
+          "type": "nominal",
+          "axis": {
+            "title": "Paese di Produzione",
+            "labelAngle": 0,
+            "labelFontSize": 12,
+            "titleFontSize": 13
+          }
+        },
+        "y": {
+          "field": "Miles_per_Gallon",
+          "type": "quantitative",
+          "aggregate": "mean",
+          "axis": {
+            "title": "Miglia per Gallone (Media MPG)",
+            "labelFontSize": 12,
+            "titleFontSize": 13
+          }
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Origin === 'Japan'",
+            "value": "#e45756"
+          },
+          "value": "#d3d3d3"
+        },
+        "tooltip": [
+          {
+            "field": "Origin",
+            "type": "nominal",
+            "title": "Origine"
+          },
+          {
+            "field": "Miles_per_Gallon",
+            "aggregate": "mean",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Media MPG"
+          }
+        ],
+        "opacity": {
+          "condition": {
+            "param": "hover",
+            "value": 1
+          },
+          "value": 0.75
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#545454",
+        "strokeWidth": 2,
+        "strokeDash": [4, 4]
+      },
+      "encoding": {
+        "y": {
+          "field": "Miles_per_Gallon",
+          "aggregate": "mean",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -8,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#e45756"
+      },
+      "encoding": {
+        "x": {
+          "field": "Origin",
+          "type": "nominal"
+        },
+        "y": {
+          "field": "Miles_per_Gallon",
+          "aggregate": "mean",
+          "type": "quantitative"
+        },
+        "text": {
+          "condition": {
+            "test": "datum.Origin === 'Japan'",
+            "value": "Efficienza Max"
+          },
+          "value": ""
+        }
+      }
+    }
+  ]
+}

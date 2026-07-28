@@ -1,0 +1,262 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+strong {
+  font-weight: 600; }
+
+.full-width-wrapper {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-bottom: 5vw; }
+
+.full-width-image {
+  min-width: 100%;
+  object-fit: cover;
+  margin-top: -0.8rem;
+  z-index: 0; }
+
+.green {
+  color: #4f9f56; }
+
+.rotated {
+  transform: rotate(180deg); }
+
+.hero-chulapa-image {
+  background-position: top;
+  z-index: 100; }
+
+.comic-neue-regular {
+  font-family: "Comic Neue", cursive;
+  font-weight: 400;
+  font-style: normal; }
+
+.comic-neue-bold {
+  font-family: "Comic Neue", cursive;
+  font-weight: 700;
+  font-style: normal; }
+
+iframe {
+  border: 0; }
+
+.navbar-brand {
+  text-decoration: none; }
+
+.navbar {
+  z-index: 1000; }
+
+.nav-item:last-child {
+  border: 1px solid var(--secondary);
+  padding-inline-start: 0.4em;
+  padding-inline-end: 0.4em; }
+
+@media (max-width: 767px) {
+  #projects-container h5 {
+    margin-top: 2rem; }
+  #projects-container img {
+    max-width: 100%; } }
+:target {
+  scroll-margin-top: 80px;
+  /* height of the navbar */ }
+
+.plot-container {
+  display: flex;
+  justify-content: center; }
+
+:root {
+  --cds-gray-100: #161616;
+  --cds-gray-90: #262626;
+  --cds-gray-70: #525252;
+  --cds-gray-50: #8d8d8d;
+  --cds-gray-20: #e0e0e0;
+  --cds-gray-10: #f4f4f4;
+  --cds-cat-1: #005d5d;
+  --cds-cat-2: #08bdba;
+  --cds-cat-3: #6929c4;
+  --cds-cat-4: #0f62fe;
+  --cds-cat-5: #9f1853;
+  --cds-cat-6: #fa4d56;
+  --cds-cat-7: #198038;
+  --cds-cat-8: #8a3800;
+  --primary: #a53a21;
+  --secondary: #568fa6;
+  --dark: #272c2c;
+  --background: #ffffff;
+  --accent: #d38874;
+  --muted: #6f706b; }
+
+.badge, .alert, .card, .dropdown-menu {
+  border-radius: 0 !important; }
+
+blockquote {
+  border-left: 4px solid var(--cds-cat-1);
+  padding-left: 1rem;
+  color: var(--cds-gray-70); }
+
+.chart-tile {
+  background-color: var(--cds-gray-10);
+  border: 1px solid var(--cds-gray-20);
+  padding: 1.5rem;
+  margin: 1.5rem 0; }
+  .chart-tile .chart-tile-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cds-gray-100);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em; }
+
+.titolo-wrapper {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw; }
+
+.titolo-giornalistico {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+  text-align: center;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  color: var(--dark); }
+
+.titolo-wrapper::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 5px;
+  background: var(--primary);
+  margin: -1rem auto 3rem; }
+
+.insight-box {
+  display: flex;
+  gap: 2rem;
+  margin: 3rem 0; }
+
+.insight-item {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: var(--background);
+  border-top: 5px solid var(--primary);
+  box-shadow: 0 4px 15px rgba(39, 44, 44, 0.08); }
+
+.insight-item:nth-child(2) {
+  border-top-color: var(--secondary); }
+
+.insight-item:nth-child(3) {
+  border-top-color: var(--accent); }
+
+.insight-item h3 {
+  color: var(--dark); }
+
+h3 {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--cds-cat-1);
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em; }
+
+p {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0; }
+
+@media (max-width: 768px) {
+  .insight-box {
+    flex-direction: column; } }
+h1, h2, h3, h4 {
+  font-family: Georgia, "Times New Roman", serif; }
+
+body {
+  background-color: var(--background);
+  color: var(--dark); }
+
+.news-pipeline-step {
+  position: relative;
+  margin: 4.5rem 0;
+  padding: 0.25rem 1rem 0.5rem 2.25rem;
+  border-left: 1px solid var(--cds-gray-20); }
+
+/* Tratto più spesso all'inizio della linea verticale */
+.news-pipeline-step::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -3px;
+  width: 5px;
+  height: 2rem;
+  background-color: var(--secondary); }
+
+/* Etichetta: 01 · TEMPO */
+.news-pipeline-label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 1.25rem;
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted); }
+
+.news-pipeline-number {
+  font-variant-numeric: tabular-nums;
+  color: var(--secondary); }
+
+.news-pipeline-separator {
+  opacity: 0.65; }
+
+/*
+  La classe ridefinisce esplicitamente le proprietà del titolo,
+  evitando che prevalga lo stile globale assegnato a h3.
+*/
+.news-pipeline-title {
+  margin: 0 0 1rem;
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  color: var(--dark); }
+
+/*
+  Anche il testo ha una classe specifica:
+  non dipende dal selettore globale p.
+*/
+.news-pipeline-text {
+  max-width: 900px;
+  margin: 0 0 0.9rem;
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--dark); }
+
+/* Adattamento agli schermi piccoli */
+@media (max-width: 576px) {
+  .news-pipeline-step {
+    margin: 3.5rem 0;
+    padding-left: 1.4rem;
+    padding-right: 0; }
+
+  .news-pipeline-title {
+    font-size: 1.4rem; }
+
+  .news-pipeline-text {
+    font-size: 1rem;
+    line-height: 1.65; } }
