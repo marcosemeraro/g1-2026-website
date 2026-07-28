@@ -2,17 +2,14 @@
 layout: editorial
 title: "La Geografia della Ricchezza nelle Città"
 permalink: /datistefania2.html
+mathjax: true
 ---
 
-<!-- D3 per i grafici nativi (ricostruiti dai dati, niente embed) -->
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
 <style>
-.insintesi { font-family: var(--serif); font-size: 18px; line-height: 1.5; color: var(--ink); max-width: 720px; margin: 24px auto; padding: 14px 24px; background: var(--panel-2); border-left: 3px solid var(--accent); }
-.insintesi strong { color: var(--accent); }
 .map-placeholder { max-width: 1180px; margin: 24px auto 0; padding: 0 32px; }
 .map-placeholder .box { border: 1px dashed var(--rule-2); border-radius: 2px; background: var(--panel); padding: 40px 20px; text-align: center; font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted-2); }
-/* D3 small-multiples */
 .s2-panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 .s2-panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 2px; padding: 12px 14px 8px; }
 .s2-panel .s2-city { font-family: var(--serif); font-weight: 700; font-size: 16px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 4px; }
@@ -29,7 +26,6 @@ permalink: /datistefania2.html
 .s2-maps .s2-panel svg path:hover { stroke: var(--ink); stroke-width: 1; }
 .s2-ramp { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
 .s2-ramp .bar { width: 160px; height: 10px; border-radius: 2px; display: inline-block; }
-/* tooltip interattivo */
 .s2-tooltip { position: fixed; pointer-events: none; background: var(--ink); color: var(--panel); padding: 9px 12px; border-radius: 3px; font-family: var(--sans); font-size: 12px; line-height: 1.45; max-width: 260px; z-index: 9999; opacity: 0; transition: opacity 90ms; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
 .s2-tooltip .tt-h { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: #fff; margin-bottom: 3px; }
 .s2-tooltip .tt-v { font-family: var(--mono); color: var(--accent-2); }
@@ -39,20 +35,80 @@ permalink: /datistefania2.html
 </style>
 
 <header class="cover" style="padding-top:88px;padding-bottom:20px">
-  <div class="kicker">Reddito e disuguaglianza · MEF · Sei metropoli</div>
   <h1>La geografia della <em>ricchezza</em> nelle città</h1>
   <p class="dek">Un'analisi micro-territoriale delle disuguaglianze attraverso le dichiarazioni dei redditi IRPEF, alla scala delle aree sub-comunali ASC2.</p>
-  <p class="byline"><b>Indice di Gini</b> · <b>Reddito medio</b> · <b>Aliquota IRPEF</b> · <b>2011–2024</b></p>
 </header>
 
 <div class="prose">
   <p class="lead">I dati fiscali sulle dichiarazioni dei redditi rappresentano la traccia più concreta per misurare le disuguaglianze e la capacità economica della popolazione all'interno dello spazio urbano. Attraverso l'Indice di Gini, il reddito medio e l'aliquota IRPEF reale, ricostruiamo la geografia della ricchezza nelle sei metropoli italiane — Bologna, Firenze, Milano, Napoli, Roma, Torino — lungo tre macro-periodi: 2011–2015, 2019–2021, 2022–2024.</p>
+
+  <p class="lead">Poiché le rilevazioni ufficiali del MEF sono state diffuse su scala sub-comunale, per questo lavoro è stato effettuato un processo di elaborazione, normalizzazione e attribuzione delle informazioni fiscali alla griglia territoriale delle <strong>Sezioni di Censimento (ASC2)</strong>. L'analisi condotta su questa scala permette di superare la rigidità del valore medio cittadino e di far emergere le forti polarizzazioni e le disparità economiche che caratterizzano i diversi quartieri all'interno dello stesso contesto urbano.</p>
 </div>
 
-<!-- ===== 1. gini_periodi ===== -->
+<h3 class="subsection-title">Documentazione e Metodologia degli Indici Statistico-Economici</h3>
+
+<div class="prose">
+  <p>Le tabelle rilasciate dal MEF organizzano i dati dei contribuenti e dei redditi complessivi suddividendoli in classi di frequenza e ammontare per scaglioni di reddito. A partire da questa struttura informatica, sono stati definiti e calcolati <strong>4 indicatori analitici</strong> per ciascuna Area Sub-Comunale (ASC2):</p>
+
+  <ul>
+    <li>
+      <p><strong>Indice di Gini (Gini Coefficient):</strong><br>
+      È il coefficiente standard utilizzato a livello internazionale per misurare il grado di disuguaglianza e la concentrazione della ricchezza o del reddito all'interno di una popolazione. Il suo valore varia strettamente tra <strong>0</strong> (<em>perfetta uguaglianza</em>, in cui tutti i contribuenti percepiscono esattamente lo stesso reddito) e <strong>1</strong> (<em>perfetta disuguaglianza</em>, dove un singolo contribuente possiede la totalità del reddito complessivo).</p>
+      <p>Nel contesto delle Aree Sub-Comunali analizzate, un valore più alto dell'Indice di Gini segnala che in quel determinato quartiere il reddito è fortemente concentrato nelle mani di poche persone, mentre un valore più basso indica un tessuto sociale ed economicamente più omogeneo.</p>
+      <p>Poiché i dati del MEF non sono disponibili per i singoli individui ma sono forniti aggregati "in classi di reddito" (es. 0–10.000 €, 10.000–15.000 €, ecc.), l'Indice di Gini è stato calcolato attraverso un'approssimazione geometrica basata sulle percentuali cumulate:</p>
+      <ol>
+        <li>Si calcola il reddito medio teorico di ogni fascia dividendo l'Ammontare complessivo per la Frequenza dei contribuenti della fascia stessa.</li>
+        <li>Si ordinano le fasce dalla più povera alla più ricca in base a questo valore.</li>
+        <li>Si calcola la frazione cumulata della popolazione dei contribuenti (vettore $P$).</li>
+        <li>Si calcola la frazione cumulata del reddito totale generato (vettore $Q$).</li>
+        <li>Geometricamente, l'insieme dei punti definiti dai vettori $P$ e $Q$ identifica la distribuzione cumulata. L'Indice di Gini viene estratto calcolando l'area sottesa a questa spezzata tramite la <strong>regola dei trapezi</strong> e sottraendola dall'area del triangolo di ideale uguaglianza.</li>
+      </ol>
+    </li>
+
+    <li>
+      <p><strong>Quota di Reddito Alta (Top Income Share - Fascia &gt; 120.000 Euro):</strong><br>
+      È un indicatore di concentrazione della ricchezza che si focalizza unicamente sulla coda più ricca della distribuzione (<em>top tail</em>). Rappresenta una percentuale (%) pura che indica quale quota dell'intera massa di redditi di una determinata area finisce nelle tasche dei contribuenti più abbienti, ovvero coloro che dichiarano oltre 120.000 euro all'anno.</p>
+      <p>Ad esempio, se in un'Area Sub-Comunale questo valore è pari a 25.0%, significa che il gruppo di residenti che guadagna oltre 120.000 euro da solo assorbe il 25% di tutto il reddito complessivamente generato in quel quartiere. La formula mette in rapporto l'ammontare della fascia superiore a 120.000 euro con la somma totale di tutti gli ammontari del quartiere, moltiplicando il risultato per 100.</p>
+    </li>
+
+    <li>
+      <p><strong>Aliquota Media Percentuale (Effettivo Peso Fiscale dell'Area):</strong><br>
+      È un indicatore microeconomico che misura la pressione fiscale reale media esercitata dal prelievo IRPEF sui redditi all'interno di una specifica area geografica. Esprime una percentuale (%) che indica quanti euro vengono effettivamente trattenuti dal fisco per ogni 100 euro lordi guadagnati cumulativamente dai residenti di quel quartiere.</p>
+      <p>Poiché il sistema fiscale italiano è basato sul principio della progressività, questo valore funge da indicatore territoriale della ricchezza: i quartieri (ASC2) con un'aliquota media significativamente più alta riflettono una maggiore presenza di contribuenti posizionati su scaglioni IRPEF elevati. A differenza delle aliquote teoriche di legge, questo indicatore calcola il peso dell'<strong>imposta NETTA</strong>, incorporando l'impatto reale sul territorio di deduzioni e detrazioni fiscali (come spese mediche, carichi di famiglia o bonus edilizi). Il calcolo mette direttamente in rapporto l'imposta netta globale con la massa dei redditi lordi, moltiplicato per 100.</p>
+    </li>
+
+    <li>
+      <p><strong>Reddito Medio:</strong><br>
+      È l'indicatore sintetico della capacità reddituale media per contribuente all'interno di ciascuna Area Sub-Comunale (ASC2). Offre un parametro immediato per valutare il livello di ricchezza media dichiarata ed è calcolato dividendo la somma di tutti gli ammontari dei redditi prodotti nell'area per il numero totale dei contribuenti residenti.</p>
+    </li>
+  </ul>
+</div>
+
+<h3 class="subsection-title">Pipeline di Aggregazione e Costruzione del Dataset Unico Comparativo</h3>
+
+<div class="prose">
+  <p>Per analizzare l'evoluzione temporale delle dinamiche economiche in relazione alle elezioni politiche i dati storici sono stati allineati e strutturati in <strong>3 macro-periodi di riferimento</strong> per ciascuna area sub-comunale (quartiere):</p>
+
+  <ul>
+    <li><strong>2011–2015</strong> (Primo periodo)</li>
+    <li><strong>2019–2021</strong> (Secondo periodo)</li>
+    <li><strong>2022–2024</strong> (Terzo periodo)</li>
+  </ul>
+
+  <p>Per ciascuno dei 4 indici economici calcolati (Indice di Gini, Top Income Share, Aliquota Media Percentuale, Reddito Medio) sono state estratte e inserite nel dataset finale <strong>6 metriche di sintesi e di trend</strong>:</p>
+
+  <ul>
+    <li><strong>Struttura Base e Distance from Election:</strong> Creazione dello scheletro dei periodi e inserimento della distanza temporale dalle elezioni di riferimento (3 per il periodo 2011–2015; 1 per i trienni 2019–2021 e 2022–2024).</li>
+    <li><strong>Latest Level:</strong> Valore puntuale dell'indice registrato nell'ultimo anno utile del periodo considerato (2015 per il primo periodo, 2021 per il secondo, 2024 per il terzo).</li>
+    <li><strong>Mean Economic Condition:</strong> Condizione economica media dell'area all'interno del periodo, calcolata tramite la media aritmetica semplice sui singoli anni compresi nel macro-periodo.</li>
+    <li><strong>Percentage Change:</strong> Variazione percentuale dell'indice rilevata da inizio a fine periodo (ad esempio, dal 2011 al 2015, dal 2019 al 2021 e dal 2022 al 2024).</li>
+    <li><strong>Slope Lineare:</strong> Pendenza (coefficiente angolare) della retta di regressione calcolata sui punti del periodo, utilizzata per identificare la direzione e l'intensità del trend evolutivo interno.</li>
+    <li><strong>Volatilità Normalizzata:</strong> Misura dell'instabilità annuale dell'indicatore all'interno del periodo, calcolata tramite Deviazione Standard e successivamente riscalata con il metodo Min-Max all'interno di un range fisso compreso tra [0, 1].</li>
+  </ul>
+</div>
+
 <section class="chapter">
-  <div class="section-marker">Disuguaglianza · Indice di Gini</div>
-  <h2 class="section-title">Evoluzione dell'Indice di Gini medio per macro-periodi (2011–2024)</h2>
+<h2 class="section-title">Evoluzione dell'Indice di Gini medio per macro-periodi (2011–2024)</h2>
   <div class="prose">
     <p>L'analisi dell'<strong>Indice di Gini medio (%)</strong> suddiviso per quartili di disuguaglianza (da Q1, minore disuguaglianza, a Q4, massima disuguaglianza) nei tre macro-periodi (<em>2011-2015</em>, <em>2019-2021</em>, <em>2022-2024</em>) evidenzia dinamiche chiave per ciascuna città:</p>
     <ul>
@@ -64,7 +120,6 @@ permalink: /datistefania2.html
       <li><strong>Torino:</strong> evidenzia una netta spinta verso l'alto durante il periodo 2019-2021 (con il Q4 che tocca il 59.3%), per poi riassestarsi nell'ultimo triennio su valori vicini ai livelli di partenza (56.6%).</li>
     </ul>
   </div>
-  <blockquote class="insintesi"><strong>In sintesi:</strong> il triennio 2019-2021 ha rappresentato il punto di massima polarizzazione e disuguaglianza per quasi tutti i centri urbani. Nel periodo recente (2022-2024) si nota una generale attenuazione, sebbene metropoli come Milano e Roma mantengano livelli strutturalmente molto elevati nel quartile più critico (Q4).</blockquote>
   <div class="viz-embed">
     <div class="viz-title">Indice di Gini medio (%) per quartile e periodo · sei città</div>
     <div class="s2-panels" id="chart-gini-periodi"></div>
@@ -72,10 +127,8 @@ permalink: /datistefania2.html
   </div>
 </section>
 
-<!-- ===== 2. mappe_gini (testo; mappe da inserire) ===== -->
 <section class="chapter">
-  <div class="section-marker">Geografia · Mappe del Gini</div>
-  <h2 class="section-title">Geografia della disuguaglianza: l'evoluzione spaziale dell'Indice di Gini (2011–2024)</h2>
+<h2 class="section-title">Geografia della disuguaglianza: l'evoluzione spaziale dell'Indice di Gini (2011–2024)</h2>
   <div class="prose">
     <p>L'analisi cartografica dell'Indice di Gini nelle sei metropoli italiane offre un ritratto visivo immediato di come la disuguaglianza economica si sia ridistribuita all'interno dei confini urbani nell'arco di oltre un decennio. Osservando le mappe relative ai tre macro-periodi (<em>2011-2015</em>, <em>2019-2021</em> e <em>2022-2024</em>), emergono dinamiche spaziali nettamente differenziate tra le varie città, caratterizzate da una marcata polarizzazione centro-periferia e da importanti risvolti strutturali.</p>
     <p>A <strong>Milano</strong> la disuguaglianza segue un pattern radiale quasi perfetto: il centro storico e le aree semicentrali concentrano stabilmente i livelli più elevati dell'Indice di Gini (tonalità rosso scuro), configurandosi come il vero motore della sperequazione urbana, mentre le corone esterne mantengono valori più omogenei. Una dinamica per certi versi speculare si osserva a <strong>Torino</strong>, dove la spaccatura territoriale è netta e costante lungo l'asse sud-est/nord-ovest, con la fascia collinare e centrale che registra una disuguaglianza marcatamente più accentuata rispetto ai quartieri periferici storicamente operai.</p>
@@ -90,10 +143,8 @@ permalink: /datistefania2.html
   </div>
 </section>
 
-<!-- ===== 4. chart_fiscale_globale ===== -->
 <section class="chapter">
-  <div class="section-marker">Capacità fiscale · Aliquota IRPEF</div>
-  <h2 class="section-title">Capacità fiscale ed evoluzione dell'aliquota IRPEF media</h2>
+<h2 class="section-title">Capacità fiscale ed evoluzione dell'aliquota IRPEF media</h2>
   <div class="prose">
     <p>Le aree urbane (ASC2) di ciascuna città sono state suddivise in <strong>quattro quartili di capacità fiscale</strong> (da Q1, minore capacità, a Q4, massima capacità) ancorati al triennio <em>2022-2024</em>. Questa classificazione stabile permette di tracciare l'evoluzione storica dell'aliquota IRPEF media reale sui tre periodi osservati per i medesimi gruppi di quartieri.</p>
     <p>Dall'analisi dei dati emergono tre dinamiche principali:</p>
@@ -103,7 +154,6 @@ permalink: /datistefania2.html
       <li><strong>Concentrazione del prelievo nei quartieri abbienti (Q4):</strong> a <strong>Bologna, Firenze, Milano e Roma</strong> l'aliquota media nei quartieri a più alta capacità fiscale supera o sfiora la soglia del 28-30% nel periodo 2022-2024. Il fenomeno riflette l'impatto combinato delle riforme IRPEF post-2021 e del cosiddetto <em>fiscal drag</em> (trascinamento fiscale), mentre <strong>Torino</strong> mostra una dinamica più piatta tra i diversi periodi.</li>
     </ul>
   </div>
-  <blockquote class="insintesi"><strong>In sintesi:</strong> l'impatto delle recenti riforme e delle dinamiche economiche post-2021 ha accentuato la progressività del prelievo reale, concentrando l'aumento della pressione fiscale nei quartieri a maggiore capacità reddituale del Centro-Nord.</blockquote>
   <div class="viz-embed">
     <div class="viz-title">Aliquota IRPEF media reale (%) per quartile di capacità fiscale · sei città</div>
     <div class="s2-panels" id="chart-fiscale-globale"></div>
@@ -111,10 +161,8 @@ permalink: /datistefania2.html
   </div>
 </section>
 
-<!-- ===== 5. mappe_reddito (testo; mappe da inserire) ===== -->
 <section class="chapter">
-  <div class="section-marker">Geografia · Mappe del reddito</div>
-  <h2 class="section-title">Mobilità economico-spaziale ed evoluzione dei quartili di reddito</h2>
+<h2 class="section-title">Mobilità economico-spaziale ed evoluzione dei quartili di reddito</h2>
   <div class="prose">
     <p>Per valutare le dinamiche di mobilità economico-spaziale all'interno di ciascuna città, i quartili di reddito medio sono stati ricalcolati in modo <strong>dinamico ed endogeno</strong> per ciascun arco temporale (<em>2011-2015</em>, <em>2019-2021</em>, <em>2022-2024</em>).</p>
     <p>Dall'analisi degli andamenti nel tempo emergono le seguenti evidenze:</p>
@@ -124,7 +172,6 @@ permalink: /datistefania2.html
       <li><strong>Micro-transizioni marginali:</strong> i fenomeni di mobilità tra quartili si concentrano esclusivamente in limitate aree periferiche o di transizione. Si osservano soltanto lievi slittamenti intermedi (<em>es. dinamiche Q2↔Q3 a Roma e Firenze</em>), dimostrando come i processi di gentrificazione o declino relativo interessino solo marginalmente i contesti di confine.</li>
     </ul>
   </div>
-  <blockquote class="insintesi"><strong>In sintesi:</strong> le metropoli italiane confermano una profonda stabilità spaziale: nonostante le trasformazioni economiche del decennio, la mappa della ricchezza e della fragilità non cambia forma, mantenendo rigide le distanze tra i quartieri.</blockquote>
   <div class="viz-embed">
     <div class="viz-title">Reddito medio (k€) per quartiere ASC2 · periodo 2022-2024 · sei città</div>
     <div class="s2-maps" id="maps-reddito"></div>
@@ -132,10 +179,8 @@ permalink: /datistefania2.html
   </div>
 </section>
 
-<!-- ===== 6. reddito vs disuguaglianza (HTML chart) ===== -->
 <section class="chapter">
-  <div class="section-marker">Trend storici</div>
-  <h2 class="section-title">Trend storici: reddito contro disuguaglianza</h2>
+<h2 class="section-title">Trend storici: reddito contro disuguaglianza</h2>
   <div class="prose">
     <p>L'analisi dei tre macro-periodi (<em>2011-2015</em>, <em>2019-2021</em>, <em>2022-2024</em>) evidenzia due dinamiche principali nel confronto tra i quartieri a minore disuguaglianza (Q1) e quelli a maggiore disuguaglianza (Q4):</p>
     <ul>
@@ -143,7 +188,6 @@ permalink: /datistefania2.html
       <li><strong>Disuguaglianza in flessione recente:</strong> l'Indice di Gini rimane strutturalmente più alto nei quartieri ricchi (Q4), ma traccia una parabola chiara: dopo l'aumento registrato tra il 2011 e il 2021, nel triennio 2022-2024 si osserva una diffusa contrazione della disuguaglianza interna in quasi tutti i centri urbani.</li>
     </ul>
   </div>
-  <blockquote class="insintesi"><strong>In sintesi:</strong> la forbice dei redditi medi tra quartieri ricchi e poveri continua ad allargarsi in termini assoluti, ma all'interno dei singoli quartieri la disuguaglianza mostra segnali di assestamento e rientro negli anni più recenti.</blockquote>
   <div class="viz-embed">
     <div class="viz-title">Reddito medio (k€) · quartiere Q1 vs Q4 di reddito · sei città</div>
     <div class="s2-panels" id="c6-reddito"></div>
@@ -154,10 +198,8 @@ permalink: /datistefania2.html
   </div>
 </section>
 
-<!-- ===== 7. correlazione reddito-gini (Plotly HTML) ===== -->
 <section class="chapter">
-  <div class="section-marker">Correlazione</div>
-  <h2 class="section-title">Relazione tra ricchezza media e disuguaglianza interna</h2>
+<h2 class="section-title">Relazione tra ricchezza media e disuguaglianza interna</h2>
   <div class="prose">
     <p>L'analisi esplora il legame tra il <strong>reddito medio</strong> (asse X, in migliaia di euro) e la <strong>disuguaglianza interna</strong> (asse Y, Indice di Gini) nei quartieri (ASC2) delle sei metropoli italiane nei tre macro-periodi.</p>
     <p>Dall'osservazione dei dati emergono alcune evidenze chiave:</p>
@@ -168,7 +210,6 @@ permalink: /datistefania2.html
       <li><strong>Evoluzione temporale:</strong> nel passaggio dal 2011-2015 al 2022-2024, la distribuzione si sposta verso destra a seguito dell'aumento nominale dei redditi, ma la pendenza della curva di regressione e il divario strutturale tra le aree rimangono pressoché inalterati.</li>
     </ul>
   </div>
-  <blockquote class="insintesi"><strong>In sintesi:</strong> la ricchezza nei contesti urbani tende ad accompagnarsi a una maggiore eterogeneità interna, confermando come nei quartieri più benestanti si concentrino le sperequazioni economiche più forti.</blockquote>
   <div class="viz-embed">
     <div class="viz-title">Correlazione reddito medio × Indice di Gini · quartieri ASC2 · tre periodi</div>
     <div class="s2-scatter" id="c7-scatter"></div>
@@ -180,7 +221,6 @@ permalink: /datistefania2.html
 
 <div id="s2-tt" class="s2-tooltip"></div>
 <script>
-// tooltip condiviso tra tutte le viz D3
 window.s2tip = (function () {
   const el = document.getElementById('s2-tt');
   return {
@@ -252,7 +292,6 @@ window.s2tip = (function () {
 })();
 </script>
 
-<!-- Chart 6: reddito & Gini Q1 vs Q4 (ricostruito dai dati ASC2) -->
 <script type="application/json" id="s2-chart6">[{"city":"Bologna","period":"2011-2015","r_q1":22.2,"r_q4":40.9,"g_q1":0.365,"g_q4":0.536},{"city":"Bologna","period":"2019-2021","r_q1":23.9,"r_q4":44.7,"g_q1":0.371,"g_q4":0.544},{"city":"Bologna","period":"2022-2024","r_q1":26.2,"r_q4":46.6,"g_q1":0.358,"g_q4":0.5},{"city":"Firenze","period":"2011-2015","r_q1":21.9,"r_q4":33.1,"g_q1":0.386,"g_q4":0.538},{"city":"Firenze","period":"2019-2021","r_q1":23.2,"r_q4":35.8,"g_q1":0.389,"g_q4":0.544},{"city":"Firenze","period":"2022-2024","r_q1":25.3,"r_q4":38.8,"g_q1":0.369,"g_q4":0.522},{"city":"Milano","period":"2011-2015","r_q1":22.0,"r_q4":55.3,"g_q1":0.396,"g_q4":0.58},{"city":"Milano","period":"2019-2021","r_q1":23.4,"r_q4":63.2,"g_q1":0.403,"g_q4":0.592},{"city":"Milano","period":"2022-2024","r_q1":24.9,"r_q4":65.5,"g_q1":0.381,"g_q4":0.593},{"city":"Napoli","period":"2011-2015","r_q1":14.6,"r_q4":30.4,"g_q1":0.395,"g_q4":0.497},{"city":"Napoli","period":"2019-2021","r_q1":15.4,"r_q4":32.2,"g_q1":0.408,"g_q4":0.517},{"city":"Napoli","period":"2022-2024","r_q1":17.4,"r_q4":34.5,"g_q1":0.409,"g_q4":0.479},{"city":"Roma","period":"2011-2015","r_q1":20.2,"r_q4":52.5,"g_q1":0.398,"g_q4":0.594},{"city":"Roma","period":"2019-2021","r_q1":21.3,"r_q4":54.7,"g_q1":0.404,"g_q4":0.587},{"city":"Roma","period":"2022-2024","r_q1":23.8,"r_q4":61.9,"g_q1":0.386,"g_q4":0.575},{"city":"Torino","period":"2011-2015","r_q1":18.7,"r_q4":45.5,"g_q1":0.354,"g_q4":0.561},{"city":"Torino","period":"2019-2021","r_q1":19.7,"r_q4":52.9,"g_q1":0.358,"g_q4":0.582},{"city":"Torino","period":"2022-2024","r_q1":22.2,"r_q4":56.8,"g_q1":0.349,"g_q4":0.553}]</script>
 
 <script>
@@ -261,7 +300,6 @@ window.s2tip = (function () {
   const periods = ['2011-2015', '2019-2021', '2022-2024'];
   const shortP = { '2011-2015': "'11-'15", '2019-2021': "'19-'21", '2022-2024': "'22-'24" };
 
-  // ---------- CHART 6: linee Q1 vs Q4 (reddito, gini) ----------
   const AGG = JSON.parse(document.getElementById('s2-chart6').textContent);
   const cQ1 = '#C58B31', cQ4 = '#1F3A5F';
   function lines(containerId, f1, f4, yDom, unit) {
@@ -299,7 +337,6 @@ window.s2tip = (function () {
     });
   }
 
-  // ---------- CHART 7: scatter reddito × Gini per periodo, colore = città ----------
   const cityCol = { Bologna: '#6E8B7A', Firenze: '#A0402E', Milano: '#1F3A5F', Napoli: '#C58B31', Roma: '#7A2E6E', Torino: '#3E7C8C' };
   function drawC7(pts) {
     const cont = d3.select('#c7-scatter'); cont.selectAll('*').remove();
@@ -323,7 +360,6 @@ window.s2tip = (function () {
           s2tip.show(`<div class="tt-h">${d.c} · quartiere ASC2</div>Periodo ${d.p}<br>Reddito: <span class="tt-v">${d.r} k€</span><br>Gini: <span class="tt-v">${d.g}</span>`, ev);
         })
         .on('mouseleave', function () { d3.select(this).attr('r', 2.8).attr('opacity', 0.55).attr('stroke', 'none'); s2tip.hide(); });
-      // OLS regression line
       if (sub.length > 2) {
         const mx = d3.mean(sub, d => d.r), my = d3.mean(sub, d => d.g);
         let num = 0, den = 0; sub.forEach(d => { num += (d.r - mx) * (d.g - my); den += (d.r - mx) ** 2; });
@@ -351,7 +387,6 @@ window.s2tip = (function () {
 })();
 </script>
 
-<!-- Mappe coroplete ASC2 (sezioni 2 e 5) -->
 <script>
 (function () {
   const cities = ['Bologna', 'Firenze', 'Milano', 'Napoli', 'Roma', 'Torino'];
@@ -376,7 +411,6 @@ window.s2tip = (function () {
         })
         .on('mouseleave', function () { d3.select(this).attr('stroke', 'var(--panel)').attr('stroke-width', 0.4); s2tip.hide(); });
     });
-    // legend gradient
     const leg = d3.select('#' + legId); leg.selectAll('*').remove();
     const stops = d3.range(0, 1.01, 0.1).map(t => color(domain[0] + t * (domain[1] - domain[0])));
     const ramp = leg.append('span').attr('class', 's2-ramp');

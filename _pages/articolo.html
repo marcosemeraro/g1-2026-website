@@ -16,6 +16,11 @@ title: "Come si vincono le elezioni locali?"
 .expert p { font-family: var(--serif); font-size: 17.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 14px; }
 .expert p:last-child { margin-bottom: 0; }
 .expert p b { color: var(--ink); font-weight: 600; }
+.pullq { max-width: 860px; margin: 40px auto; padding: 0 32px; }
+.pullq blockquote { margin: 0; padding: 4px 0 4px 26px; border-left: 4px solid var(--accent); }
+.pullq p { font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.45; color: var(--ink); margin: 0; text-wrap: pretty; }
+.pullq .src { display: block; margin-top: 14px; font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-2); }
+@media (max-width: 700px) { .pullq p { font-size: 19px; } }
 .a-quote { max-width: 720px; margin: 26px auto; padding: 0 32px; font-family: var(--serif); font-size: 18px; line-height: 1.55; color: var(--ink-2); }
 .a-quote q { color: var(--muted); font-style: italic; }
 .a-tab { width: 100%; max-width: 720px; margin: 26px auto; border-collapse: collapse; font-family: var(--sans); font-size: 13.5px; }
@@ -47,7 +52,6 @@ title: "Come si vincono le elezioni locali?"
   <p class="byline">Bologna · Firenze · Milano · Napoli · Roma · Torino</p>
 </header>
 
-<!-- ═══════════ I ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">Le domande di partenza, lo <em>spazio</em> e il <em>tempo</em></h2>
 
@@ -66,7 +70,6 @@ title: "Come si vincono le elezioni locali?"
   </div>
 </section>
 
-<!-- ═══════════ II ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">Il prezzo dello <em>spazio</em></h2>
 
@@ -89,7 +92,6 @@ title: "Come si vincono le elezioni locali?"
   <a class="deep" href="{{ '/datiomi.html' | relative_url }}"><b>Approfondimento →</b> <span>La pipeline completa di preparazione dei dati OMI.</span></a>
 </section>
 
-<!-- ═══════════ III ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">Il voto, <em>quartiere per quartiere</em></h2>
 
@@ -120,13 +122,21 @@ title: "Come si vincono le elezioni locali?"
   <a class="deep" href="{{ '/datielezioni.html' | relative_url }}"><b>Approfondimento →</b> <span>Scraping, geocoding, Gini elettorale, I di Moran e cluster LISA.</span></a>
 </section>
 
-<!-- ═══════════ IV ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">La <em>rappresentazione</em> mediatica del quartiere</h2>
 
   <div class="prose">
     <p>Una componente della percezione che i residenti maturano del proprio territorio passa per la rappresentazione mediatica che si fa del quartiere stesso.</p>
-    <p>Come sostenuto anche da Leonardi Piccini, ricercatore di IRPET, <q>L'esito finale si gioca sulla mobilitazione di segmenti di elettorato meno caratterizzati politicamente, quindi più sensibili al trend del momento.</q></p>
+  </div>
+
+  <div class="pullq">
+    <blockquote>
+      <p>L'esito finale si gioca sulla mobilitazione di segmenti di elettorato meno caratterizzati politicamente, quindi più sensibili al trend del momento.
+        <span class="src">Leonardi Piccini · ricercatore IRPET</span></p>
+    </blockquote>
+  </div>
+
+  <div class="prose">
     <p>Abbiamo raccolto le edizioni locali del network Citynews e le abbiamo sottoposte a <strong>territorializzazione</strong>, individuando nei testi i riferimenti alle ASC2 e attribuendo ciascun articolo alla zona menzionata.</p>
     <p>Ne abbiamo derivato due indicatori. La <strong>copertura</strong>, che quantifica le occorrenze giornalistiche relative a un quartiere nell'arco di un semestre, restituendo una misura di visibilità. La <strong>polarità</strong>, che quantifica il tono medio del racconto, che abbiamo inoltre standardizzato al fine di preservare la comparabilità fra città con volumi di cronaca eterogenei.</p>
   </div>
@@ -161,7 +171,6 @@ title: "Come si vincono le elezioni locali?"
   <a class="deep" href="{{ '/datinews.html' | relative_url }}"><b>Approfondimento →</b> <span>Scraping, territorializzazione dei testi, TF-IDF e costruzione della polarità.</span></a>
 </section>
 
-<!-- ═══════════ V ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">La geografia della <em>vulnerabilità</em></h2>
 
@@ -184,7 +193,6 @@ title: "Come si vincono le elezioni locali?"
   <a class="deep" href="{{ '/isvm_editorial_v2.html' | relative_url }}"><b>Approfondimento →</b> <span>I sette indicatori e le loro proxy, la metodologia AMPI, mappe per città.</span></a>
 </section>
 
-<!-- ═══════════ VI ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">La concentrazione della <em>ricchezza</em></h2>
 
@@ -204,10 +212,16 @@ title: "Come si vincono le elezioni locali?"
     <p>Nel passaggio fra i periodi la distribuzione trasla verso destra per effetto della crescita nominale dei redditi, mentre la pendenza permane invariata. L'associazione conserva la propria intensità.</p>
   </div>
 
+  <div class="pullq">
+    <blockquote>
+      <p>Firenze ha accanto a sé Fiesole che è un quartiere molto ricco diciamo con un reddito medio molto elevato in cui se guardi da un punto di vista di opportunità di lavoro, servizi eccetera, non c'è niente, quindi se uno guarda Fiesole come comune non si spiega perché ci sia un reddito medio così elevato, in realtà è il quartiere dove vivono tutte le persone professionisti eccetera eccetera, che gravitano su Firenze e dintorni
+        <span class="src">Leonardi Piccini · ricercatore IRPET</span></p>
+    </blockquote>
+  </div>
+
   <a class="deep" href="{{ '/datistefania2.html' | relative_url }}"><b>Approfondimento →</b> <span>Gini per quartile, aliquota reale, mappe del reddito e mobilità economico-spaziale.</span></a>
 </section>
 
-<!-- ═══════════ VII ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">Le condizioni della <em>contendibilità</em></h2>
 
@@ -271,10 +285,16 @@ title: "Come si vincono le elezioni locali?"
     <p>Il peso più contenuto di reddito basso e disagio si iscrive invece nella <b>geografia del discontento</b> elaborata da Andrés Rodríguez-Pose, che interpreta il voto di protesta come risposta geograficamente concentrata dei territori che si vedono marginalizzati.</p>
   </div>
 
+  <div class="pullq">
+    <blockquote>
+      <p>quei luoghi un pochino più lasciati indietro che nelle ultime elezioni hanno spesso manifestato un voto diciamo di protesta quindi contrario a chi era in quel momento al potere spesso magari anche diciamo accodandosi a partiti con una prospettiva un po' antisistemica i Cinque Stelle in passato la Lega prima ancora eccetera eccetera che intercettano un po' un malumore in alcune fasce della popolazione che è molto concentrata geograficamente
+        <span class="src">Leonardi Piccini · ricercatore IRPET</span></p>
+    </blockquote>
+  </div>
+
   <a class="deep" href="{{ '/classificatore.html' | relative_url }}"><b>Approfondimento →</b> <span>Validazione, confronto tra classificatori, ablazione del margine, sette letture SHAP.</span></a>
 </section>
 
-<!-- ═══════════ VIII ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">La città come <em>rete</em></h2>
 
@@ -297,7 +317,6 @@ title: "Come si vincono le elezioni locali?"
   <a class="deep" href="{{ '/urbangraph.html' | relative_url }}"><b>Approfondimento →</b> <span>Architettura della pipeline, layer, evoluzione delle comunità, rete esplorabile.</span></a>
 </section>
 
-<!-- ═══════════ IX ═══════════ -->
 <section class="chapter">
   <h2 class="section-title">Esiti e <em>sviluppi</em></h2>
 
@@ -333,7 +352,7 @@ title: "Come si vincono le elezioni locali?"
 <script>
 (function () {
   const CI = ['Bologna', 'Firenze', 'Milano', 'Napoli', 'Roma', 'Torino'];
-  const PCOL = { CSX: '#A02222', CDX: '#1F3A5F', MCS: '#7A7B32', CEN: '#C58B31' };
+  const PCOL = { CSX: '#A02222', CDX: '#1F3A5F', MCS: '#EDBF2E', CEN: '#A6A2CD' };
   const PLAB = { CSX: 'Centro-sinistra', CDX: 'Centro-destra', MCS: 'Movimento 5 Stelle', CEN: 'Centro' };
   const C11 = '#6E8B7A', C21 = '#A0402E';
 
@@ -358,7 +377,6 @@ title: "Come si vincono le elezioni locali?"
     });
   }
 
-  // ═══ I. maglia territoriale ═══
   d3.json("{% endraw %}{{ '/assets/charts/ivsm_maps.json' | relative_url }}{% raw %}").then(IV => {
     const cont = d3.select('#a-zone'), W = 330, H = 240;
     CI.forEach(city => {
@@ -377,7 +395,6 @@ title: "Come si vincono le elezioni locali?"
     });
   }).catch(() => {});
 
-  // ═══ III. vincitori ═══
   d3.json("{% endraw %}{{ '/assets/charts/el_winners.json' | relative_url }}{% raw %}").then(D => {
     legend('#a-win-leg', ['CSX', 'CDX', 'MCS', 'CEN'].map(p => [PLAB[p], PCOL[p]]));
     const cont = d3.select('#a-winners'), W = 330, H = 245, paths = {};
@@ -386,7 +403,7 @@ title: "Come si vincono le elezioni locali?"
       const panel = cont.append('div').attr('class', 'viz-panel');
       panel.append('div').attr('class', 'panel-title').text(c);
       const svg = panel.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-      const proj = d3.geoIdentity().reflectY(true).fitSize([W - 10, H - 10], { type: 'FeatureCollection', features: feats });
+      const proj = d3.geoMercator().fitSize([W - 10, H - 10], { type: 'FeatureCollection', features: feats });
       paths[c] = svg.append('g').attr('transform', 'translate(5,5)').selectAll('path').data(feats).join('path')
         .attr('d', d3.geoPath(proj)).attr('stroke', '#FBFAF6').attr('stroke-width', 0.4)
         .on('mousemove', function (ev, d) {
@@ -407,7 +424,6 @@ title: "Come si vincono le elezioni locali?"
     document.getElementById('a-win-year').addEventListener('change', paint);
   }).catch(() => d3.select('#a-winners').html('<p class="viz-err">Mappe non caricate.</p>'));
 
-  // ═══ IV. racconto mediatico ═══
   d3.json("{% endraw %}{{ '/assets/charts/art_news.json' | relative_url }}{% raw %}").then(N => {
     const cont = d3.select('#a-news'), W = 330, H = 240, paths = {};
     CI.forEach(c => {
@@ -455,7 +471,6 @@ title: "Come si vincono le elezioni locali?"
     document.getElementById('a-news-per').addEventListener('change', paint);
   }).catch(() => d3.select('#a-news').html('<p class="viz-err">Dati mediatici non caricati.</p>'));
 
-  // ═══ V. vulnerabilità ═══
   d3.json("{% endraw %}{{ '/assets/charts/ivsm_boxplot.json' | relative_url }}{% raw %}").then(B => {
     function stats(arr) {
       const a = arr.slice().sort(d3.ascending);
@@ -499,7 +514,6 @@ title: "Come si vincono le elezioni locali?"
     legend('#a-ivsm-leg', [['2011', C11], ['2021', C21]]);
   }).catch(() => d3.select('#a-ivsm').html('<p class="viz-err">Distribuzioni non caricate.</p>'));
 
-  // ═══ VI. reddito × disuguaglianza ═══
   d3.json("{% endraw %}{{ '/assets/charts/s2_scatter_data.json' | relative_url }}{% raw %}").then(pts => {
     const periods = [...new Set(pts.map(d => d.p))].sort();
     const cityCol = { Bologna: '#6E8B7A', Firenze: '#A0402E', Milano: '#1F3A5F', Napoli: '#C58B31', Roma: '#7A2E6E', Torino: '#3E7C8C' };
@@ -536,7 +550,6 @@ title: "Come si vincono le elezioni locali?"
     legend('#a-scatter-leg', Object.entries(cityCol));
   }).catch(() => d3.select('#a-scatter').html('<p class="viz-err">Dati sui redditi non caricati.</p>'));
 
-  // ═══ VII. classificatore ═══
   d3.json("{% endraw %}{{ '/assets/charts/clf_data.json' | relative_url }}{% raw %}").then(D => {
     const MODC = { 'Random Forest': '#A0402E', 'XGBoost': '#1F3A5F', 'Random Forest + RandomOverSampler': '#C58B31' };
     const MODL = { 'Random Forest': 'Random Forest', 'XGBoost': 'XGBoost', 'Random Forest + RandomOverSampler': 'RF + oversampling' };
@@ -621,7 +634,6 @@ title: "Come si vincono le elezioni locali?"
       .attr('font-family', 'var(--sans)').attr('font-size', 9).attr('fill', 'var(--muted)').text('alto');
   }).catch(() => {});
 
-  // ═══ VIII. rete ═══
   const COMPAL = ['#A0402E', '#1F3A5F', '#C58B31', '#6E8B7A', '#7A2E6E', '#3E7C8C', '#7A7B32', '#8C6D4F', '#A39B8E'];
   d3.json("{% endraw %}{{ '/assets/charts/ug_network.json' | relative_url }}{% raw %}").then(raw => {
     const canvas = document.getElementById('a-net'), ctx = canvas.getContext('2d');

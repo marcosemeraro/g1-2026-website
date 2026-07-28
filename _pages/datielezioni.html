@@ -24,10 +24,8 @@ sitemap: false
 </style>
 
 <header class="cover">
-  <div class="kicker">Dati elettorali · Camera dei deputati · 2013–2022</div>
   <h1>Il voto, <em>quartiere per quartiere</em></h1>
   <p class="dek">Dalla singola sezione elettorale alle aree sub-comunali: come abbiamo costruito una base dati geografica del voto per leggere le differenze interne alle città.</p>
-  <p class="byline"><b>Scraping</b> · <b>Geocoding</b> · <b>Spatial join</b> · <b>Indici spaziali</b></p>
 </header>
 
 <div class="prose">
@@ -35,13 +33,9 @@ sitemap: false
   <p class="lead">L'aspetto che ci ha maggiormente interessato di questa ampia raccolta di dati è la possibilità di osservare da vicino le differenze elettorali tra i quartieri e di utilizzare il voto come una delle chiavi di lettura delle trasformazioni sociali e territoriali delle città.</p>
 </div>
 
-<!-- ═══ I. Dati elettorali ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo I</div>
-  <h2 class="section-title">Dati <em>elettorali</em></h2>
-  <p class="section-dek">Il portale Eligendo raccoglie i risultati di tutte le elezioni italiane, ma a un livello di aggregazione troppo grossolano per i nostri obiettivi.</p>
-
-  <div class="prose">
+<h2 class="section-title">Dati <em>elettorali</em></h2>
+<div class="prose">
     <p>Il portale Eligendo del Ministero dell'Interno raccoglie i risultati delle elezioni svoltesi in Italia dall'Assemblea Costituente a oggi. Il principale limite di questa fonte rispetto agli obiettivi del nostro lavoro è rappresentato dal livello di aggregazione, poiché i risultati vengono generalmente forniti a livello comunale.</p>
   </div>
 
@@ -93,16 +87,12 @@ sitemap: false
   </div>
 </section>
 
-<!-- ═══ II. Aree subcomunali ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo II</div>
-  <h2 class="section-title">Aree <em>subcomunali</em></h2>
-  <p class="section-dek">Dalla sezione elettorale al quartiere: la maglia territoriale che rende confrontabili città diverse.</p>
-
-  <div class="viz-block">
+<h2 class="section-title">Aree <em>subcomunali</em></h2>
+<div class="viz-block">
     <div class="viz-lab">Le 419 aree subcomunali ASC2 · sei città</div>
     <div class="viz-grid-3" id="el-zones"></div>
-    <p class="viz-cap">La maglia territoriale su cui si appoggia tutta l'analisi: partizioni ISTAT a confini stabili, intermedie tra CAP e sezioni di censimento.</p>
+    <p class="viz-cap">Partizioni ISTAT a confini stabili, intermedie fra CAP e sezione di censimento.</p>
   </div>
 
   <div class="prose">
@@ -121,7 +111,7 @@ sitemap: false
   <div class="viz-block">
     <div class="viz-lab">Corrente politica vincente per zona ASC2 · sei città</div>
     <div class="viz-grid-3" id="el-winners"></div>
-    <p class="viz-cap">L'intensità del colore è proporzionale alla quota di voti raccolta dal vincitore: più è tenue, più la vittoria è stata di misura.</p>
+    <p class="viz-cap">L'intensità cromatica è proporzionale alla quota di voti del vincitore: le tonalità più tenui corrispondono a vittorie di misura.</p>
   </div>
 
   <div class="viz-block">
@@ -133,17 +123,13 @@ sitemap: false
   <div class="viz-block">
     <div class="viz-lab">Differenza percentuale rispetto all'elezione precedente</div>
     <div class="viz-grid-3" id="el-delta"></div>
-    <p class="viz-cap">Sopra la linea dello zero la corrente cresce rispetto alla tornata precedente, sotto perde consensi.</p>
+    <p class="viz-cap">Sopra lo zero la corrente cresce rispetto alla tornata precedente, sotto arretra.</p>
   </div>
 </section>
 
-<!-- ═══ III. Indici ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo III</div>
-  <h2 class="section-title">Gli <em>indici</em></h2>
-  <p class="section-dek">Tre misure per descrivere concentrazione, struttura spaziale e polarizzazione del voto.</p>
-
-  <h3 class="subsection-title">Indice di Gini</h3>
+<h2 class="section-title">Gli <em>indici</em></h2>
+<h3 class="subsection-title">Indice di Gini</h3>
   <div class="prose">
     <p>Per descrivere il grado di concentrazione o frammentazione dei risultati elettorali è stato utilizzato l'indice di Gini, una misura comunemente impiegata per quantificare la disuguaglianza di una distribuzione.</p>
     <p>Sono state costruite due versioni dell'indice:</p>
@@ -226,7 +212,7 @@ sitemap: false
     <div class="viz-lab">Aree senza sezioni elettorali · il caso di Milano</div>
     <div class="viz-single"><svg id="el-empty"></svg></div>
     <div class="viz-legend" id="empty-legend"></div>
-    <p class="viz-cap">Le <b>1.248 sezioni elettorali</b> di Milano, ospitate in <b>203 seggi</b> (il raggio conta le sezioni per edificio). Le <b>20 aree in ocra</b> non ne contengono nessuna: sono queste discontinuità a rendere necessario il criterio di vicinato KNN.</p>
+    <p class="viz-cap">Le <b>1.248 sezioni elettorali</b> di Milano, ospitate in <b>203 seggi</b> (il raggio conta le sezioni per edificio). Le <b>20 aree in ocra</b> non ne contengono alcuna, e sono tali discontinuità a rendere necessario il criterio di vicinato KNN.</p>
   </div>
 
   <div class="prose">
@@ -337,12 +323,12 @@ sitemap: false
 <script>
 (function () {
   const CI = ['Bologna', 'Firenze', 'Milano', 'Napoli', 'Roma', 'Torino'];
-  const PCOL = { CSX: '#A02222', CDX: '#1F3A5F', MCS: '#7A7B32', CEN: '#C58B31' };
+  const PCOL = { CSX: '#A02222', CDX: '#1F3A5F', MCS: '#EDBF2E', CEN: '#A6A2CD' };
   const PLAB = { CSX: 'Centro-sinistra', CDX: 'Centro-destra', MCS: 'Movimento 5 Stelle', CEN: 'Centro' };
   const LISA = { 1: ['High-High', '#1F5E5B'], 2: ['Low-High', '#D9B36A'], 3: ['Low-Low', '#A0642E'], 4: ['High-Low', '#8FC4BC'], 0: ['Non significativo', '#EDE7DB'] };
   const MVARS = ['pol_gini', 'winner_share', '_CSX_share', '_CDX_share', '_MCS_share', '_CEN_share'];
   const MLAB = { pol_gini: 'Gini politico', winner_share: 'Quota vincitore', _CSX_share: 'CSX', _CDX_share: 'CDX', _MCS_share: 'M5S', _CEN_share: 'Centro' };
-  const MC = { pol_gini: '#7A2E6E', winner_share: '#3E7C8C', _CSX_share: '#A02222', _CDX_share: '#1F3A5F', _MCS_share: '#7A7B32', _CEN_share: '#C58B31' };
+  const MC = { pol_gini: '#7A2E6E', winner_share: '#3E7C8C', _CSX_share: '#A02222', _CDX_share: '#1F3A5F', _MCS_share: '#EDBF2E', _CEN_share: '#A6A2CD' };
   const YEARS = [2013, 2018, 2022];
   const PARTIES = ['CSX', 'CDX', 'MCS', 'CEN'];
 
@@ -372,7 +358,6 @@ sitemap: false
     this.textContent = b.classList.contains('open') ? 'Nascondi le correnti' : 'Esplora le correnti';
   });
 
-  // ═══ Seggi di Firenze sopra i confini delle zone ASC2 ═══
   Promise.all([
     d3.json("{% endraw %}{{ '/assets/charts/el_seggi_firenze.json' | relative_url }}{% raw %}"),
     d3.json("{% endraw %}{{ '/assets/charts/ivsm_maps.json' | relative_url }}{% raw %}")
@@ -380,7 +365,6 @@ sitemap: false
     const W = 880, H = 520, m = 18;
     const svg = d3.select('#el-seggi').attr('viewBox', `0 0 ${W} ${H}`);
     const fcZone = IV['Firenze']['2021'];
-    // la proiezione si adatta ai confini della città, i punti ci cadono dentro
     const proj = d3.geoMercator().fitExtent([[m, m], [W - m, H - m]], fcZone);
     const path = d3.geoPath(proj);
     svg.append('g').selectAll('path').data(fcZone.features).join('path')
@@ -408,7 +392,6 @@ sitemap: false
     });
   }).catch(() => {});
 
-  // ═══ Vincitori + LISA (geometria condivisa) ═══
   d3.json("{% endraw %}{{ '/assets/charts/el_winners.json' | relative_url }}{% raw %}").then(D => {
     legend('#win-legend', PARTIES.map(p => [PLAB[p], PCOL[p]]));
     const W = 330, H = 250;
@@ -447,7 +430,6 @@ sitemap: false
     paintWin();
     document.getElementById('win-year').addEventListener('change', paintWin);
 
-    // LISA
     d3.json("{% endraw %}{{ '/assets/charts/el_lisa.json' | relative_url }}{% raw %}").then(L => {
       const vs = document.getElementById('lisa-var');
       const NICE = { pol_gini: 'Gini politico', winner_share: 'Quota del vincitore', winner_changed: 'Cambio del vincitore', _CSX_share: 'Quota CSX', _CDX_share: 'Quota CDX', _MCS_share: 'Quota M5S', _CEN_share: 'Quota Centro', delta_pol_gini: 'Variazione Gini politico', delta_CSX_share: 'Variazione quota CSX', delta_CDX_share: 'Variazione quota CDX', delta_MCS_share: 'Variazione quota M5S', delta_CEN_share: 'Variazione quota Centro' };
@@ -473,7 +455,6 @@ sitemap: false
     }).catch(() => d3.select('#el-lisa').html('<p class="viz-err">Cluster LISA non caricati.</p>'));
   }).catch(() => d3.select('#el-winners').html('<p class="viz-err">Mappe non caricate.</p>'));
 
-  // ═══ Serie temporali ═══
   d3.json("{% endraw %}{{ '/assets/charts/el_series.json' | relative_url }}{% raw %}").then(S => {
     function facetLines(sel, rows, vi, keys, colOf, labOf, dom, fmt, zero) {
       const cont = d3.select(sel); cont.selectAll('*').remove();
@@ -567,11 +548,8 @@ sitemap: false
   }
   function hide() { tipEl.style.opacity = 0; }
 
-  // le geometrie complete delle 419 zone (tutte, anche senza sezioni) vengono
-  // dall'asset delle mappe IVSM, che copre l'intera maglia ASC2
   d3.json("{% endraw %}{{ '/assets/charts/ivsm_maps.json' | relative_url }}{% raw %}").then(IV => {
 
-    // ── maglia ASC2, sei città ──
     const contZ = d3.select('#el-zones');
     const W = 330, H = 250;
     CI.forEach(city => {
@@ -593,9 +571,6 @@ sitemap: false
         .on('mouseleave', function () { d3.select(this).attr('fill', '#EDE7DB').attr('stroke', '#A39B8E'); hide(); });
     });
 
-    // ── Milano: aree senza sezioni elettorali ──
-    // geometrie e seggi provengono entrambi dallo stesso file sorgente,
-    // così i punti cadono esattamente dentro le zone che li contengono
     d3.json("{% endraw %}{{ '/assets/charts/el_empty_milano.json' | relative_url }}{% raw %}").then(EM => {
       const feats = EM.zones.map(z => ({ type: 'Feature', geometry: z.g, properties: { n: z.n, p: z.p } }));
       const fc = { type: 'FeatureCollection', features: feats };

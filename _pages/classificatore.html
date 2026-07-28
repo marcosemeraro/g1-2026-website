@@ -22,23 +22,17 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
 </style>
 
 <header class="cover">
-  <div class="kicker">Machine learning · Instabilità politica · Sei metropoli</div>
   <h1>Che cosa rende un quartiere <em>contendibile</em></h1>
   <p class="dek">Modelli di classificazione usati come strumenti esplorativi per individuare le condizioni associate a una maggiore instabilità politica dei quartieri.</p>
-  <p class="byline"><b>Random Forest</b> · <b>XGBoost</b> · <b>Validazione temporale e geografica</b> · <b>SHAP</b></p>
 </header>
 
 <div class="prose">
   <p class="lead">Questo lavoro esplora le relazioni tra le caratteristiche socioeconomiche, demografiche, immobiliari e territoriali dei quartieri e la loro instabilità politica, definita come il cambiamento del vincitore rispetto all'elezione precedente. I modelli di machine learning sono utilizzati principalmente come strumenti esplorativi per individuare le condizioni associate a una maggiore contendibilità politica.</p>
 </div>
 
-<!-- ═══ I. Data cleaning ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo I</div>
-  <h2 class="section-title">Data cleaning e <em>feature selection</em></h2>
-  <p class="section-dek">Integrazione delle fonti, definizione della variabile obiettivo e scelta delle due strategie di validazione.</p>
-
-  <div class="prose">
+<h2 class="section-title">Data cleaning e <em>feature selection</em></h2>
+<div class="prose">
     <p>I dati provenienti dalle diverse fonti sono stati integrati, armonizzando i nomi delle colonne e riconducendo gli intervalli temporali a singoli anni.</p>
     <p>La variabile target è una variabile binaria:</p>
     <ul>
@@ -54,13 +48,9 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   </div>
 </section>
 
-<!-- ═══ II. Suddivisione temporale ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo II</div>
-  <h2 class="section-title">Suddivisione <em>temporale</em></h2>
-  <p class="section-dek">Quanto le relazioni apprese nel 2018 riescono a generalizzare all'elezione del 2022.</p>
-
-  <div class="prose">
+<h2 class="section-title">Suddivisione <em>temporale</em></h2>
+<div class="prose">
     <p>La validazione temporale misura la capacità delle relazioni apprese nel 2018 di generalizzare all'elezione del 2022. Il dataset comprende 322 osservazioni di training e 321 di test.</p>
   </div>
 
@@ -68,7 +58,7 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
     <div class="viz-lab">Distribuzione del cambio di vincitore per anno</div>
     <div class="viz-single"><svg id="clf-year"></svg></div>
     <div class="viz-legend" id="clf-year-leg"></div>
-    <p class="viz-cap">La classe che interessa il modello — il cambiamento — è nettamente la minoranza, e si riduce ulteriormente nel 2022.</p>
+    <p class="viz-cap">La classe di interesse, il cambiamento, costituisce la minoranza in entrambi gli anni, e nel 2022 si riduce ulteriormente.</p>
   </div>
 
   <div class="prose">
@@ -112,7 +102,7 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   <div class="viz-block">
     <div class="viz-lab">Confronto tra i modelli · metriche sul test 2022</div>
     <div class="viz-single"><svg id="clf-models"></svg></div>
-    <p class="viz-cap">La <b>balanced accuracy</b> pesa allo stesso modo le due classi. <b>Precision</b> e <b>recall</b> della classe 1 raccontano il compromesso tra il non gridare al ribaltone a vuoto e il non lasciarsene sfuggire.</p>
+    <p class="viz-cap">La <b>balanced accuracy</b> pondera in egual misura le due classi. <b>Precision</b> e <b>recall</b> della classe 1 esprimono il compromesso fra numero di falsi positivi e quota di cambiamenti individuati.</p>
   </div>
 
   <div class="prose">
@@ -138,7 +128,7 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   <div class="viz-block">
     <div class="viz-lab">Margine medio del vincitore precedente · sei città</div>
     <div class="viz-grid-3" id="clf-margin"></div>
-    <p class="viz-cap">Bologna e Firenze viaggiano su margini ampi e stabili; Milano, Roma e Torino restano sotto il 12%, il terreno dove i ribaltoni diventano possibili.</p>
+    <p class="viz-cap">Bologna e Firenze presentano margini ampi e stabili. Milano, Roma e Torino restano sotto il 12%, soglia entro la quale l'alternanza diventa probabile.</p>
   </div>
 
   <div class="prose">
@@ -197,22 +187,17 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   <div class="viz-block">
     <div class="viz-lab">False negative · modello senza e_prev_winner_margin</div>
     <div class="viz-single"><svg id="bs-y--fn"></svg></div>
-    <p class="viz-cap">Tolto il margine, nessuna variabile prende il suo posto: il contributo si distribuisce tra reddito medio, volatilità economica e polarità mediatica, con impatti singoli molto più contenuti.</p>
+    <p class="viz-cap">Rimosso il margine, il contributo si distribuisce fra reddito medio, volatilità economica e polarità mediatica, con impatti individuali sensibilmente inferiori.</p>
   </div>
 
-  <h3 class="subsection-title">Sintesi della validazione temporale</h3>
   <div class="prose">
     <p>La storia elettorale recente rappresenta il segnale maggiormente trasferibile dal 2018 al 2022. Le variabili socioeconomiche, demografiche, mediatiche e immobiliari descrivono il contesto nel quale il cambiamento appare più plausibile, ma non mostrano autonomamente una capacità predittiva altrettanto stabile.</p>
   </div>
 </section>
 
-<!-- ═══ III. Suddivisione per città ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo III</div>
-  <h2 class="section-title">Suddivisione per <em>città</em></h2>
-  <p class="section-dek">Il test più severo: chiedere al modello di indovinare una città che non ha mai visto in addestramento.</p>
-
-  <div class="prose">
+<h2 class="section-title">Suddivisione per <em>città</em></h2>
+<div class="prose">
     <p>La validazione geografica misura la capacità del modello di generalizzare a una città completamente esclusa dall'addestramento.</p>
   </div>
 
@@ -220,7 +205,7 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
     <div class="viz-lab">Distribuzione del cambio di vincitore per città</div>
     <div class="viz-single"><svg id="clf-city"></svg></div>
     <div class="viz-legend" id="clf-city-leg"></div>
-    <p class="viz-cap">Bologna e Firenze non contengono un solo caso di cambiamento: non possono quindi funzionare come test set binari.</p>
+    <p class="viz-cap">Bologna e Firenze non registrano alcun caso di cambiamento, e non sono pertanto utilizzabili come insiemi di test.</p>
   </div>
 
   <div class="prose">
@@ -263,13 +248,13 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   <div class="viz-block">
     <div class="viz-lab">False negative · validazione per città, con e_prev_winner_margin</div>
     <div class="viz-single"><svg id="bs-c-m-fn"></svg></div>
-    <p class="viz-cap">Anche trasferendo il modello su una città mai vista, il margine dell'elezione precedente resta in cima: nessuna variabile di contesto lo avvicina.</p>
+    <p class="viz-cap">Anche nel trasferimento a una città esclusa dall'addestramento il margine precedente mantiene la prima posizione, con distacco su tutte le variabili di contesto.</p>
   </div>
 
   <div class="viz-block">
     <div class="viz-lab">True positive · validazione per città, senza e_prev_winner_margin</div>
     <div class="viz-single"><svg id="bs-c--tp"></svg></div>
-    <p class="viz-cap">I cambiamenti correttamente individuati senza il margine si appoggiano soprattutto al reddito medio e alla volatilità della disuguaglianza.</p>
+    <p class="viz-cap">In assenza del margine, i cambiamenti correttamente individuati si fondano soprattutto sul reddito medio e sulla volatilità della disuguaglianza.</p>
   </div>
 
   <div class="viz-block">
@@ -300,13 +285,9 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   </div>
 </section>
 
-<!-- ═══ IV. Conclusioni ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo IV</div>
-  <h2 class="section-title">Considerazioni <em>conclusive</em></h2>
-  <p class="section-dek">Un segnale forte ma non universale, e un contesto territoriale che spiega meno di quanto ci si aspetterebbe.</p>
-
-  <div class="prose">
+<h2 class="section-title">Considerazioni <em>conclusive</em></h2>
+<div class="prose">
     <p>La capacità del modello di individuare il cambiamento del vincitore dipende principalmente da <code>e_prev_winner_margin</code>, che rappresenta direttamente la competitività della precedente elezione. La sua importanza non deve tuttavia essere interpretata come prova di una relazione uniforme in tutti i contesti. Il vantaggio prodotto dalla variabile è evidente per Milano, Roma e Torino, mentre a Napoli il suo utilizzo peggiora le prestazioni. Questo risultato indica che lo stesso margine elettorale può assumere significati differenti a seconda della struttura politica e territoriale della città. La variabile è quindi centrale per il modello complessivo, ma non rappresenta una regola universale.</p>
     <p>Le caratteristiche socioeconomiche, demografiche, mediatiche e immobiliari forniscono informazioni aggiuntive sul contesto territoriale, ma il loro contributo è più debole e meno stabile nel tempo e tra città differenti. Il confronto mostra inoltre che la composizione geografica del training set interagisce con il feature set. Bologna e Firenze forniscono informazioni utili quando è presente <code>e_prev_winner_margin</code>, ma possono introdurre uno sbilanciamento verso la classe 0 quando il modello utilizza soltanto le variabili contestuali. La scelta delle città incluse nel training non costituisce quindi un aspetto secondario, ma influenza direttamente le relazioni apprese dal classificatore.</p>
     <p>I risultati non mostrano una relazione uniforme e generalizzabile tra le caratteristiche strutturali dei quartieri e l'instabilità politica. Il principale risultato sostantivo dell'analisi è che la storia elettorale recente contiene una capacità predittiva superiore rispetto alle sole caratteristiche strutturali del territorio. Le variabili socioeconomiche, demografiche e immobiliari aggiungono informazioni contestuali, ma le loro associazioni con il cambiamento politico sono prevalentemente locali e non sufficientemente stabili da sostenere, da sole, una generalizzazione tra città.</p>
@@ -345,7 +326,6 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
 
   d3.json("{% endraw %}{{ '/assets/charts/clf_data.json' | relative_url }}{% raw %}").then(D => {
 
-    // ── barre impilate: per anno e per città ──
     function stacked(sel, rows, labels, unitLab) {
       const W = 900, H = 60 + labels.length * 46, m = { t: 14, r: 30, b: 34, l: 78 };
       const svg = d3.select(sel).attr('viewBox', `0 0 ${W} ${H}`); svg.selectAll('*').remove();
@@ -381,7 +361,6 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
     legend('#clf-year-leg', [['vincitore invariato', CNO], ['vincitore cambiato', CSI]]);
     legend('#clf-city-leg', [['vincitore invariato', CNO], ['vincitore cambiato', CSI]]);
 
-    // ── confronto modelli ──
     const MODS = [...new Set(D.clf.map(r => r[1]))];
     legend('#clf-leg', MODS.map(m => [MODL[m] || m, MODC[m] || '#888']));
     function drawModels(fs) {
@@ -427,7 +406,6 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
 (function () {
   const CI = ['Bologna', 'Firenze', 'Milano', 'Napoli', 'Roma', 'Torino'];
   const YEARS = [2013, 2018, 2022];
-  // margine medio del vincitore precedente, dati reali
   const MARGIN = { Bologna: [0.2511, 0.27, 0.2095], Firenze: [0.2768, 0.31, 0.2893],
                    Milano: [0.0908, 0.058, 0.0867], Napoli: [0.1211, 0.0942, 0.2814],
                    Roma: [0.0965, 0.086, 0.0778], Torino: [0.1129, 0.09, 0.1078] };
@@ -442,7 +420,6 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
   function hide() { tipEl.style.opacity = 0; }
   const pc = v => (v * 100).toFixed(1).replace('.', ',') + '%';
 
-  // ── margine medio per città ──
   (function margin() {
     const cont = d3.select('#clf-margin');
     const W = 330, H = 185, m = { t: 12, r: 14, b: 28, l: 42 };
@@ -467,7 +444,6 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--panel-2); 
     });
   })();
 
-  // ── beeswarm SHAP: punti estratti dalle figure originali ──
   const IDS = { y_m_tp: '#bs-y-m-tp', y__tp: '#bs-y--tp', y_m_fn: '#bs-y-m-fn', y__fn: '#bs-y--fn',
                 c_m_fn: '#bs-c-m-fn', c__tp: '#bs-c--tp', c__fn: '#bs-c--fn' };
   const cLow = '#1F3A5F', cHigh = '#A0402E', cNA = '#A39B8E';

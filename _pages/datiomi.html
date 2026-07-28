@@ -44,10 +44,8 @@ permalink: /datiomi.html
 </style>
 
 <header class="cover">
-  <div class="kicker">Osservatorio del Mercato Immobiliare · Data preparation</div>
   <h1>Data <em>OMI</em> Preparation</h1>
   <p class="dek">Dal dato OMI grezzo al dataset territoriale finale: sintesi metodologica della pipeline utilizzata per rendere i dati immobiliari coerenti, confrontabili nel tempo e riferibili alle aree sub-comunali ASC2.</p>
-  <p class="byline"><b>Quotazioni semestrali</b> · <b>15 tipologie immobiliari</b> · <b>6 macro-categorie</b> · <b>Geografia ASC2</b></p>
 </header>
 
 <div style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);text-align:center;margin:36px auto 0;">Logica della pipeline di data preparation</div>
@@ -60,10 +58,8 @@ permalink: /datiomi.html
   <div class="omi-step"><div class="omi-num">06</div><div class="omi-label">Dataset finale per zona ASC2</div></div>
 </div>
 
-<!-- ═══ I ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo I</div>
-  <h2 class="section-title">Obiettivo e <em>logica generale</em></h2>
+<h2 class="section-title">Obiettivo e <em>logica generale</em></h2>
 
   <div class="prose">
     <p>Il dataset finale non era disponibile come prodotto già pronto. I dati di partenza descrivevano le quotazioni immobiliari OMI per semestre, zona e tipologia di immobile, ma presentavano una struttura troppo frammentata per sostenere direttamente un confronto longitudinale tra aree urbane. La Data Preparation è stata quindi progettata come una pipeline progressiva: prima rendere affidabile la serie storica, poi sintetizzare le dinamiche osservate, infine trasferire gli indicatori dal perimetro OMI alle unità territoriali ASC2.</p>
@@ -77,10 +73,8 @@ permalink: /datiomi.html
   </div>
 </section>
 
-<!-- ═══ II ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo II</div>
-  <h2 class="section-title">Costruire una serie storica <em>affidabile</em></h2>
+<h2 class="section-title">Costruire una serie storica <em>affidabile</em></h2>
 
   <div class="prose">
     <p>Il primo passaggio ha riguardato la verifica puntuale delle osservazioni. La serie OMI dal 2015 comprendeva valori di compravendita riferiti a 15 tipologie immobiliari e a numerosi semestri consecutivi. Prima di calcolare qualsiasi indicatore sono stati individuati record anomali o incompleti, soprattutto in specifiche combinazioni di città, zona, periodo e tipologia. In questi casi non è stata applicata una cancellazione indiscriminata: sono state costruite maschere selettive per rimuovere soltanto le osservazioni riconosciute come incoerenti.</p>
@@ -104,10 +98,8 @@ permalink: /datiomi.html
   </div>
 </section>
 
-<!-- ═══ III ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo III</div>
-  <h2 class="section-title">Trasformare le quotazioni in <em>indicatori di dinamica</em></h2>
+<h2 class="section-title">Trasformare le quotazioni in <em>indicatori di dinamica</em></h2>
 
   <div class="prose">
     <p>Una volta consolidata la serie storica, il prezzo medio di compravendita è stato osservato come sequenza temporale per ogni combinazione di comune, zona OMI e tipologia immobiliare. Dal confronto tra semestri consecutivi sono state calcolate le variazioni percentuali; dall'intero intervallo sono stati ricavati trend, differenza tra primo e ultimo valore, variabilità e volatilità.</p>
@@ -126,10 +118,8 @@ permalink: /datiomi.html
   </div>
 </section>
 
-<!-- ═══ IV ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo IV</div>
-  <h2 class="section-title">Dalle tipologie immobiliari alle <em>funzioni urbane</em></h2>
+<h2 class="section-title">Dalle tipologie immobiliari alle <em>funzioni urbane</em></h2>
 
   <div class="prose">
     <p>Le 15 tipologie immobiliari sono state mantenute durante il calcolo degli indicatori, per non perdere informazione. Nella fase di sintesi sono state però ricondotte a sei macro-categorie leggibili dal punto di vista urbano: <strong>Pertinenze, Residenziale di pregio, Residenziale ordinario, Produttivo, Terziario e Logistica</strong>.</p>
@@ -139,10 +129,8 @@ permalink: /datiomi.html
   </div>
 </section>
 
-<!-- ═══ V ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo V</div>
-  <h2 class="section-title">Trasferire gli indicatori dalle zone OMI alle <em>aree ASC2</em></h2>
+<h2 class="section-title">Trasferire gli indicatori dalle zone OMI alle <em>aree ASC2</em></h2>
 
   <div class="prose">
     <p>L'ultimo passaggio ha risolto il problema geografico. Le zone OMI e le unità ASC2 non coincidono perfettamente: una stessa area ASC2 può sovrapporsi a più zone OMI e una zona OMI può contribuire solo in parte a un'area ASC2. Per evitare assegnazioni arbitrarie, gli indicatori sono stati trasferiti usando la percentuale di sovrapposizione territoriale come peso.</p>
@@ -151,10 +139,8 @@ permalink: /datiomi.html
   </div>
 </section>
 
-<!-- ═══ VI ═══ -->
 <section class="chapter">
-  <div class="section-marker">Capitolo VI</div>
-  <h2 class="section-title">Controlli finali e <em>risultato ottenuto</em></h2>
+<h2 class="section-title">Controlli finali e <em>risultato ottenuto</em></h2>
 
   <div class="prose">
     <p>La pipeline si chiude con controlli di coerenza tra presenza delle categorie e disponibilità degli indicatori, verifica delle aree prive di copertura OMI sufficiente, controllo degli identificativi territoriali e assenza di valori mancanti nei campi chiave CITY, COM_ASC2 e Periodo.</p>
